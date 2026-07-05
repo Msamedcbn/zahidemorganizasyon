@@ -21,13 +21,14 @@ export default function HomePage() {
 function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/images/hero-atmosphere.jpg')" }}
-      />
-      <div
-        className="absolute inset-0 bg-gradient-to-br from-background/80 via-background/60 to-primary/30"
-      />
+      <div className="absolute inset-0">
+        <img
+          src="/images/hero-atmosphere.jpg"
+          alt=""
+          className="w-full h-full object-cover object-center md:object-[center_30%]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-background/70 via-background/50 to-primary/25" />
+      </div>
 
       <div className="absolute inset-0">
         <div

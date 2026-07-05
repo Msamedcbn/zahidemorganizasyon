@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,700;0,800;1,700&amp;family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#C4957A",
+              "surface-warm": "#FAF8F5",
+              "on-surface": "#2D2621",
+              "on-surface-variant": "#5C524B",
+            },
+            borderRadius: {
+              "DEFAULT": "0.25rem",
+              "lg": "0.5rem",
+              "xl": "0.75rem",
+              "2xl": "1rem",
+              "3xl": "1.5xl",
+              "full": "9999px"
+            },
+            fontFamily: {
+              headline: ["Public Sans", "sans-serif"],
+              display: ["Playfair Display", "serif"],
+              body: ["Inter", "sans-serif"],
+              label: ["Public Sans", "sans-serif"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      .glass-card {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+      .organic-blob {
+        position: absolute;
+        filter: blur(60px);
+        z-index: -1;
+        opacity: 0.4;
+      }
+      .font-display { font-family: 'Playfair Display', serif; }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        vertical-align: middle;
+      }
+    </style>
+</head>
+<body class="bg-surface-warm text-on-surface font-body overflow-x-hidden">
+<!-- Header / TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-white/20 backdrop-blur-md border-b border-white/30 shadow-sm">
+<nav class="flex justify-between items-center px-6 md:px-12 py-4 w-full max-w-full">
+<div class="font-display text-2xl italic font-bold text-[#C4957A]">Zahidem</div>
+<div class="hidden md:flex space-x-8 items-center">
+<a class="font-headline text-label-lg tracking-wide uppercase font-medium text-on-surface/80 hover:text-[#C4957A] transition-colors" href="#">Ana Sayfa</a>
+<a class="font-headline text-label-lg tracking-wide uppercase font-medium text-on-surface/80 hover:text-[#C4957A] transition-colors" href="#">Hakkımızda</a>
+<a class="font-headline text-label-lg tracking-wide uppercase font-medium text-on-surface/80 hover:text-[#C4957A] transition-colors" href="#">Hizmetlerimiz</a>
+<a class="font-headline text-label-lg tracking-wide uppercase font-medium text-on-surface/80 hover:text-[#C4957A] transition-colors" href="#">Galeri</a>
+<a class="font-headline text-label-lg tracking-wide uppercase font-medium text-on-surface/80 hover:text-[#C4957A] transition-colors" href="#">Blog</a>
+<a class="font-headline text-label-lg tracking-wide uppercase font-bold text-[#C4957A] border-b-2 border-[#C4957A] pb-1" href="#">İletişim</a>
+</div>
+<button class="bg-[#C4957A] text-white px-6 py-2 rounded-full font-headline text-xs tracking-widest font-bold scale-95 transition-transform duration-200 hover:scale-100 shadow-lg">
+                HEMEN ARAYIN
+            </button>
+</nav>
+</header>
+<main class="relative pt-32 pb-24 px-6 md:px-12 min-h-screen">
+<!-- Background Decorative Blobs -->
+<div class="organic-blob bg-primary w-[500px] h-[500px] -top-24 -left-24 rounded-full"></div>
+<div class="organic-blob bg-[#E5B299] w-[400px] h-[400px] bottom-0 -right-24 rounded-full"></div>
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+<!-- Left Column: Contact Form -->
+<section class="order-2 lg:order-1">
+<div class="glass-card p-8 md:p-12 rounded-[2rem] shadow-2xl relative overflow-hidden">
+<div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+<span class="material-symbols-outlined text-9xl">mail</span>
+</div>
+<h1 class="font-display text-4xl md:text-5xl mb-4 text-on-surface">Bizimle İletişime Geçin</h1>
+<p class="text-on-surface-variant mb-10 max-w-md">Hayalinizdeki organizasyonu birlikte planlayalım. Formu doldurun, en kısa sürede size dönüş yapalım.</p>
+<form class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-sm font-semibold tracking-wider text-primary uppercase">Ad Soyad</label>
+<input class="w-full bg-white/50 border-white/40 border rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none placeholder:text-on-surface-variant/40" placeholder="İsminiz" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-semibold tracking-wider text-primary uppercase">Telefon</label>
+<input class="w-full bg-white/50 border-white/40 border rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none placeholder:text-on-surface-variant/40" placeholder="+90" type="tel"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-semibold tracking-wider text-primary uppercase">E-posta</label>
+<input class="w-full bg-white/50 border-white/40 border rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none placeholder:text-on-surface-variant/40" placeholder="example@mail.com" type="email"/>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-semibold tracking-wider text-primary uppercase">Konu</label>
+<select class="w-full bg-white/50 border-white/40 border rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-on-surface-variant">
+<option>Düğün Organizasyonu</option>
+<option>Nişan &amp; Söz</option>
+<option>Kına Gecesi</option>
+<option>Kurumsal Etkinlik</option>
+<option>Diğer</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-semibold tracking-wider text-primary uppercase">Mesajınız</label>
+<textarea class="w-full bg-white/50 border-white/40 border rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none placeholder:text-on-surface-variant/40 resize-none" placeholder="Nasıl yardımcı olabiliriz?" rows="4"></textarea>
+</div>
+<button class="w-full bg-primary text-white font-headline font-bold py-4 rounded-xl tracking-[0.2em] shadow-lg hover:shadow-primary/30 hover:translate-y-[-2px] transition-all duration-300" type="submit">
+                            GÖNDER
+                        </button>
+</form>
+</div>
+</section>
+<!-- Right Column: Info & Map -->
+<section class="order-1 lg:order-2 space-y-8">
+<div class="space-y-4">
+<!-- Info Cards Bento Style -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="glass-card p-6 rounded-3xl hover:bg-white/30 transition-all cursor-default">
+<div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-primary">call</span>
+</div>
+<h3 class="text-xs font-bold text-primary uppercase tracking-widest mb-1">Telefon</h3>
+<p class="text-lg font-medium">+90 531 663 29 30</p>
+</div>
+<div class="glass-card p-6 rounded-3xl hover:bg-white/30 transition-all cursor-default">
+<div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-primary">mail</span>
+</div>
+<h3 class="text-xs font-bold text-primary uppercase tracking-widest mb-1">E-posta</h3>
+<p class="text-sm md:text-base font-medium break-all">info@zahidemorganizasyon.com</p>
+</div>
+</div>
+<div class="glass-card p-6 rounded-3xl hover:bg-white/30 transition-all cursor-default">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 bg-primary/10 rounded-full shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">location_on</span>
+</div>
+<div>
+<h3 class="text-xs font-bold text-primary uppercase tracking-widest mb-1">Adres</h3>
+<p class="text-lg font-medium">İstanbul (Anadolu &amp; Avrupa Yakası)</p>
+<p class="text-sm text-on-surface-variant">Tüm özel günlerinizde, dilediğiniz her mekanda yanınızdayız.</p>
+</div>
+</div>
+</div>
+<!-- Social Icons -->
+<div class="flex items-center gap-4 pt-4">
+<span class="text-sm font-semibold tracking-widest text-on-surface-variant uppercase">Bizi Takip Edin:</span>
+<div class="flex gap-3">
+<a class="w-10 h-10 rounded-full bg-on-surface text-white flex items-center justify-center hover:bg-primary transition-colors" href="#">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg>
+</a>
+<a class="w-10 h-10 rounded-full bg-on-surface text-white flex items-center justify-center hover:bg-primary transition-colors" href="#">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"></path></svg>
+</a>
+<a class="w-10 h-10 rounded-full bg-on-surface text-white flex items-center justify-center hover:bg-primary transition-colors" href="#">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 4-8 4z"></path></svg>
+</a>
+</div>
+</div>
+</div>
+<!-- Map Section -->
+<div class="w-full h-80 rounded-[2rem] overflow-hidden shadow-xl border border-white/40 grayscale opacity-80 hover:grayscale-0 transition-all duration-700">
+<div class="w-full h-full bg-cover bg-center" data-alt="A stylized minimalist map of Istanbul showing both the European and Asian sides, rendered in a sophisticated sepya and gold aesthetic. The city's silhouette is clean and artistic, highlighting key areas with subtle luxury accents and premium lighting that aligns with a high-end event planning brand's visual identity." data-location="Istanbul" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDApkx5X_uy8mxoHxJaSlmJykQWc-5rAb2js4YpMkJz5HvXW2qyP2Mn1Tb1ZyMy0DBdfA4B4VW5wCHsNwrci04Ml7x-JhsavFyauojdrGJVLBvAU69eVn4UvbHFoKS60FjRHpKGsqH944MaktoSHL_K0E4f4y6ZbXu7EyOIxRwyTbdRC7EmVC2hDeUsJf-jfLce3_A7abQLV-FUEoUJUWT8eQGj_CaDRLVx2zLEh0fzzhyjWoS46rdUUVRukoZrucjdRIkwJKUJWAU')">
+<!-- Map Overlay Gradient -->
+<div class="w-full h-full bg-gradient-to-t from-primary/20 to-transparent flex items-end p-8">
+<div class="glass-card px-4 py-2 rounded-full inline-flex items-center gap-2">
+<span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+<span class="text-xs font-bold tracking-widest text-on-surface uppercase">Hizmet Bölgemiz: İstanbul</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full bg-[#FAF8F5] dark:bg-surface-container-lowest border-t border-[#C4957A]/10 rounded-t-3xl mt-12">
+<div class="flex flex-col md:flex-row justify-between items-center px-12 py-8 w-full">
+<div class="flex flex-col items-center md:items-start mb-6 md:mb-0">
+<div class="font-display text-xl font-semibold text-[#C4957A] mb-2">Zahidem</div>
+<p class="font-body text-body-sm text-on-surface-variant max-w-xs text-center md:text-left">Unutulmaz anılarınızın mimarı, en özel günlerinizde yanınızdayız.</p>
+</div>
+<div class="flex gap-8 mb-6 md:mb-0">
+<a class="font-body text-body-sm text-on-surface-variant hover:text-[#C4957A] transition-opacity opacity-90 hover:opacity-100" href="#">Gizlilik Politikası</a>
+<a class="font-body text-body-sm text-on-surface-variant hover:text-[#C4957A] transition-opacity opacity-90 hover:opacity-100" href="#">Kullanım Koşulları</a>
+<a class="font-body text-body-sm text-on-surface-variant hover:text-[#C4957A] transition-opacity opacity-90 hover:opacity-100" href="#">KVKK</a>
+</div>
+<div class="font-body text-body-sm text-on-surface-variant opacity-70">
+                © 2024 Zahidem Organizasyon. Tüm Hakları Saklıdır.
+            </div>
+</div>
+</footer>
+<script>
+        // Micro-interactions for form inputs
+        const inputs = document.querySelectorAll('input, textarea, select');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.querySelector('label').style.color = '#C4957A';
+            });
+            input.addEventListener('blur', () => {
+                if(!input.value) {
+                    input.parentElement.querySelector('label').style.color = '';
+                }
+            });
+        });
+
+        // Simple parallax for blobs
+        document.addEventListener('mousemove', (e) => {
+            const blobs = document.querySelectorAll('.organic-blob');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            blobs.forEach((blob, index) => {
+                const speed = (index + 1) * 20;
+                blob.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+            });
+        });
+    </script>
+</body></html>

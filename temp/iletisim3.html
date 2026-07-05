@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>İletişim | Zahidem Organizasyon</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;family=Public+Sans:wght@400;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#B8860B",
+                        accent: "#C4957A",
+                        bg: "#FAF8F5"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        "headline": ["Public Sans", "sans-serif"],
+                        "display": ["Playfair Display", "serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Public Sans", "sans-serif"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .glass {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .blob {
+            position: absolute;
+            filter: blur(60px);
+            z-index: -1;
+            opacity: 0.4;
+            animation: float 20s infinite alternate ease-in-out;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(100px, 50px) scale(1.1); }
+            100% { transform: translate(-50px, 150px) scale(0.9); }
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #B8860B !important;
+            ring: 2px;
+            ring-color: #B8860B;
+        }
+    </style>
+</head>
+<body class="bg-[#FAF8F5] text-neutral-800 font-body antialiased min-h-screen relative overflow-x-hidden">
+<!-- Background Blobs -->
+<div class="blob w-[500px] h-[500px] bg-[#B8860B] rounded-full top-[-10%] right-[-10%]"></div>
+<div class="blob w-[400px] h-[400px] bg-[#C4957A] rounded-full bottom-[-10%] left-[-5%]" style="animation-delay: -5s;"></div>
+<div class="blob w-[300px] h-[300px] bg-[#FAF8F5] rounded-full top-[40%] left-[20%]" style="animation-delay: -10s;"></div>
+<!-- TopNavBar (JSON Managed) -->
+<header class="fixed top-0 w-full z-50 bg-white/20 backdrop-blur-md border-b border-white/30 shadow-sm">
+<nav class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
+<div class="font-display text-2xl font-bold text-[#B8860B]">Zahidem Organizasyon</div>
+<div class="hidden md:flex space-x-8 items-center">
+<a class="font-headline text-lg tracking-wide text-neutral-700 hover:text-[#B8860B] transition-colors" href="#">Hakkımızda</a>
+<a class="font-headline text-lg tracking-wide text-neutral-700 hover:text-[#B8860B] transition-colors" href="#">Hizmetler</a>
+<a class="font-headline text-lg tracking-wide text-neutral-700 hover:text-[#B8860B] transition-colors" href="#">Portfolyo</a>
+<a class="font-headline text-lg tracking-wide text-neutral-700 hover:text-[#B8860B] transition-colors" href="#">Blog</a>
+<a class="font-headline text-lg tracking-wide text-[#B8860B] border-b-2 border-[#B8860B] pb-1" href="#">İletişim</a>
+</div>
+<button class="bg-[#B8860B] text-white px-6 py-2 rounded-full font-headline font-semibold scale-95 active:scale-90 transition-transform hover:bg-[#8B6508]">
+                Teklif Al
+            </button>
+</nav>
+</header>
+<!-- Content Area -->
+<main class="pt-32 pb-20 px-6 max-w-7xl mx-auto relative z-10">
+<header class="text-center mb-16">
+<h1 class="font-display text-5xl md:text-6xl text-[#B8860B] mb-4">Bizimle İletişime Geçin</h1>
+<p class="font-body text-neutral-600 max-w-2xl mx-auto text-lg italic">Hayallerinizdeki günü planlamak için bir kahve eşliğinde detayları konuşalım.</p>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+<!-- Left Column: Contact Form -->
+<section>
+<div class="glass p-8 md:p-12 rounded-2xl shadow-xl">
+<h2 class="font-display text-3xl text-neutral-800 mb-8 italic">Mesaj Gönderin</h2>
+<form action="#" class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-2">
+<label class="text-xs font-semibold uppercase tracking-widest text-neutral-500 ml-1">İsim</label>
+<input class="bg-white/40 border border-white/50 rounded-xl px-4 py-3 focus:bg-white transition-all" placeholder="Adınız Soyadınız" type="text"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-xs font-semibold uppercase tracking-widest text-neutral-500 ml-1">E-posta</label>
+<input class="bg-white/40 border border-white/50 rounded-xl px-4 py-3 focus:bg-white transition-all" placeholder="ornek@mail.com" type="email"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-2">
+<label class="text-xs font-semibold uppercase tracking-widest text-neutral-500 ml-1">Telefon</label>
+<input class="bg-white/40 border border-white/50 rounded-xl px-4 py-3 focus:bg-white transition-all" placeholder="+90 5XX XXX XX XX" type="tel"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-xs font-semibold uppercase tracking-widest text-neutral-500 ml-1">Konu</label>
+<select class="bg-white/40 border border-white/50 rounded-xl px-4 py-3 focus:bg-white transition-all appearance-none">
+<option>Düğün Organizasyonu</option>
+<option>Nişan &amp; Söz</option>
+<option>Kurumsal Etkinlik</option>
+<option>Diğer</option>
+</select>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-xs font-semibold uppercase tracking-widest text-neutral-500 ml-1">Mesaj</label>
+<textarea class="bg-white/40 border border-white/50 rounded-xl px-4 py-3 focus:bg-white transition-all resize-none" placeholder="Hayalinizdeki organizasyonu bize anlatın..." rows="5"></textarea>
+</div>
+<button class="w-full py-4 bg-[#C4957A] text-white rounded-xl font-headline font-bold text-lg hover:bg-[#B37E5F] shadow-lg shadow-[#C4957A]/20 transition-all active:scale-[0.98]" type="submit">
+                            Gönder
+                        </button>
+</form>
+</div>
+</section>
+<!-- Right Column: Contact Info Cards -->
+<section class="space-y-6 flex flex-col justify-between">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Phone Card -->
+<div class="glass p-6 rounded-2xl flex items-start gap-4 hover:bg-white/30 transition-all group">
+<div class="bg-white/50 p-3 rounded-xl text-[#B8860B] group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-size: 32px;">call</span>
+</div>
+<div>
+<h3 class="font-headline font-bold text-neutral-800">Telefon</h3>
+<p class="text-neutral-600">+90 531 663 29 30</p>
+</div>
+</div>
+<!-- Email Card -->
+<div class="glass p-6 rounded-2xl flex items-start gap-4 hover:bg-white/30 transition-all group">
+<div class="bg-white/50 p-3 rounded-xl text-[#B8860B] group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-size: 32px;">mail</span>
+</div>
+<div class="overflow-hidden">
+<h3 class="font-headline font-bold text-neutral-800">E-posta</h3>
+<p class="text-neutral-600 break-words">info@zahidemorganizasyon.com</p>
+</div>
+</div>
+</div>
+<!-- Address Card -->
+<div class="glass p-8 rounded-2xl flex items-start gap-6 hover:bg-white/30 transition-all group">
+<div class="bg-white/50 p-4 rounded-xl text-[#B8860B] group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-size: 40px;">location_on</span>
+</div>
+<div>
+<h3 class="font-headline font-bold text-xl text-neutral-800 mb-1">Adres</h3>
+<p class="text-neutral-600 text-lg">İstanbul Anadolu ve Avrupa Yakası</p>
+<p class="text-neutral-500 text-sm mt-2 italic">Tüm Türkiye ve yurtdışı organizasyonları için iletişime geçebilirsiniz.</p>
+</div>
+</div>
+<!-- Map / Visual Placeholder -->
+<div class="h-64 rounded-2xl glass overflow-hidden relative group">
+<div class="absolute inset-0 bg-neutral-200" data-alt="An elegant, soft-focus aerial photograph of the Istanbul skyline at sunset, with golden light reflecting off the Bosphorus strait. The image has a high-end editorial feel with soft textures and a warm, inviting atmosphere consistent with a luxury wedding planning brand. Subtle glimmers of city lights begin to appear, blending with copper and amber tones of the evening sky." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD6mryAxV0t_Z2b27HEad0sYXmY6G7p4q592jcfFIJTnXeLD6-Wc5Xu4thMS0wfK7tA_vcIziyNO0MF2hrFv5GhaBWBAy3gKqoD9oFwP9XXRpHYMfEY-THuEW7S0V4blH6lzaIhnKKWnZnJ7tUwI6gwfDpj3X2jLfNUD2woKkOIsmd69YuT_8NB0PO6U53Z18iK5iiA3jS1JXegrwF21wIHsXI4uT3iMUnwH4vl0liQzCAvgQ3_zgwEQnT09_dByfNC1DoxAgx0SCY')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-6">
+<span class="text-white font-headline font-medium flex items-center gap-2">
+<span class="material-symbols-outlined">map</span> İstanbul'un Her Köşesinde
+                        </span>
+</div>
+</div>
+<!-- Social Card -->
+<div class="glass p-8 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-6">
+<h3 class="font-headline font-bold text-xl text-neutral-800">Sosyal Medyada Biz</h3>
+<div class="flex gap-4">
+<a class="w-12 h-12 flex items-center justify-center rounded-full bg-white/50 text-[#B8860B] hover:bg-[#B8860B] hover:text-white transition-all duration-300" href="#">
+<span class="material-symbols-outlined">camera</span>
+</a>
+<a class="w-12 h-12 flex items-center justify-center rounded-full bg-white/50 text-[#B8860B] hover:bg-[#B8860B] hover:text-white transition-all duration-300" href="#">
+<span class="material-symbols-outlined">face_nod</span>
+</a>
+<a class="w-12 h-12 flex items-center justify-center rounded-full bg-white/50 text-[#B8860B] hover:bg-[#B8860B] hover:text-white transition-all duration-300" href="#">
+<span class="material-symbols-outlined">play_circle</span>
+</a>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer (JSON Managed) -->
+<footer class="bg-[#FAF8F5] dark:bg-neutral-900 w-full py-12 border-t border-neutral-200 mt-20 relative z-10">
+<div class="flex flex-col md:flex-row justify-between items-center px-12 space-y-4 md:space-y-0 max-w-7xl mx-auto">
+<div class="font-display text-xl font-semibold text-[#B8860B]">Zahidem Organizasyon</div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="font-body text-sm text-neutral-600 hover:text-[#B8860B] hover:underline transition-all" href="#">Gizlilik Politikası</a>
+<a class="font-body text-sm text-neutral-600 hover:text-[#B8860B] hover:underline transition-all" href="#">Kullanım Koşulları</a>
+<a class="font-body text-sm text-neutral-600 hover:text-[#B8860B] hover:underline transition-all" href="#">Sıkça Sorulan Sorular</a>
+<a class="font-body text-sm text-[#B8860B] font-medium hover:underline transition-all" href="#">İletişim</a>
+</div>
+<p class="font-body text-sm text-neutral-600 opacity-80">© 2024 Zahidem Organizasyon. Zarafetle Tasarlandı.</p>
+</div>
+</footer>
+<script>
+        // Simple micro-interaction for form labels
+        const inputs = document.querySelectorAll('input, textarea, select');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.previousElementSibling.classList.add('text-[#B8860B]');
+            });
+            input.addEventListener('blur', () => {
+                input.previousElementSibling.classList.remove('text-[#B8860B]');
+            });
+        });
+
+        // Background parallax effect
+        window.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            const blobs = document.querySelectorAll('.blob');
+            blobs.forEach((blob, index) => {
+                const speed = (index + 1) * 20;
+                blob.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+            });
+        });
+    </script>
+</body></html>

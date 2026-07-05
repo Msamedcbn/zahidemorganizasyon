@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Zahidem Organizasyon - Yönetim Paneli Girişi</title>
+<!-- Google Fonts: Playfair Display for headers, Inter for body, Public Sans for UI -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&amp;family=Inter:wght@300;400;500;600&amp;family=Public+Sans:wght@300;400;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#B8860B", // Brand Gold from JSON
+                        accent: "#C4957A", // Specified in prompt
+                        cream: "#FAF8F5",
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        headline: ["Public Sans", "sans-serif"],
+                        display: ["Playfair Display", "serif"],
+                        body: ["Inter", "sans-serif"],
+                        label: ["Public Sans", "sans-serif"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #FAF8F5;
+            overflow: hidden;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .organic-blob {
+            position: absolute;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.6;
+            animation: float 20s infinite alternate ease-in-out;
+        }
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(50px, 20px) scale(1.1); }
+            100% { transform: translate(-20px, 40px) scale(0.9); }
+        }
+    </style>
+</head>
+<body class="font-body min-h-screen flex items-center justify-center relative bg-cream">
+<!-- Organic Background Shapes -->
+<div class="organic-blob w-[500px] h-[500px] bg-[#C4957A]/30 top-[-10%] left-[-10%]" style="animation-delay: 0s;"></div>
+<div class="organic-blob w-[400px] h-[400px] bg-[#B8860B]/20 bottom-[-5%] right-[-5%]" style="animation-delay: -5s;"></div>
+<div class="organic-blob w-[300px] h-[300px] bg-[#E5D3B3]/40 top-[40%] right-[10%]" style="animation-delay: -10s;"></div>
+<!-- Login Container -->
+<main class="w-full max-w-md px-6 z-10">
+<div class="glass-card rounded-2xl p-8 md:p-10 shadow-2xl transform transition-all duration-700 hover:shadow-accent/10">
+<!-- Brand Identity -->
+<div class="text-center mb-8">
+<div class="mb-4 inline-flex items-center justify-center w-16 h-16 bg-white/40 rounded-full shadow-inner">
+<span class="material-symbols-outlined text-4xl text-[#B8860B]" style="font-variation-settings: 'FILL' 1;">
+                        workspace_premium
+                    </span>
+</div>
+<h1 class="font-display font-bold text-2xl md:text-3xl text-accent tracking-widest uppercase mb-2">
+                    Zahidem Organizasyon
+                </h1>
+<p class="font-display italic text-slate-600 text-lg">Yönetim Paneli</p>
+</div>
+<!-- Login Form -->
+<form action="#" class="space-y-6" onsubmit="return false">
+<div class="space-y-4">
+<!-- Username Field -->
+<div class="relative group">
+<label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5 ml-1" for="username">Kullanıcı Adı</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl group-focus-within:text-accent transition-colors">
+                                person
+                            </span>
+<input class="w-full pl-11 pr-4 py-3 bg-white/50 border border-white/40 rounded-xl focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition-all placeholder:text-slate-300" id="username" placeholder="admin@zahidem.com" type="text"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="relative group">
+<label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5 ml-1" for="password">Parola</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl group-focus-within:text-accent transition-colors">
+                                lock
+                            </span>
+<input class="w-full pl-11 pr-4 py-3 bg-white/50 border border-white/40 rounded-xl focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition-all placeholder:text-slate-300" id="password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="w-full py-4 bg-accent hover:bg-[#A67D64] active:scale-[0.98] text-white font-semibold rounded-xl shadow-lg shadow-accent/30 transition-all duration-300 flex items-center justify-center gap-2 group" type="submit">
+<span>Giriş Yap</span>
+<span class="material-symbols-outlined text-xl group-hover:translate-x-1 transition-transform">
+                        arrow_forward
+                    </span>
+</button>
+<!-- Recovery Link -->
+<div class="text-center">
+<a class="text-sm text-slate-500 hover:text-accent transition-colors underline-offset-4 hover:underline decoration-accent/30" href="#">
+                        Şifremi Unuttum
+                    </a>
+</div>
+</form>
+</div>
+<!-- Support Shortcut (Modern UI Detail) -->
+<div class="mt-8 flex justify-center gap-4">
+<button class="flex items-center gap-2 text-xs font-medium text-slate-400 hover:text-accent transition-all">
+<span class="material-symbols-outlined text-lg">help_outline</span>
+<span>Destek Merkezi</span>
+</button>
+<div class="w-px h-4 bg-slate-300"></div>
+<button class="flex items-center gap-2 text-xs font-medium text-slate-400 hover:text-accent transition-all">
+<span class="material-symbols-outlined text-lg">language</span>
+<span>Türkçe</span>
+</button>
+</div>
+</main>
+<!-- Footer - Shared Component Logic Applied -->
+<footer class="fixed bottom-0 left-0 w-full z-40 flex flex-col md:flex-row justify-between items-center px-8 py-6 bg-transparent">
+<p class="font-body text-xs tracking-wide text-slate-500 text-center md:text-left">
+            © 2024 Zahidem Organizasyon - Yönetim Paneli. Tüm Hakları Saklıdır.
+        </p>
+<div class="flex gap-4 mt-2 md:mt-0">
+<a class="font-body text-xs tracking-wide text-slate-500 hover:text-[#B8860B] underline transition-all opacity-80 hover:opacity-100" href="#">Gizlilik Politikası</a>
+<a class="font-body text-xs tracking-wide text-slate-500 hover:text-[#B8860B] underline transition-all opacity-80 hover:opacity-100" href="#">Destek</a>
+</div>
+</footer>
+<!-- Decorative Illustration - Background Content -->
+<div class="hidden lg:block absolute left-10 bottom-10 max-w-xs opacity-20 pointer-events-none">
+<div class="w-64 h-64 rounded-full overflow-hidden grayscale contrast-125 mix-blend-multiply border border-accent/20">
+<img class="w-full h-full object-cover" data-alt="A sophisticated macro photography shot of luxury wedding table settings, featuring golden cutlery and fine crystal glassware. The lighting is soft and warm, casting long elegant shadows across a cream-colored linen tablecloth. The aesthetic is ultra-premium, clean, and professional, perfectly aligning with a high-end event organization brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDj2ufqzLiOjA_TaSejcSC7JrkWebpaT6pCvhXTr1tSg0Eg5LS2MZWVKxakKewuYlcbC3Xrnb9fTuEB9njCieBYUujNaGpgaD5-v_1xbPXXtRs18o_PwT6tjS2S1Gi_sVZiEy_46sPIEfiwepJO1zAsCqR9p6RAemc55D7s7r0QgtMx7bZGHpeHhlwILcFrXyJWaSjHGuB1QoxhV7bhiKtCJSrf4z_vLIpK55DX-VDUQUmc1UzHb_Eu8TjdgRCYlcjPC4-4ECRsANQ"/>
+</div>
+</div>
+<script>
+        // Simple Interaction logic for input focus effects
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.parentElement.classList.add('scale-[1.02]');
+                input.parentElement.parentElement.style.transition = "transform 0.3s ease";
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.parentElement.classList.remove('scale-[1.02]');
+            });
+        });
+
+        // Subtle parallax movement for the blobs
+        window.addEventListener('mousemove', (e) => {
+            const blobs = document.querySelectorAll('.organic-blob');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            blobs.forEach((blob, index) => {
+                const speed = (index + 1) * 20;
+                blob.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+            });
+        });
+    </script>
+</body></html>

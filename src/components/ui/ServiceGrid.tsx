@@ -65,12 +65,14 @@ export function ServiceCard({
   slug,
   description,
   icon,
+  image,
   index,
 }: {
   title: string;
   slug: string;
   description: string;
   icon: string;
+  image?: string;
   index: number;
 }) {
   const isLarge = index === 0 || index === 3 || index === 7;
@@ -81,22 +83,35 @@ export function ServiceCard({
       href={`/hizmetler/${slug}`}
       className={`group relative ${isLarge ? "md:col-span-2 md:row-span-2" : ""} ${isWide ? "md:col-span-2" : ""} ${!isLarge && !isWide ? "md:col-span-1" : ""}`}
     >
-      <GlassCard className="h-full p-6 md:p-8 flex flex-col items-start justify-between min-h-[200px] md:min-h-[240px] relative overflow-hidden">
-        <div className="fluid-shape w-32 h-32 bg-primary/10 -top-10 -right-10 group-hover:scale-150 transition-transform duration-700" />
+      <GlassCard className="h-full p-0 flex flex-col items-start justify-between min-h-[200px] md:min-h-[240px] relative overflow-hidden">
+        {image && (
+          <div className="relative w-full h-32 md:h-40 overflow-hidden">
+            <img
+              src={image}
+              alt={title}
+              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+          </div>
+        )}
 
-        <div className="relative">
-          <div className="text-primary mb-4">{iconMap[icon] || iconMap.Ring}</div>
-          <h3 className={`font-headline font-bold text-foreground mb-2 ${isLarge ? "text-2xl" : "text-lg"}`}>
-            {title}
-          </h3>
-          <p className="text-muted text-sm leading-relaxed">{description}</p>
-        </div>
+        <div className="relative p-5 md:p-6 w-full">
+          <div className="fluid-shape w-32 h-32 bg-primary/10 -top-10 -right-10 group-hover:scale-150 transition-transform duration-700" />
 
-        <div className="relative mt-4 flex items-center gap-1 text-primary text-sm font-medium group-hover:gap-2 transition-all">
-          Detaylı Bilgi
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M5 12h14" /><path d="M12 5l7 7-7 7" />
-          </svg>
+          <div className="relative">
+            <div className="text-primary mb-3">{iconMap[icon] || iconMap.Ring}</div>
+            <h3 className={`font-headline font-bold text-foreground mb-2 ${isLarge ? "text-xl" : "text-base"}`}>
+              {title}
+            </h3>
+            <p className="text-muted text-xs leading-relaxed line-clamp-2">{description}</p>
+          </div>
+
+          <div className="relative mt-3 flex items-center gap-1 text-primary text-xs font-medium group-hover:gap-2 transition-all">
+            Detaylı Bilgi
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M5 12h14" /><path d="M12 5l7 7-7 7" />
+            </svg>
+          </div>
         </div>
       </GlassCard>
     </Link>

@@ -4,7 +4,7 @@ export const services = [
     slug: "soz-organizasyonu",
     description: "En özel anınızı unutulmaz kılacak profesyonel söz organizasyonu hizmeti.",
     icon: "Ring",
-    image: "/images/soz.jpg",
+    image: "/images/service-soz.jpg",
     longDescription: "Hayatınızın en özel anlarından biri olan söz töreniniz için, her detayı özenle planlıyoruz. Mekan dekorasyonundan ikramlara, fotoğraf çekiminden müzik seçimine kadar tüm süreci profesyonel ekibimizle yönetiyoruz.",
   },
   {
@@ -12,7 +12,7 @@ export const services = [
     slug: "nisan-organizasyonu",
     description: "Hayalinizdeki nişan töreni için eksiksiz organizasyon çözümleri.",
     icon: "Celebration",
-    image: "/images/nisan.jpg",
+    image: "/images/service-nisan.jpg",
     longDescription: "Nişan töreninizi, sizin ve sevdiklerinizin unutamayacağı bir anıya dönüştürüyoruz. Klasik veya modern temalarda, açık veya kapalı mekan seçenekleriyle size özel çözümler sunuyoruz.",
   },
   {
@@ -20,7 +20,7 @@ export const services = [
     slug: "dugun-organizasyonu",
     description: "Rüya gibi bir düğün için her detayı düşünen profesyonel ekip.",
     icon: "Heart",
-    image: "/images/dugun.jpg",
+    image: "/images/service-dugun.jpg",
     longDescription: "Hayallerinizdeki düğünü gerçeğe dönüştürmek için buradayız. Mekan seçiminden davetiye tasarımına, gelin buketinden pasta tasarımına kadar tüm detayları sizin için düşünüyoruz.",
   },
   {
@@ -28,7 +28,7 @@ export const services = [
     slug: "dogum-gunu-organizasyonu",
     description: "Her yaş için özel temalı doğum günü organizasyonları.",
     icon: "Cake",
-    image: "/images/dogum-gunu.jpg",
+    image: "/images/service-dogum-gunu.jpg",
     longDescription: "Çocuklarınızın doğum gününden sürpriz parti konseptlerine kadar her yaş grubuna özel temalı doğum günü organizasyonları düzenliyoruz.",
   },
   {

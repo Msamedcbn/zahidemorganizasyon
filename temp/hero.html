@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Zahidem Organizasyon | Lüks Etkinlik Planlama</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;family=Public+Sans:wght@300;400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+                "primary": "#C4957A",
+                "bg-base": "#FAF8F5",
+                "surface": "rgba(255, 255, 255, 0.2)",
+                "on-surface": "#1F1F1F"
+            },
+            borderRadius: {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "2xl": "1rem",
+                    "3xl": "1.5rem",
+                    "full": "9999px"
+            },
+            fontFamily: {
+                    "headline": ["Public Sans", "sans-serif"],
+                    "display": ["Playfair Display", "serif"],
+                    "body": ["Inter", "sans-serif"],
+                    "label": ["Public Sans", "sans-serif"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .floating {
+            animation: floating 6s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translate(0, 0px); }
+            50% { transform: translate(0, 15px); }
+            100% { transform: translate(0, -0px); }
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #C4957A 0%, #E2BBA4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Custom scrollbar for premium feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF8F5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #C4957A;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-bg-base text-on-surface font-body overflow-x-hidden selection:bg-primary/30">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/20 backdrop-blur-md dark:bg-black/20 border-b border-white/30 shadow-sm flex justify-between items-center px-6 md:px-12 py-4 w-full max-w-full">
+<div class="font-display text-2xl italic font-bold text-[#C4957A]">
+            Zahidem
+        </div>
+<!-- Desktop Navigation -->
+<div class="hidden lg:flex items-center space-x-8">
+<a class="text-[#C4957A] border-b-2 border-[#C4957A] pb-1 font-bold font-headline text-label-lg tracking-wide uppercase" href="#">Ana Sayfa</a>
+<a class="text-on-surface/80 hover:text-[#C4957A] transition-colors font-headline text-label-lg tracking-wide uppercase font-medium" href="#">Hakkımızda</a>
+<a class="text-on-surface/80 hover:text-[#C4957A] transition-colors font-headline text-label-lg tracking-wide uppercase font-medium" href="#">Hizmetlerimiz</a>
+<a class="text-on-surface/80 hover:text-[#C4957A] transition-colors font-headline text-label-lg tracking-wide uppercase font-medium" href="#">Galeri</a>
+<a class="text-on-surface/80 hover:text-[#C4957A] transition-colors font-headline text-label-lg tracking-wide uppercase font-medium" href="#">Blog</a>
+<a class="text-on-surface/80 hover:text-[#C4957A] transition-colors font-headline text-label-lg tracking-wide uppercase font-medium" href="#">İletişim</a>
+</div>
+<div class="flex items-center gap-4">
+<a class="hidden md:flex items-center px-6 py-2.5 bg-[#C4957A] text-white rounded-full font-headline text-sm font-bold tracking-wider hover:bg-[#b3856a] transition-all scale-95 hover:scale-100 shadow-lg shadow-primary/20" href="tel:+905316632930">
+                HEMEN ARAYIN +90 531 663 29 30
+            </a>
+<button class="lg:hidden text-primary">
+<span class="material-symbols-outlined text-3xl">menu</span>
+</button>
+</div>
+</nav>
+<!-- Hero Section -->
+<main class="relative min-h-screen w-full flex flex-col items-center justify-center pt-20 overflow-hidden">
+<!-- Background Image & Overlay -->
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-bg-base z-10"></div>
+<img alt="" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBUQMUPOmM_a4CWzqo0nHVSJ2VKuarEBPmwIlJHvMbYim2NTwaT7ba0FASl-FKWseZ_hd0PMVbYIu2FOahi2ucXE8aeP-hVP1hZXx1xJzWPxug45TxxEbafKIwKSsOzLkL2E41yCIOPZd8UWpxjjkBi7XMYX0gCoV2soolOkENf7hJhAomTIT1hq6Z3DLrRRxyFXyKfLjiyr947f4GIhPHkGNODVhrt2JEV2-WIB0wGjCC1DxaNdEXydKEGYfVTTaxM4qkYUynvsQ"/>
+</div>
+<!-- Organic Floating Shapes (Aesthetic Layers) -->
+<div class="absolute inset-0 pointer-events-none overflow-hidden">
+<div class="floating absolute top-1/4 -left-20 w-96 h-96 bg-primary/20 rounded-full blur-[100px]"></div>
+<div class="floating absolute bottom-1/4 -right-20 w-80 h-80 bg-white/10 rounded-full blur-[80px]" style="animation-delay: -2s;"></div>
+</div>
+<!-- Content Canvas -->
+<div class="relative z-20 container mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+<!-- Left Side: Typography Hero -->
+<div class="lg:col-span-7 flex flex-col space-y-8 py-12">
+<div class="inline-flex items-center space-x-2 glass-card px-4 py-2 rounded-full w-fit">
+<span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+<span class="text-white text-xs font-headline uppercase tracking-widest font-semibold">İstanbul'un En Prestijli Organizasyon Evi</span>
+</div>
+<h1 class="font-display text-5xl md:text-7xl lg:text-8xl text-white leading-tight">
+                    En Özel Anlarınızı <br/>
+<span class="italic text-primary font-normal">En Özel Anılara</span> <br/>
+                    Dönüştürüyoruz
+                </h1>
+<p class="font-body text-lg md:text-xl text-white/80 max-w-xl leading-relaxed">
+                    Profesyonel ekibimiz ve kusursuz detay anlayışımızla, hayallerinizdeki kutlamayı gerçeğe taşıyoruz. İstanbul'un her noktasında lüksün ve estetiğin imzası.
+                </p>
+<div class="flex flex-wrap gap-4 pt-4">
+<button class="group glass-card px-8 py-4 rounded-full flex items-center space-x-3 hover:bg-primary transition-all duration-500">
+<span class="text-white font-headline font-bold uppercase tracking-wider text-sm">Hemen Teklif Al</span>
+<span class="material-symbols-outlined text-white transition-transform group-hover:translate-x-1">arrow_forward</span>
+</button>
+<button class="flex items-center space-x-3 px-8 py-4 rounded-full border border-white/20 hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-primary">play_circle</span>
+<span class="text-white font-headline text-sm font-medium">Tanıtım Filmi</span>
+</button>
+</div>
+</div>
+<!-- Right Side: Bento Grid Stats/Cards -->
+<div class="lg:col-span-5 grid grid-cols-2 gap-4 h-full py-12">
+<!-- Large Bento Card -->
+<div class="col-span-2 glass-card rounded-3xl p-8 flex flex-col justify-between aspect-[2/1] relative group overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+<div class="z-10">
+<span class="material-symbols-outlined text-primary text-4xl mb-4">diamond</span>
+<h3 class="font-display text-2xl text-white">Butik &amp; Kişiye Özel</h3>
+</div>
+<p class="text-white/60 text-sm z-10">Her detayında sizin karakterinizi yansıtan eşsiz konsept tasarımlar.</p>
+</div>
+<!-- Small Bento Card 1 -->
+<div class="glass-card rounded-3xl p-6 aspect-square flex flex-col items-center justify-center text-center space-y-2 hover:scale-105 transition-transform">
+<span class="font-display text-4xl text-primary font-bold">500+</span>
+<span class="text-white/80 text-xs font-headline uppercase tracking-tighter">Mutlu Çift</span>
+</div>
+<!-- Small Bento Card 2 -->
+<div class="glass-card rounded-3xl p-6 aspect-square flex flex-col items-center justify-center text-center space-y-2 hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-primary text-3xl">location_on</span>
+<span class="text-white/80 text-xs font-headline uppercase tracking-tighter">İstanbul Geneli</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Services Quick Peek (Organic Transition) -->
+<section class="relative bg-bg-base pt-24 pb-32">
+<div class="container mx-auto px-6">
+<div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+<div class="max-w-2xl">
+<h2 class="font-display text-4xl md:text-5xl text-on-surface mb-6 italic">Size Özel Hizmetlerimiz</h2>
+<p class="text-on-surface/60">Hayatınızın dönüm noktalarında, profesyonel dokunuşlarla yanınızdayız. Her organizasyon bizim için bir sanat eseridir.</p>
+</div>
+<a class="text-primary font-headline font-bold uppercase tracking-widest text-sm flex items-center space-x-2 border-b border-primary/30 pb-1 hover:border-primary transition-all" href="#">
+<span>Tümünü Keşfet</span>
+<span class="material-symbols-outlined text-sm">north_east</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Service 1 -->
+<div class="group relative bg-white rounded-[2.5rem] p-4 shadow-xl shadow-black/5 hover:shadow-2xl transition-all duration-500">
+<div class="relative h-72 rounded-[2rem] overflow-hidden mb-6">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Close up of an elegant luxury wedding table setting with gold cutlery, crystal glasses, and soft pink rose centerpieces on a white linen cloth, cinematic lighting, shallow depth of field, premium aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCE15ZthCzIQi9MUVMlfnQ8AbtW0rraloln2GLTLM5tMfxLr8wzFG5ZHoJvwFXIRF-Tm1dx-mlGIlc1IBQ226T9N6wHoWn0gGUHu37_b-ZGGYFPd6P5-Wk-ZKcwdQi0Jl5kdnuu2ekw0iZHpocQy9WfMly160NXVQgcS_C0YsR9QOI3G6_7KRdF-9pfhZqyFJtd8_mRcwNaOyDdsbq_is6iEB3hHr9AG6s2-RpIIFX-SbDiwofMNK1K3ytiDaTFoegBtFhDIRRyMLI"/>
+<div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors"></div>
+</div>
+<div class="px-4 pb-4">
+<h4 class="font-display text-2xl mb-2">Düğün Organizasyonu</h4>
+<p class="text-on-surface/60 text-sm leading-relaxed mb-6">En mutlu gününüzü, rüya gibi bir atmosferde masalsı bir hikayeye dönüştürüyoruz.</p>
+<div class="flex justify-between items-center">
+<span class="text-xs font-headline font-bold text-primary tracking-widest">DETAYLAR</span>
+<span class="material-symbols-outlined text-primary opacity-0 group-hover:opacity-100 transition-opacity">trending_flat</span>
+</div>
+</div>
+</div>
+<!-- Service 2 -->
+<div class="group relative bg-white rounded-[2.5rem] p-4 shadow-xl shadow-black/5 hover:shadow-2xl transition-all duration-500 translate-y-8">
+<div class="relative h-72 rounded-[2rem] overflow-hidden mb-6">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Sophisticated corporate gala event setup, modern lighting effects with deep green and gold accents, professional cocktail bar area, minimalist yet luxurious interior design, high-end furniture, evening vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAambCJnwYalSP3MtUPWH8FR7VDDeve2tDQ3-OjUfX5O4SMd5n9u1WnJyyERdmacYsAFSO_qCFzG6EM_QCs8dPjIe2MO94eZ3mrhi0k25nqqs-ZfCb6s8lWMPwUW0ua_2nCQxIxbD6amTY0h4-hj7CVB64WFFPLcZg2BGP06OsivtOs_IKvBzJMF1a_pU_EW8ew2WlIpbdm7YruY2V_nwNmFJa2eEtLUjh7ZvusWzdkwzLTObEDBZ-grwPDoiJfrSirubuT7m48NnY"/>
+<div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors"></div>
+</div>
+<div class="px-4 pb-4">
+<h4 class="font-display text-2xl mb-2">Kurumsal Davetler</h4>
+<p class="text-on-surface/60 text-sm leading-relaxed mb-6">Şirketinizin prestijine yakışır, profesyonel ve etkileyici organizasyon çözümleri.</p>
+<div class="flex justify-between items-center">
+<span class="text-xs font-headline font-bold text-primary tracking-widest">DETAYLAR</span>
+<span class="material-symbols-outlined text-primary opacity-0 group-hover:opacity-100 transition-opacity">trending_flat</span>
+</div>
+</div>
+</div>
+<!-- Service 3 -->
+<div class="group relative bg-white rounded-[2.5rem] p-4 shadow-xl shadow-black/5 hover:shadow-2xl transition-all duration-500">
+<div class="relative h-72 rounded-[2rem] overflow-hidden mb-6">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Charming outdoor engagement party or proposal setting at sunset, warm fairy lights hanging from trees, cozy yet luxurious lounge seating, champagne station, romantic atmosphere, organic textures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWoiiaLsz4kFEFg49PLglI3p_WCKU5aowOZJRfwlJyVaMDT_yhul3hmwSIRO1PtBkiI2tO4pv6tGf8ntv-J_7yC02_t-Ohz1mOuLNGpApb0xaFGr6XkkaJhs1G3Y70XTabYJ30ImJIM2ITHmcPqgQyvRdYmmmAY4agV300R0fj_iJHEBS_Qcb2_k90-6YpzvTqVI6K9-nCfLJxZmHXvH1MPeqsy-AoFeQUTn0SYHtsPPOgpkFPgG8Z5WWMjR894bmny6M5M5PlxAk"/>
+<div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors"></div>
+</div>
+<div class="px-4 pb-4">
+<h4 class="font-display text-2xl mb-2">Nişan &amp; Söz</h4>
+<p class="text-on-surface/60 text-sm leading-relaxed mb-6">Aileniz ve sevdiklerinizle geçireceğiniz bu özel ilk adımı kusursuz kılıyoruz.</p>
+<div class="flex justify-between items-center">
+<span class="text-xs font-headline font-bold text-primary tracking-widest">DETAYLAR</span>
+<span class="material-symbols-outlined text-primary opacity-0 group-hover:opacity-100 transition-opacity">trending_flat</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-[#FAF8F5] dark:bg-surface-container-lowest border-t border-[#C4957A]/10 w-full rounded-t-3xl mt-12">
+<div class="flex flex-col md:flex-row justify-between items-center px-6 md:px-12 py-12 w-full">
+<div class="mb-8 md:mb-0">
+<div class="font-display text-xl font-semibold text-[#C4957A] mb-4">Zahidem Organizasyon</div>
+<div class="flex space-x-6">
+<a class="text-on-surface-variant hover:text-[#C4957A] transition-opacity" href="#">
+<span class="material-symbols-outlined">face_nod</span>
+</a>
+<a class="text-on-surface-variant hover:text-[#C4957A] transition-opacity" href="#">
+<span class="material-symbols-outlined">camera</span>
+</a>
+<a class="text-on-surface-variant hover:text-[#C4957A] transition-opacity" href="#">
+<span class="material-symbols-outlined">alternate_email</span>
+</a>
+</div>
+</div>
+<div class="flex flex-col md:items-end gap-4">
+<div class="flex flex-wrap justify-center gap-6 mb-4">
+<a class="text-on-surface-variant hover:text-[#C4957A] font-body text-body-sm transition-colors" href="#">Gizlilik Politikası</a>
+<a class="text-on-surface-variant hover:text-[#C4957A] font-body text-body-sm transition-colors" href="#">Kullanım Koşulları</a>
+<a class="text-on-surface-variant hover:text-[#C4957A] font-body text-body-sm transition-colors" href="#">KVKK</a>
+</div>
+<p class="font-body text-body-sm text-on-surface-variant opacity-70">
+                    © 2024 Zahidem Organizasyon. Tüm Hakları Saklıdır.
+                </p>
+</div>
+</div>
+</footer>
+<!-- Micro-interactions Script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar Scroll Effect
+            const nav = document.querySelector('nav');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    nav.classList.add('py-2', 'bg-white/40');
+                    nav.classList.remove('py-4', 'bg-white/20');
+                } else {
+                    nav.classList.add('py-4', 'bg-white/20');
+                    nav.classList.remove('py-2', 'bg-white/40');
+                }
+            });
+
+            // Smooth appear for bento cards
+            const observerOptions = {
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                        entry.target.classList.remove('opacity-0', 'translate-y-10');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.glass-card, .group').forEach(el => {
+                el.classList.add('transition-all', 'duration-1000', 'opacity-0', 'translate-y-10');
+                observer.observe(el);
+            });
+        });
+    </script>
+</body></html>

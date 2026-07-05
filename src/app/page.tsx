@@ -22,7 +22,11 @@ function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <div
-        className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/10"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/images/hero-atmosphere.jpg')" }}
+      />
+      <div
+        className="absolute inset-0 bg-gradient-to-br from-background/80 via-background/60 to-primary/30"
       />
 
       <div className="absolute inset-0">

@@ -21,13 +21,15 @@ export default function HomePage() {
 function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <div className="absolute inset-0 bg-background" />
       <div className="absolute inset-0">
         <img
           src="/images/hero-atmosphere.jpg"
           alt=""
           className="w-full h-full object-cover object-center md:object-[center_30%]"
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-background/70 via-background/50 to-primary/25" />
+        <div className="absolute inset-0 bg-gradient-to-br from-background/60 via-background/40 to-primary-dark/70" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-transparent to-transparent md:from-background/90" />
       </div>
 
       <div className="absolute inset-0">

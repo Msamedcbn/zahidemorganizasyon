@@ -128,7 +128,7 @@ export function ServiceCard({
           </div>
         )}
 
-        {!showImage && (
+        {isSmall && (
           <div className="relative p-5 md:p-6 w-full flex flex-col justify-between min-h-[180px]">
             <div className="fluid-shape w-32 h-32 bg-primary/10 -top-10 -right-10 group-hover:scale-150 transition-transform duration-700 pointer-events-none" />
             <div className="relative">

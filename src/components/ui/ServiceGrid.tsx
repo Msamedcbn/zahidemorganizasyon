@@ -60,6 +60,20 @@ const iconMap: Record<string, React.ReactNode> = {
   ),
 };
 
+const bentoLayout = [
+  { span: "large" },    // 0  Söz
+  { span: "small" },    // 1  Nişan
+  { span: "wide" },     // 2  Düğün
+  { span: "large" },    // 3  Doğum Günü
+  { span: "small" },    // 4  Sünnet
+  { span: "small" },    // 5  Açılış
+  { span: "wide" },     // 6  Kokteyl
+  { span: "large" },    // 7  Balon
+  { span: "small" },    // 8  Sandalye
+  { span: "small" },    // 9  Asker
+  { span: "small" },    // 10 Mezuniyet
+];
+
 export function ServiceCard({
   title,
   slug,
@@ -75,44 +89,89 @@ export function ServiceCard({
   image?: string;
   index: number;
 }) {
-  const isLarge = index === 0 || index === 3 || index === 7;
-  const isWide = index === 2 || index === 6;
+  const layout = bentoLayout[index];
+  const isLarge = layout.span === "large";
+  const isWide = layout.span === "wide";
+  const isSmall = layout.span === "small";
+  const showImage = isLarge;
+  const spanClasses = isLarge
+    ? "md:col-span-2 md:row-span-2"
+    : isWide
+      ? "md:col-span-2"
+      : "md:col-span-1";
 
   return (
     <Link
       href={`/hizmetler/${slug}`}
-      className={`group relative ${isLarge ? "md:col-span-2 md:row-span-2" : ""} ${isWide ? "md:col-span-2" : ""} ${!isLarge && !isWide ? "md:col-span-1" : ""}`}
+      className={`group relative ${spanClasses}`}
     >
-      <GlassCard className="h-full p-0 flex flex-col items-start justify-between min-h-[200px] md:min-h-[240px] relative overflow-hidden">
-        {image && (
-          <div className="relative w-full h-32 md:h-40 overflow-hidden">
+      <GlassCard className={`h-full p-0 flex flex-col relative overflow-hidden ${isLarge ? "" : ""}`}>
+        {showImage && image && (
+          <div className="relative w-full h-full min-h-[200px] md:min-h-[280px] overflow-hidden">
             <img
               src={image}
               alt={title}
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+              <div className="text-white/90 mb-2">{iconMap[icon] || iconMap.Ring}</div>
+              <h3 className="font-headline font-bold text-white text-xl md:text-2xl mb-1">{title}</h3>
+              <p className="text-white/70 text-sm leading-relaxed">{description}</p>
+              <div className="mt-3 flex items-center gap-1 text-white/90 text-sm font-medium group-hover:gap-2 transition-all">
+                Detaylı Bilgi
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M5 12h14" /><path d="M12 5l7 7-7 7" />
+                </svg>
+              </div>
+            </div>
           </div>
         )}
 
-        <div className="relative p-5 md:p-6 w-full">
-          <div className="fluid-shape w-32 h-32 bg-primary/10 -top-10 -right-10 group-hover:scale-150 transition-transform duration-700" />
+        {!showImage && (
+          <div className="relative p-5 md:p-6 w-full flex flex-col justify-between min-h-[180px]">
+            <div className="fluid-shape w-32 h-32 bg-primary/10 -top-10 -right-10 group-hover:scale-150 transition-transform duration-700 pointer-events-none" />
+            <div className="relative">
+              <div className="text-primary mb-3">{iconMap[icon] || iconMap.Ring}</div>
+              <h3 className="font-headline font-bold text-foreground mb-2 text-base">{title}</h3>
+              <p className="text-muted text-xs leading-relaxed line-clamp-3">{description}</p>
+            </div>
 
-          <div className="relative">
-            <div className="text-primary mb-3">{iconMap[icon] || iconMap.Ring}</div>
-            <h3 className={`font-headline font-bold text-foreground mb-2 ${isLarge ? "text-xl" : "text-base"}`}>
-              {title}
-            </h3>
-            <p className="text-muted text-xs leading-relaxed line-clamp-2">{description}</p>
+            <div className="relative mt-4 flex items-center gap-1 text-primary text-xs font-medium group-hover:gap-2 transition-all">
+              Detaylı Bilgi
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M5 12h14" /><path d="M12 5l7 7-7 7" />
+              </svg>
+            </div>
           </div>
+        )}
 
-          <div className="relative mt-3 flex items-center gap-1 text-primary text-xs font-medium group-hover:gap-2 transition-all">
-            Detaylı Bilgi
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M5 12h14" /><path d="M12 5l7 7-7 7" />
-            </svg>
-          </div>
-        </div>
+        {isWide && image && (
+          <>
+            <div className="absolute inset-0 overflow-hidden">
+              <img
+                src={image}
+                alt={title}
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-30"
+              />
+              <div className="absolute inset-0 bg-gradient-to-br from-background/90 via-background/70 to-primary/20" />
+            </div>
+            <div className="relative p-5 md:p-6 w-full flex flex-col justify-between min-h-[180px]">
+              <div className="fluid-shape w-32 h-32 bg-primary/10 -top-10 -right-10 group-hover:scale-150 transition-transform duration-700 pointer-events-none" />
+              <div className="relative">
+                <div className="text-primary mb-3">{iconMap[icon] || iconMap.Ring}</div>
+                <h3 className="font-headline font-bold text-foreground mb-2 text-lg">{title}</h3>
+                <p className="text-muted text-xs leading-relaxed line-clamp-2">{description}</p>
+              </div>
+              <div className="relative mt-3 flex items-center gap-1 text-primary text-xs font-medium group-hover:gap-2 transition-all">
+                Detaylı Bilgi
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M5 12h14" /><path d="M12 5l7 7-7 7" />
+                </svg>
+              </div>
+            </div>
+          </>
+        )}
       </GlassCard>
     </Link>
   );
@@ -135,7 +194,7 @@ export function ServiceGrid() {
           <div className="w-20 h-0.5 bg-primary mx-auto mt-6" />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[180px] md:auto-rows-[200px] lg:auto-rows-[220px] grid-flow-dense">
           {services.map((service, i) => (
             <ServiceCard key={service.slug} {...service} index={i} />
           ))}

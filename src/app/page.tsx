@@ -20,31 +20,28 @@ export default function HomePage() {
 
 function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 bg-background" />
-      <div className="absolute inset-0">
-        <img
-          src="/images/hero-atmosphere.jpg"
-          alt=""
-          className="w-full h-full object-cover object-center md:object-[center_30%]"
-        />
-        <div className="absolute inset-0 bg-gradient-to-br from-background/60 via-background/40 to-primary-dark/70" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-transparent to-transparent md:from-background/90" />
-      </div>
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-background via-primary/5 to-primary/15">
 
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 overflow-hidden">
         <div
-          className="absolute top-1/4 left-1/4 w-72 h-72 bg-primary/20 rounded-full blur-[100px] animate-pulse"
+          className="absolute -top-20 -left-20 w-[500px] h-[500px] bg-primary/30 rounded-full blur-[120px] animate-pulse"
         />
         <div
-          className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[120px] animate-pulse"
+          className="absolute -bottom-32 -right-32 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[140px] animate-pulse"
           style={{ animationDelay: "2s" }}
         />
         <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-primary/10 rounded-full"
+          className="absolute top-1/3 right-1/4 w-96 h-96 bg-primary-light/20 rounded-full blur-[100px] animate-pulse"
+          style={{ animationDelay: "4s" }}
         />
         <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-primary/5 rounded-full"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] border border-primary/15 rounded-full"
+        />
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] border border-primary/8 rounded-full"
+        />
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1300px] h-[1300px] border border-primary/5 rounded-full"
         />
       </div>
 

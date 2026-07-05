@@ -110,7 +110,7 @@ export function ServiceCard({
           <div className="relative w-full h-full min-h-[200px] md:min-h-[280px] overflow-hidden">
             <img
               src={image}
-              alt={title}
+              alt=""
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
@@ -151,7 +151,7 @@ export function ServiceCard({
             <div className="absolute inset-0 overflow-hidden">
               <img
                 src={image}
-                alt={title}
+                alt=""
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-30"
               />
               <div className="absolute inset-0 bg-gradient-to-br from-background/90 via-background/70 to-primary/20" />

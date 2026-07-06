@@ -61,17 +61,18 @@ const iconMap: Record<string, React.ReactNode> = {
 };
 
 const bentoLayout = [
-  { span: "large" },    // 0  Söz
-  { span: "small" },    // 1  Nişan
-  { span: "wide" },     // 2  Düğün
-  { span: "large" },    // 3  Doğum Günü
-  { span: "small" },    // 4  Sünnet
-  { span: "small" },    // 5  Açılış
+  { span: "large" },    // 0  Doğum Günü
+  { span: "small" },    // 1  Mezuniyet
+  { span: "large" },    // 2  Söz & Nişan
+  { span: "small" },    // 3  Sevgililer Günü
+  { span: "wide" },     // 4  Açılış
+  { span: "small" },    // 5  Masa Sandalye
   { span: "wide" },     // 6  Kokteyl
-  { span: "large" },    // 7  Balon
-  { span: "small" },    // 8  Sandalye
-  { span: "small" },    // 9  Asker
-  { span: "small" },    // 10 Mezuniyet
+  { span: "small" },    // 7  Yapay Ağaç
+  { span: "small" },    // 8  Yapay Çiçek
+  { span: "small" },    // 9  Piknik
+  { span: "small" },    // 10 Sünnet
+  { span: "small" },    // 11 Balon
 ];
 
 export function ServiceCard({

@@ -38,3 +38,25 @@ Mevcut admin panel:
 
 ### 6. Vercel preview URL'leri
 - Deployment protection aktif, preview URL'leri login sayfasına yönlendiriyor
+
+### 7. Görsel depolama kararı (06.07.2026)
+- **Seçim:** Cloudflare R2 (S3-uyumlu, 10 GB ücretsiz, egress ücretsiz)
+- **Neden:** Vercel Blob 500 MB yetersiz, R2 20x fazla + trafik ücretsiz
+- **10 GB / 4 sene** yeter (kullanıcı onayı)
+- **Sharp ile webp dönüşümü** upload sırasında yapılacak
+- **Neon'a sadece URL** yazılacak (0.5 GB yıllarca yeter)
+- **Migration kolay:** S3 API → başka hosta klasör kopyala
+
+### Yapılacaklar (sonraki oturum)
+1. Cloudflare R2 hesabı oluştur + bucket: `zahidem`
+2. API token al (access key + secret)
+3. Vercel env: `R2_ACCESS_KEY`, `R2_SECRET_KEY`, `R2_ENDPOINT`, `R2_BUCKET`
+4. `npm install @aws-sdk/client-s3 sharp`
+5. `/api/admin/upload/route.ts` yaz:
+   - multipart al
+   - sharp ile webp dönüştür
+   - R2'ye yükle
+   - URL döndür
+6. Admin panele görsel upload UI ekle (Hizmet/Blog/Galeri formlarına)
+7. Mevcut `<img>` etiketlerini Next.js `<Image>`'e çevir
+8. `next.config.ts` R2 domain remote patterns'a ekle

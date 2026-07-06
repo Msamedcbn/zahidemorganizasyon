@@ -87,7 +87,7 @@ export function ServiceCard({
   slug: string;
   description: string;
   icon: string;
-  image?: string;
+  image?: string | null;
   index: number;
 }) {
   const layout = bentoLayout[index];
@@ -178,7 +178,8 @@ export function ServiceCard({
   );
 }
 
-export function ServiceGrid() {
+export async function ServiceGrid({ services: externalServices }: { services?: Array<{ title: string; slug: string; description: string; icon: string; image?: string | null }> } = {}) {
+  const services = externalServices || (await import("@/lib/data")).services;
   return (
     <section id="hizmetler" className="relative py-24 overflow-hidden">
       <div className="fluid-shape w-[600px] h-[600px] bg-primary/5 top-0 -left-48" />
@@ -197,7 +198,7 @@ export function ServiceGrid() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[180px] md:auto-rows-[200px] lg:auto-rows-[220px] grid-flow-dense">
           {services.map((service, i) => (
-            <ServiceCard key={service.slug} {...service} index={i} />
+            <ServiceCard key={service.slug} title={service.title} slug={service.slug} description={service.description} icon={service.icon} image={service.image} index={i} />
           ))}
         </div>
       </div>

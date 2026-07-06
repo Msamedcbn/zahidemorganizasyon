@@ -1,15 +1,24 @@
 import { Metadata } from "next";
-import { services } from "@/lib/data";
+import { prisma } from "@/lib/prisma";
 import { ServiceGrid } from "@/components/ui/ServiceGrid";
 import { FluidShapes } from "@/components/ui/FluidShapes";
+import { services as fallbackServices } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Hizmetlerimiz",
-  description:
-    "Söz, nişan, düğün, doğum günü, sünnet, açılış, kokteyl, balon süsleme, sandalye kiralama ve daha fazlası. İstanbul'un her noktasında profesyonel organizasyon hizmeti.",
+  description: "Doğum günü, mezuniyet, söz & nişan, sevgililer günü, açılış, masa sandalye kiralama, kokteyl, yapay ağaç dekoru, yapay çiçek dekoru, piknik, sünnet, balon aranjmanı. İstanbul'un her noktasında profesyonel organizasyon hizmeti.",
 };
 
-export default function HizmetlerPage() {
+export default async function HizmetlerPage() {
+  let services: Awaited<ReturnType<typeof prisma.service.findMany>> = [];
+  try {
+    services = await prisma.service.findMany({ where: { isActive: true }, orderBy: { order: "asc" } });
+  } catch {}
+
+  const displayServices = services.length > 0
+    ? services.map((s) => ({ title: s.title, slug: s.slug, description: s.description, icon: s.icon, image: s.image || undefined }))
+    : fallbackServices;
+
   return (
     <div className="relative pt-32 pb-16 min-h-screen">
       <FluidShapes />
@@ -19,10 +28,10 @@ export default function HizmetlerPage() {
             Tüm Hizmetlerimiz
           </h1>
           <p className="text-muted text-lg max-w-2xl mx-auto">
-            11 farklı kategoride, İstanbul&apos;un her noktasında profesyonel organizasyon çözümleri
+            12 farklı kategoride, İstanbul&apos;un her noktasında profesyonel organizasyon çözümleri
           </p>
         </div>
-        <ServiceGrid />
+        <ServiceGrid services={displayServices} />
       </div>
     </div>
   );

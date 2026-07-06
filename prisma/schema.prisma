@@ -17,16 +17,17 @@ model AdminUser {
 }
 
 model Service {
-  id          String   @id @default(cuid())
-  title       String
-  slug        String   @unique
-  description String
-  icon        String
-  image       String?
-  order       Int      @default(0)
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id              String   @id @default(cuid())
+  title           String
+  slug            String   @unique
+  description     String
+  longDescription String?
+  icon            String
+  image           String?
+  order           Int      @default(0)
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 
 model BlogPost {
@@ -36,11 +37,15 @@ model BlogPost {
   content   String
   excerpt   String?
   category  String?
+  categoryId String?
   image     String?
   author    String   @default("Zahidem Organizasyon")
   published Boolean  @default(false)
+  seoTitle  String?
+  seoDescription String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  categoryRef Category? @relation(fields: [categoryId], references: [id])
 }
 
 model ContactMessage {
@@ -58,7 +63,27 @@ model GalleryItem {
   id        String   @id @default(cuid())
   image     String
   caption   String?
+  category  String?
   order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  color     String   @default("#C4957A")
+  createdAt DateTime @default(now())
+  posts     BlogPost[]
+}
+
+model ActivityLog {
+  id        String   @id @default(cuid())
+  action    String
+  entity    String
+  entityId  String?
+  details   String?
+  adminEmail String?
   createdAt DateTime @default(now())
 }
 

@@ -24,6 +24,7 @@ model Service {
   longDescription String?
   icon            String
   image           String?
+  gallery         String?
   order           Int      @default(0)
   isActive        Boolean  @default(true)
   createdAt       DateTime @default(now())

@@ -10,7 +10,16 @@ export default async function HomePage() {
   let services: Array<{ title: string; slug: string; description: string; icon: string; image?: string | null }> = [];
   try {
     const dbServices = await prisma.service.findMany({ where: { isActive: true }, orderBy: { order: "asc" } });
-    services = dbServices.map((s) => ({ title: s.title, slug: s.slug, description: s.description, icon: s.icon, image: s.image || undefined }));
+    services = dbServices.map((s) => {
+      const fallback = fallbackServices.find((f) => f.slug === s.slug);
+      return {
+        title: s.title,
+        slug: s.slug,
+        description: s.description,
+        icon: s.icon,
+        image: fallback?.image || s.image || undefined,
+      };
+    });
   } catch {}
   if (services.length === 0) {
     services = fallbackServices;

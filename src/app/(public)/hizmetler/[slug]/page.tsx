@@ -36,6 +36,7 @@ export default async function HizmetDetayPage({ params }: { params: Promise<{ sl
   const title = service.title;
   const description = service.description;
   const longDescription = "longDescription" in service ? (service as any).longDescription : undefined;
+  const gallery: string[] = (dbService && (dbService as any).gallery) ? JSON.parse((dbService as any).gallery) : [];
 
   let otherServices: Array<{ id?: string; slug: string; title: string; description: string }> = [];
   if (dbService) {
@@ -84,6 +85,19 @@ export default async function HizmetDetayPage({ params }: { params: Promise<{ sl
             </GlassCard>
           </div>
         </div>
+
+        {gallery.length > 0 && (
+          <div className="mb-16">
+            <h2 className="text-2xl font-headline font-bold text-foreground mb-8">{title} Galerisi</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {gallery.map((url, i) => (
+                <a key={i} href={url} target="_blank" rel="noopener noreferrer" className="group aspect-[4/3] rounded-xl overflow-hidden glass-card !p-0">
+                  <img src={url} alt={`${title} ${i + 1}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="mb-16">
           <h2 className="text-2xl font-headline font-bold text-foreground mb-8">Hizmet Bölgelerimiz</h2>

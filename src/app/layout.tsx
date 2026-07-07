@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
+import { headers } from "next/headers";
 import "./globals.css";
 import { GlassNavbar } from "@/components/ui/GlassNavbar";
 import { Footer } from "@/components/ui/Footer";
@@ -32,6 +33,9 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const s = await getSettings();
+  const h = await headers();
+  const pathname = h.get("x-url") || h.get("x-invoke-path") || h.get("next-url") || "";
+  const isAdmin = pathname.startsWith("/admin");
 
   return (
     <html lang="tr" className={`${playfair.variable} ${inter.variable} h-full antialiased`}>
@@ -45,9 +49,9 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         )}
       </head>
       <body className="min-h-full flex flex-col bg-background font-sans text-foreground">
-        <GlassNavbar logo={s.logo} siteName={s.siteName} phone={s.phone} whatsapp={s.whatsapp} />
+        {!isAdmin && <GlassNavbar logo={s.logo} siteName={s.siteName} phone={s.phone} whatsapp={s.whatsapp} />}
         <main className="flex-1">{children}</main>
-        <Footer logo={s.logo} siteName={s.siteName} phone={s.phone} email={s.email} address={s.address} instagram={s.instagram} facebook={s.facebook} youtube={s.youtube} whatsapp={s.whatsapp} />
+        {!isAdmin && <Footer logo={s.logo} siteName={s.siteName} phone={s.phone} email={s.email} address={s.address} instagram={s.instagram} facebook={s.facebook} youtube={s.youtube} whatsapp={s.whatsapp} />}
       </body>
     </html>
   );

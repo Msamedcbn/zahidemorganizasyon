@@ -2,39 +2,49 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import { siteConfig, districts } from "@/lib/data";
+import { siteConfig, districts, services as fallbackServices } from "@/lib/data";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { FluidShapes } from "@/components/ui/FluidShapes";
 
 export async function generateStaticParams() {
   try {
-    const services = await prisma.service.findMany({ where: { isActive: true } });
-    return services.map((s) => ({ slug: s.slug }));
-  } catch {
-    return [];
-  }
+    const db = await prisma.service.findMany({ where: { isActive: true } });
+    if (db.length > 0) return db.map((s) => ({ slug: s.slug }));
+  } catch {}
+  return fallbackServices.map((s) => ({ slug: s.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  try {
-    const service = await prisma.service.findUnique({ where: { slug } });
-    if (!service) return { title: "Sayfa Bulunamadı" };
-    return { title: `${service.title} | Zahidem Organizasyon`, description: service.description, alternates: { canonical: `/hizmetler/${slug}` } };
-  } catch {
-    return { title: "Sayfa Bulunamadı" };
-  }
+  let title = "", description = "";
+  try { const s = await prisma.service.findUnique({ where: { slug } }); if (s) { title = s.title; description = s.description; } } catch {}
+  if (!title) { const s = fallbackServices.find((x) => x.slug === slug); if (s) { title = s.title; description = s.description; } }
+  if (!title) return { title: "Sayfa Bulunamadı" };
+  return { title: `${title} | Zahidem Organizasyon`, description, alternates: { canonical: `/hizmetler/${slug}` } };
 }
 
 export default async function HizmetDetayPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
 
-  let service: Awaited<ReturnType<typeof prisma.service.findUnique>> | null = null;
-  try { service = await prisma.service.findUnique({ where: { slug } }); } catch {}
+  let dbService: Awaited<ReturnType<typeof prisma.service.findUnique>> | null = null;
+  try { dbService = await prisma.service.findUnique({ where: { slug } }); } catch {}
+
+  const fallback = fallbackServices.find((s) => s.slug === slug);
+  const service = dbService || fallback;
   if (!service) notFound();
 
-  let otherServices: Awaited<ReturnType<typeof prisma.service.findMany>> = [];
-  try { otherServices = await prisma.service.findMany({ where: { isActive: true, id: { not: service.id } }, orderBy: { order: "asc" }, take: 5 }); } catch {}
+  const title = service.title;
+  const description = service.description;
+  const longDescription = "longDescription" in service ? (service as any).longDescription : undefined;
+
+  let otherServices: Array<{ id?: string; slug: string; title: string; description: string }> = [];
+  if (dbService) {
+    try {
+      otherServices = (await prisma.service.findMany({ where: { isActive: true, id: { not: dbService.id } }, orderBy: { order: "asc" }, take: 5 })) as any;
+    } catch {}
+  } else {
+    otherServices = fallbackServices.filter((s) => s.slug !== slug).slice(0, 5);
+  }
 
   return (
     <div className="relative pt-32 pb-16 min-h-screen">
@@ -49,11 +59,11 @@ export default async function HizmetDetayPage({ params }: { params: Promise<{ sl
 
         <div className="grid md:grid-cols-3 gap-10 mb-20">
           <div className="md:col-span-2">
-            <h1 className="text-4xl md:text-5xl font-headline font-bold text-foreground mb-6">{service.title}</h1>
+            <h1 className="text-4xl md:text-5xl font-headline font-bold text-foreground mb-6">{title}</h1>
             <div className="prose prose-lg max-w-none text-muted leading-relaxed space-y-4">
-              <p className="text-xl text-foreground/80 font-medium">{service.description}</p>
-              {service.longDescription && <p>{service.longDescription}</p>}
-              <p>Zahidem Organizasyon olarak, {service.title.toLowerCase()} hizmetimizde kaliteyi, müşteri memnuniyetini ve hayal ettiğiniz organizasyonu gerçeğe dönüştürmeyi ön planda tutuyoruz.</p>
+              <p className="text-xl text-foreground/80 font-medium">{description}</p>
+              {longDescription && <p>{longDescription}</p>}
+              <p>Zahidem Organizasyon olarak, {title.toLowerCase()} hizmetimizde kaliteyi, müşteri memnuniyetini ve hayal ettiğiniz organizasyonu gerçeğe dönüştürmeyi ön planda tutuyoruz.</p>
             </div>
           </div>
 
@@ -87,7 +97,7 @@ export default async function HizmetDetayPage({ params }: { params: Promise<{ sl
             <h2 className="text-2xl font-headline font-bold text-foreground mb-8">Diğer Hizmetlerimiz</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
               {otherServices.map((s) => (
-                <Link key={s.id} href={`/hizmetler/${s.slug}`}>
+                <Link key={s.slug} href={`/hizmetler/${s.slug}`}>
                   <GlassCard className="p-4 text-center h-full">
                     <div className="text-sm font-medium">{s.title}</div>
                     <div className="text-xs text-muted mt-1">{s.description.slice(0, 40)}...</div>

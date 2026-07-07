@@ -3,14 +3,24 @@ import Link from "next/link";
 import { FluidShapes } from "@/components/ui/FluidShapes";
 import { ServiceGrid } from "@/components/ui/ServiceGrid";
 import { GlassCard } from "@/components/ui/GlassCard";
-import { siteConfig, districts } from "@/lib/data";
+import { siteConfig, districts, services as fallbackServices } from "@/lib/data";
+import { prisma } from "@/lib/prisma";
 
-export default function HomePage() {
+export default async function HomePage() {
+  let services: Array<{ title: string; slug: string; description: string; icon: string; image?: string | null }> = [];
+  try {
+    const dbServices = await prisma.service.findMany({ where: { isActive: true }, orderBy: { order: "asc" } });
+    services = dbServices.map((s) => ({ title: s.title, slug: s.slug, description: s.description, icon: s.icon, image: s.image || undefined }));
+  } catch {}
+  if (services.length === 0) {
+    services = fallbackServices;
+  }
+
   return (
     <>
       <HeroSection />
       <StatsSection />
-      <ServiceGrid />
+      <ServiceGrid services={services} />
       <AboutPreview />
       <FaqSection />
       <ContactBanner />

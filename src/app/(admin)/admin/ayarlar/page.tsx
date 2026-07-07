@@ -11,6 +11,7 @@ interface Settings {
   phone: string;
   email: string;
   address: string;
+  mapsUrl: string;
   whatsapp: string;
   instagram: string;
   facebook: string;
@@ -28,6 +29,7 @@ const defaultSettings: Settings = {
   phone: "+90 531 663 29 30",
   email: "info@zahidemorganizasyon.com",
   address: "İstanbul, Anadolu ve Avrupa Yakası",
+  mapsUrl: "",
   whatsapp: "905316632930",
   instagram: "https://www.instagram.com/zahidemorganizasyon",
   facebook: "https://www.facebook.com/zahidemorganizasyonn",
@@ -143,6 +145,11 @@ export default function AdminAyarlarPage() {
             <div>
               <label className="block text-sm font-medium text-foreground/80 mb-1">Adres</label>
               <input type="text" value={settings.address} onChange={(e) => update("address", e.target.value)} className="w-full px-4 py-2.5 rounded-xl bg-white/50 border border-white/30 focus:border-primary focus:outline-none text-sm" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-foreground/80 mb-1">Google Maps URL / Embed Kodu</label>
+              <input type="text" value={settings.mapsUrl} onChange={(e) => update("mapsUrl", e.target.value)} className="w-full px-4 py-2.5 rounded-xl bg-white/50 border border-white/30 focus:border-primary focus:outline-none text-sm" placeholder="https://maps.app.goo.gl/xxx veya iframe src URL" />
+              <p className="text-xs text-muted mt-1">Google Maps embed URL'si (iframe src). İletişim sayfasında gösterilir.</p>
             </div>
           </div>
         )}

@@ -11,7 +11,7 @@ export function GlassNavbar({ logo, siteName = "Zahidem Organizasyon", phone = "
   const nameParts = siteName.split(" ");
   return (
     <nav className="fixed top-0 left-0 right-0 z-50">
-      <div className="glass mx-4 mt-4 rounded-2xl px-6 py-3 max-w-7xl lg:mx-auto">
+      <div className="bg-background/95 backdrop-blur-md mx-4 mt-4 rounded-2xl px-6 py-3 max-w-7xl lg:mx-auto shadow-lg shadow-black/5 border border-white/20">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             {logo ? (

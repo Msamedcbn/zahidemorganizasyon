@@ -11,10 +11,20 @@
   --glass-border: rgba(255, 255, 255, 0.2);
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
   color-scheme: light only;
+  forced-color-adjust: none;
 }
 
 html {
   color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: light only;
+  }
+  html {
+    color-scheme: light;
+  }
 }
 
 @theme inline {

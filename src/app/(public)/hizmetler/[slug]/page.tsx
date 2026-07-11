@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma";
 import { siteConfig, districts, services as fallbackServices } from "@/lib/data";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { FluidShapes } from "@/components/ui/FluidShapes";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
+import { ServiceSchema } from "@/components/seo/SchemaJsonLd";
 
 export async function generateStaticParams() {
   try {
@@ -50,7 +52,13 @@ export default async function HizmetDetayPage({ params }: { params: Promise<{ sl
   return (
     <div className="relative pt-32 pb-16 min-h-screen">
       <FluidShapes />
+      <ServiceSchema title={title} description={description} slug={slug} />
       <div className="relative max-w-7xl mx-auto px-6">
+        <Breadcrumbs items={[
+          { name: "Ana Sayfa", url: "/" },
+          { name: "Hizmetlerimiz", url: "/hizmetler" },
+          { name: title, url: `/hizmetler/${slug}` },
+        ]} />
         <div className="mb-8">
           <Link href="/hizmetler" className="text-sm text-muted hover:text-primary transition-colors flex items-center gap-1">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5" /><path d="M12 19l-7-7 7-7" /></svg>

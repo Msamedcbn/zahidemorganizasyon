@@ -4,6 +4,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { FluidShapes } from "@/components/ui/FluidShapes";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 
 export async function generateStaticParams() {
   try {
@@ -20,8 +21,22 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     const post = await prisma.blogPost.findUnique({ where: { slug } });
     if (!post) return { title: "Sayfa Bulunamadı" };
     return {
-      title: post.title,
-      description: post.excerpt || post.title,
+      title: post.seoTitle || post.title,
+      description: post.seoDescription || post.excerpt || post.title,
+      alternates: { canonical: `https://zahidemorganizasyon.com/blog/${slug}` },
+      openGraph: {
+        title: post.seoTitle || post.title,
+        description: post.excerpt || post.title,
+        type: "article",
+        publishedTime: post.createdAt.toISOString(),
+        ...(post.image && { images: [{ url: post.image, width: 1200, height: 630 }] }),
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: post.seoTitle || post.title,
+        description: post.excerpt || post.title,
+        ...(post.image && { images: [post.image] }),
+      },
     };
   } catch {
     return { title: "Blog" };
@@ -52,9 +67,14 @@ export default async function BlogDetayPage({ params }: { params: Promise<{ slug
   }
 
   return (
-    <div className="relative pt-32 pb-16 min-h-screen">
+      <div className="relative pt-32 pb-16 min-h-screen">
       <FluidShapes />
       <article className="relative max-w-4xl mx-auto px-6">
+        <Breadcrumbs items={[
+          { name: "Ana Sayfa", url: "/" },
+          { name: "Blog", url: "/blog" },
+          { name: post.title, url: `/blog/${post.slug}` },
+        ]} />
         <div className="mb-8">
           <Link href="/blog" className="text-sm text-muted hover:text-primary transition-colors flex items-center gap-1">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

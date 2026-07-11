@@ -1,30 +1,42 @@
 import type { MetadataRoute } from "next";
+import { prisma } from "@/lib/prisma";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://zahidemorganizasyon.com";
+  const now = new Date();
 
   const staticPages = [
-    { url: baseUrl, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 1.0 },
-    { url: `${baseUrl}/hakkimizda`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.8 },
-    { url: `${baseUrl}/hizmetler`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.9 },
-    { url: `${baseUrl}/blog`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.7 },
-    { url: `${baseUrl}/galeri`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.6 },
-    { url: `${baseUrl}/iletisim`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.8 },
+    { url: baseUrl, lastModified: now, changeFrequency: "weekly" as const, priority: 1.0 },
+    { url: `${baseUrl}/hakkimizda`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.8 },
+    { url: `${baseUrl}/hizmetler`, lastModified: now, changeFrequency: "weekly" as const, priority: 0.9 },
+    { url: `${baseUrl}/blog`, lastModified: now, changeFrequency: "weekly" as const, priority: 0.7 },
+    { url: `${baseUrl}/galeri`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.6 },
+    { url: `${baseUrl}/iletisim`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.8 },
   ];
 
-  const serviceSlugs = [
-    "soz-organizasyonu", "nisan-organizasyonu", "dugun-organizasyonu",
-    "dogum-gunu-organizasyonu", "sunnet-organizasyonu", "acilis-organizasyonu",
-    "kokteyl-organizasyonu", "balon-susleme", "sandalye-kiralama",
-    "asker-ugurlama", "mezuniyet-toreni",
-  ];
+  let serviceSlugs: string[] = [];
+  let blogSlugs: string[] = [];
+
+  try {
+    const services = await prisma.service.findMany({ where: { isActive: true }, select: { slug: true } });
+    serviceSlugs = services.map((s) => s.slug);
+    const posts = await prisma.blogPost.findMany({ where: { published: true }, select: { slug: true } });
+    blogSlugs = posts.map((p) => p.slug);
+  } catch {}
 
   const servicePages = serviceSlugs.map((slug) => ({
     url: `${baseUrl}/hizmetler/${slug}`,
-    lastModified: new Date(),
+    lastModified: now,
     changeFrequency: "monthly" as const,
     priority: 0.7,
   }));
 
-  return [...staticPages, ...servicePages];
+  const blogPages = blogSlugs.map((slug) => ({
+    url: `${baseUrl}/blog/${slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  }));
+
+  return [...staticPages, ...servicePages, ...blogPages];
 }

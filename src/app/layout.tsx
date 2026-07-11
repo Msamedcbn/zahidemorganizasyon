@@ -22,12 +22,33 @@ async function getSettings() {
 
 export async function generateMetadata(): Promise<Metadata> {
   const s = await getSettings();
+  const siteName = s.siteName || "Zahidem Organizasyon";
+  const description = s.seoDescription || "İstanbul'un her noktasında profesyonel organizasyon hizmeti. Doğum günü, mezuniyet, söz & nişan, sevgililer günü, açılış, masa sandalye kiralama, kokteyl, yapay ağaç çiçek dekoru, piknik, sünnet, balon aranjmanı.";
+  const defaultTitle = s.seoTitle || `${siteName} | Söz, Nişan, Düğün, Doğum Günü Organizasyonu`;
+  const logo = s.logo || "";
+
   return {
-    title: { default: s.seoTitle || "Zahidem Organizasyon | Söz, Nişan, Düğün, Doğum Günü Organizasyonu", template: "%s | Zahidem Organizasyon" },
-    description: s.seoDescription || "İstanbul'un her noktasında profesyonel organizasyon hizmeti. Söz, nişan, düğün, doğum günü, sünnet, açılış ve daha fazlası.",
+    title: { default: defaultTitle, template: `%s | ${siteName}` },
+    description,
     metadataBase: new URL("https://zahidemorganizasyon.com"),
     alternates: { canonical: "/" },
-    openGraph: { type: "website", locale: "tr_TR", siteName: s.siteName || "Zahidem Organizasyon" },
+    robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
+    openGraph: {
+      type: "website",
+      locale: "tr_TR",
+      siteName,
+      title: defaultTitle,
+      description,
+      url: "https://zahidemorganizasyon.com",
+      ...(logo && { images: [{ url: logo, width: 512, height: 512, alt: siteName }] }),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: defaultTitle,
+      description,
+      ...(logo && { images: [logo] }),
+    },
+    verification: { google: "google25ee5ff439ffbaa2" },
   };
 }
 

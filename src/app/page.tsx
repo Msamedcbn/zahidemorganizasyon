@@ -1,10 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { FluidShapes } from "@/components/ui/FluidShapes";
 import { ServiceGrid } from "@/components/ui/ServiceGrid";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { siteConfig, districts, services as fallbackServices } from "@/lib/data";
 import { prisma } from "@/lib/prisma";
+import { LocalBusinessSchema, FaqSchema } from "@/components/seo/SchemaJsonLd";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    alternates: { canonical: "https://zahidemorganizasyon.com" },
+  };
+}
 
 export default async function HomePage() {
   let services: Array<{ title: string; slug: string; description: string; icon: string; image?: string | null }> = [];
@@ -27,6 +35,13 @@ export default async function HomePage() {
 
   return (
     <>
+      <LocalBusinessSchema />
+      <FaqSchema questions={[
+        { question: "Hangi bölgelere hizmet veriyorsunuz?", answer: "İstanbul'un Anadolu ve Avrupa yakası olmak üzere 38 ilçede hizmet vermekteyiz." },
+        { question: "Organizasyon için ne kadar önceden rezervasyon yapmalıyım?", answer: "Yoğun dönemlere göre değişmekle birlikte, en az 2-3 hafta öncesinden iletişime geçmenizi öneririz." },
+        { question: "Fiyatlandırmanız nasıl?", answer: "Her organizasyon özel olduğu için fiyatlarımız konsept, mekan ve hizmet kapsamına göre değişmektedir. Ücretsiz keşif ve teklif için bizi arayabilirsiniz." },
+        { question: "Hangi hizmetleri sunuyorsunuz?", answer: "Doğum günü, mezuniyet, söz & nişan, sevgililer günü, açılış, masa sandalye kiralama, kokteyl, yapay ağaç dekoru, yapay çiçek dekoru, piknik, sünnet ve balon aranjmanı hizmetlerimiz bulunmaktadır." },
+      ]} />
       <HeroSection />
       <StatsSection />
       <ServiceGrid services={services} />

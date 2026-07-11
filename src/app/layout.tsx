@@ -61,7 +61,14 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   return (
     <html lang="tr" className={`${playfair.variable} ${inter.variable} h-full antialiased`}>
       <head>
-        {s.favicon && <link rel="icon" href={s.favicon} />}
+        {s.favicon && (
+          <>
+            <link rel="icon" href={s.favicon} />
+            <link rel="apple-touch-icon" href={s.logo || s.favicon} />
+            <meta name="apple-mobile-web-app-title" content={s.siteName || "Zahidem"} />
+            <meta name="theme-color" content="#D4AF37" />
+          </>
+        )}
         {s.googleAnalytics && (
           <script async src={`https://www.googletagmanager.com/gtag/js?id=${s.googleAnalytics}`} />
         )}

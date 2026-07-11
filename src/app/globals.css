@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --primary: #D4AF37;
   --primary-light: #E8C96A;
@@ -15,15 +17,20 @@
 }
 
 html {
-  color-scheme: light;
+  color-scheme: light only;
+  -webkit-color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: light only;
-  }
-  html {
-    color-scheme: light;
+  :root, html, body {
+    color-scheme: light only !important;
+    -webkit-color-scheme: light !important;
+    --background: #FFFFFF !important;
+    --foreground: #1A1A1A !important;
+    --color-background: #FFFFFF !important;
+    --color-foreground: #1A1A1A !important;
+    background-color: #FFFFFF !important;
+    color: #1A1A1A !important;
   }
 }
 

@@ -1,22 +1,27 @@
 @import "tailwindcss";
 
 :root {
-  --primary: #C4957A;
-  --primary-light: #D4B0A0;
-  --primary-dark: #A67A5B;
-  --background: #FAF8F5;
+  --primary: #D4AF37;
+  --primary-light: #E8C96A;
+  --primary-dark: #B8960F;
+  --background: #FFFFFF;
   --foreground: #1A1A1A;
   --muted: #8C8C8C;
   --glass-bg: rgba(255, 255, 255, 0.15);
   --glass-border: rgba(255, 255, 255, 0.2);
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+  color-scheme: light only;
+}
+
+html {
+  color-scheme: light;
 }
 
 @theme inline {
-  --color-primary: #C4957A;
-  --color-primary-light: #D4B0A0;
-  --color-primary-dark: #A67A5B;
-  --color-background: #FAF8F5;
+  --color-primary: #D4AF37;
+  --color-primary-light: #E8C96A;
+  --color-primary-dark: #B8960F;
+  --color-background: #FFFFFF;
   --color-foreground: #1A1A1A;
   --color-muted: #8C8C8C;
   --font-headline: "Playfair Display", serif;
@@ -70,7 +75,7 @@
   }
 
   .text-gradient {
-    background: linear-gradient(135deg, #C4957A 0%, #D4B0A0 50%, #C4957A 100%);
+    background: linear-gradient(135deg, #D4AF37 0%, #E8C96A 50%, #D4AF37 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

@@ -12,7 +12,7 @@ interface Category {
   color: string;
 }
 
-const emptyCategory: Omit<Category, "id"> = { name: "", slug: "", color: "#C4957A" };
+const emptyCategory: Omit<Category, "id"> = { name: "", slug: "", color: "#D4AF37" };
 
 export default function AdminKategorilerPage() {
   const [categories, setCategories] = useState<Category[]>([]);

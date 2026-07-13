@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { FluidShapes } from "@/components/ui/FluidShapes";
 import { GlassCard } from "@/components/ui/GlassCard";
@@ -49,9 +50,7 @@ export default async function BlogPage() {
                 <GlassCard className={`h-full ${i === 0 ? "p-8" : "p-6"}`}>
                   {post.image && (
                     <div className="relative w-full h-48 rounded-lg overflow-hidden mb-4 bg-primary/5">
-                      <div className="absolute inset-0 flex items-center justify-center text-primary/30 text-sm">
-                        Görsel
-                      </div>
+                      <Image src={post.image} alt={post.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
                     </div>
                   )}
                   {post.category && (

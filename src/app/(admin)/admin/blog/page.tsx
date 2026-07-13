@@ -41,6 +41,17 @@ const emptyPost: Omit<Post, "id" | "createdAt"> = {
   seoDescription: "",
 };
 
+function wordCount(html: string): number {
+  const text = html.replace(/<[^>]*>/g, " ").trim();
+  return text ? text.split(/\s+/).length : 0;
+}
+
+function counterColor(len: number, min: number, max: number): string {
+  if (len === 0) return "text-muted";
+  if (len < min || len > max) return "text-red-400";
+  return "text-green-500";
+}
+
 function turkishSlug(text: string): string {
   return text.toLowerCase().replace(/ı/g, "i").replace(/ğ/g, "g").replace(/ü/g, "u").replace(/ş/g, "s").replace(/ö/g, "o").replace(/ç/g, "c").replace(/İ/g, "i").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
@@ -190,6 +201,7 @@ export default function AdminBlogPage() {
             <div>
               <label className="block text-sm font-medium text-foreground/80 mb-1">Slug</label>
               <input type="text" value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value })} className="w-full px-4 py-2.5 rounded-xl bg-white/50 border border-white/30 focus:border-primary focus:outline-none text-sm" />
+              {form.slug && <p className="text-xs text-muted mt-1 truncate">zahidemorganizasyon.com/blog/{form.slug}</p>}
             </div>
           </div>
 
@@ -213,7 +225,12 @@ export default function AdminBlogPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-foreground/80 mb-1">İçerik *</label>
+            <div className="flex items-center justify-between mb-1">
+              <label className="block text-sm font-medium text-foreground/80">İçerik *</label>
+              <span className={`text-xs ${wordCount(form.content) < 300 ? "text-amber-500" : "text-green-500"}`}>
+                {wordCount(form.content)} kelime {wordCount(form.content) < 300 && "(SEO için en az 300 önerilir)"}
+              </span>
+            </div>
             <AdminEditor content={form.content} onChange={(html) => setForm({ ...form, content: html })} placeholder="Blog yazısının içeriğini yazın..." />
           </div>
 
@@ -223,11 +240,17 @@ export default function AdminBlogPage() {
             <h3 className="text-sm font-medium text-foreground/80 mb-3">SEO Ayarları</h3>
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs text-muted mb-1">SEO Başlık</label>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-xs text-muted">SEO Başlık</label>
+                  <span className={`text-xs ${counterColor((form.seoTitle || "").length, 30, 60)}`}>{(form.seoTitle || "").length}/60</span>
+                </div>
                 <input type="text" value={form.seoTitle || ""} onChange={(e) => setForm({ ...form, seoTitle: e.target.value })} className="w-full px-4 py-2 rounded-xl bg-white/50 border border-white/30 focus:border-primary focus:outline-none text-sm" placeholder="Arama motoru başlığı" />
               </div>
               <div>
-                <label className="block text-xs text-muted mb-1">SEO Açıklama</label>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-xs text-muted">SEO Açıklama</label>
+                  <span className={`text-xs ${counterColor((form.seoDescription || "").length, 70, 155)}`}>{(form.seoDescription || "").length}/155</span>
+                </div>
                 <input type="text" value={form.seoDescription || ""} onChange={(e) => setForm({ ...form, seoDescription: e.target.value })} className="w-full px-4 py-2 rounded-xl bg-white/50 border border-white/30 focus:border-primary focus:outline-none text-sm" placeholder="Meta açıklama" />
               </div>
             </div>

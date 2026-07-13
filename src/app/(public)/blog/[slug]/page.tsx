@@ -110,13 +110,10 @@ export default async function BlogDetayPage({ params }: { params: Promise<{ slug
           </div>
         </header>
 
-        <div className="prose prose-lg max-w-none text-muted leading-relaxed mb-16">
-          {post.content.split("\n").filter((line) => line.trim() !== "").map((line, i) => {
-            if (line.startsWith("### ")) return <h3 key={i} className="text-foreground font-headline font-bold">{line.slice(4)}</h3>;
-            if (line.startsWith("## ")) return <h2 key={i} className="text-foreground font-headline font-bold">{line.slice(3)}</h2>;
-            return <p key={i}>{line}</p>;
-          })}
-        </div>
+        <div
+          className="prose prose-lg max-w-none text-muted leading-relaxed mb-16 [&_h2]:text-foreground [&_h2]:font-headline [&_h2]:font-bold [&_h3]:text-foreground [&_h3]:font-headline [&_h3]:font-bold [&_a]:text-primary [&_img]:rounded-xl"
+          dangerouslySetInnerHTML={{ __html: post.content }}
+        />
 
         {recentPosts.length > 0 && (
           <div>

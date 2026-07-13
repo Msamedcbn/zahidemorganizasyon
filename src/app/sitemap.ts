@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
-import { priorityDistricts } from "@/lib/data";
+import { districts } from "@/lib/data";
 import { slugifyTr } from "@/lib/slugify";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -41,7 +41,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   const districtServicePages = serviceSlugs.flatMap((slug) =>
-    priorityDistricts.map((district) => ({
+    districts.map((district) => ({
       url: `${baseUrl}/hizmetler/${slug}/${slugifyTr(district)}`,
       lastModified: now,
       changeFrequency: "monthly" as const,

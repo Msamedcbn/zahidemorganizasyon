@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { prisma } from "@/lib/prisma";
-import { siteConfig, districts, services as fallbackServices } from "@/lib/data";
+import { siteConfig, priorityDistricts, services as fallbackServices } from "@/lib/data";
 import { slugifyTr } from "@/lib/slugify";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { FluidShapes } from "@/components/ui/FluidShapes";
@@ -112,7 +112,7 @@ export default async function HizmetDetayPage({ params }: { params: Promise<{ sl
         <div className="mb-16">
           <h2 className="text-2xl font-headline font-bold text-foreground mb-8">Hizmet Bölgelerimiz</h2>
           <div className="flex flex-wrap gap-2">
-            {districts.map((d) => (
+            {priorityDistricts.map((d) => (
               <Link key={d} href={`/hizmetler/${slug}/${slugifyTr(d)}`} className="glass-card !px-3 !py-1.5 text-xs text-muted hover:text-primary transition-colors">
                 {d}
               </Link>

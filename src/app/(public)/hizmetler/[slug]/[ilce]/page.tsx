@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import { siteConfig, districts, priorityDistricts, services as fallbackServices } from "@/lib/data";
+import { siteConfig, districts, services as fallbackServices } from "@/lib/data";
 import { slugifyTr } from "@/lib/slugify";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { FluidShapes } from "@/components/ui/FluidShapes";
@@ -10,6 +10,7 @@ import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { ServiceSchema } from "@/components/seo/SchemaJsonLd";
 
 export const revalidate = 604800;
+export const dynamicParams = false;
 
 const districtBySlug = new Map(districts.map((d) => [slugifyTr(d), d]));
 
@@ -28,7 +29,7 @@ export async function generateStaticParams() {
   } catch {}
 
   for (const slug of serviceSlugs) {
-    for (const district of priorityDistricts) {
+    for (const district of districts) {
       params.push({ slug, ilce: slugifyTr(district) });
     }
   }

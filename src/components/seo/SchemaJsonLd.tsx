@@ -83,7 +83,52 @@ export function FaqSchema({ questions }: { questions: { question: string; answer
   );
 }
 
-export function ServiceSchema({ title, description, slug }: { title: string; description: string; slug: string }) {
+export function ArticleSchema({
+  title,
+  description,
+  slug,
+  image,
+  author,
+  publishedTime,
+  modifiedTime,
+}: {
+  title: string;
+  description: string;
+  slug: string;
+  image?: string | null;
+  author: string;
+  publishedTime: string;
+  modifiedTime: string;
+}) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: title,
+    description,
+    ...(image && { image: [image] }),
+    author: { "@type": "Organization", name: author },
+    publisher: {
+      "@type": "Organization",
+      name: "Zahidem Organizasyon",
+      logo: { "@type": "ImageObject", url: "https://zahidemorganizasyon.com/favicon.ico" },
+    },
+    datePublished: publishedTime,
+    dateModified: modifiedTime,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://zahidemorganizasyon.com/blog/${slug}`,
+    },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
+
+export function ServiceSchema({ title, description, slug, district }: { title: string; description: string; slug: string; district?: string }) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -95,10 +140,9 @@ export function ServiceSchema({ title, description, slug }: { title: string; des
       url: "https://zahidemorganizasyon.com",
     },
     url: `https://zahidemorganizasyon.com/hizmetler/${slug}`,
-    areaServed: {
-      "@type": "City",
-      name: "İstanbul",
-    },
+    areaServed: district
+      ? { "@type": "Place", name: `${district}, İstanbul` }
+      : { "@type": "City", name: "İstanbul" },
   };
 
   return (

@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { FluidShapes } from "@/components/ui/FluidShapes";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
+import { ArticleSchema } from "@/components/seo/SchemaJsonLd";
 
 export async function generateStaticParams() {
   try {
@@ -69,6 +70,15 @@ export default async function BlogDetayPage({ params }: { params: Promise<{ slug
   return (
       <div className="relative pt-32 pb-16 min-h-screen">
       <FluidShapes />
+      <ArticleSchema
+        title={post.seoTitle || post.title}
+        description={post.seoDescription || post.excerpt || post.title}
+        slug={post.slug}
+        image={post.image}
+        author={post.author}
+        publishedTime={post.createdAt.toISOString()}
+        modifiedTime={post.updatedAt.toISOString()}
+      />
       <article className="relative max-w-4xl mx-auto px-6">
         <Breadcrumbs items={[
           { name: "Ana Sayfa", url: "/" },
@@ -101,9 +111,11 @@ export default async function BlogDetayPage({ params }: { params: Promise<{ slug
         </header>
 
         <div className="prose prose-lg max-w-none text-muted leading-relaxed mb-16">
-          {post.content.split("\n").map((paragraph, i) => (
-            <p key={i}>{paragraph}</p>
-          ))}
+          {post.content.split("\n").filter((line) => line.trim() !== "").map((line, i) => {
+            if (line.startsWith("### ")) return <h3 key={i} className="text-foreground font-headline font-bold">{line.slice(4)}</h3>;
+            if (line.startsWith("## ")) return <h2 key={i} className="text-foreground font-headline font-bold">{line.slice(3)}</h2>;
+            return <p key={i}>{line}</p>;
+          })}
         </div>
 
         {recentPosts.length > 0 && (

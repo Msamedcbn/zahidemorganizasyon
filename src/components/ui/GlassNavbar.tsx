@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 interface GlassNavbarProps {
   logo?: string;
@@ -15,7 +16,7 @@ export function GlassNavbar({ logo, siteName = "Zahidem Organizasyon", phone = "
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             {logo ? (
-              <img src={logo} alt={siteName} className="h-8 w-auto" />
+              <Image src={logo} alt={siteName} width={160} height={32} className="h-8 w-auto" priority />
             ) : (
               <>
                 <span className="text-xl font-headline font-bold text-primary">{nameParts[0]}</span>

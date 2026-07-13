@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 interface FooterProps {
   logo?: string;
@@ -21,7 +22,7 @@ export function Footer({ logo, siteName = "Zahidem Organizasyon", phone = "+90 5
       <div className="relative max-w-7xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           <div>
-            {logo ? <img src={logo} alt={siteName} className="h-10 w-auto mb-4" /> : <h3 className="text-xl font-headline font-bold text-primary mb-4">{siteName}</h3>}
+            {logo ? <Image src={logo} alt={siteName} width={160} height={40} className="h-10 w-auto mb-4" /> : <h3 className="text-xl font-headline font-bold text-primary mb-4">{siteName}</h3>}
             <p className="text-white/70 text-sm leading-relaxed">En özel anlarınızı en özel anılara dönüştürüyoruz. İstanbul&apos;un her noktasında profesyonel organizasyon hizmeti.</p>
           </div>
 

@@ -120,3 +120,9 @@ export const districts = [
   "Sultanbeyli", "Sultangazi", "Şile", "Şişli", "Tuzla",
   "Ümraniye", "Üsküdar", "Zeytinburnu",
 ];
+
+// En çok arama hacmi beklenen ilçeler — build sırasında statik üretilir, geri kalanı ISR ile ilk ziyarette üretilip cache'lenir
+export const priorityDistricts = [
+  "Kadıköy", "Üsküdar", "Maltepe", "Pendik", "Kartal", "Ataşehir",
+  "Ümraniye", "Bahçelievler", "Bağcılar", "Esenyurt", "Beylikdüzü", "Sultanbeyli",
+];

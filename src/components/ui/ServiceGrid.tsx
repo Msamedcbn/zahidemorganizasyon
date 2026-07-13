@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { services } from "@/lib/data";
 import { GlassCard } from "./GlassCard";
 
@@ -109,10 +110,13 @@ export function ServiceCard({
       <GlassCard className={`h-full p-0 flex flex-col relative overflow-hidden ${isLarge ? "" : ""}`}>
         {showImage && image && (
           <div className="relative w-full h-full min-h-[200px] md:min-h-[280px] overflow-hidden">
-            <img
+            <Image
               src={image}
-              alt=""
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              alt={title}
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
+              priority={index === 0}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
@@ -150,10 +154,12 @@ export function ServiceCard({
         {isWide && image && (
           <>
             <div className="absolute inset-0 overflow-hidden">
-              <img
+              <Image
                 src={image}
-                alt=""
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-30"
+                alt={title}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover group-hover:scale-110 transition-transform duration-500 opacity-30"
               />
               <div className="absolute inset-0 bg-gradient-to-br from-background/90 via-background/70 to-primary/20" />
             </div>

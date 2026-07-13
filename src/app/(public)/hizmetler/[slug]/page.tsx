@@ -1,8 +1,10 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { siteConfig, districts, services as fallbackServices } from "@/lib/data";
+import { slugifyTr } from "@/lib/slugify";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { FluidShapes } from "@/components/ui/FluidShapes";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
@@ -72,7 +74,7 @@ export default async function HizmetDetayPage({ params }: { params: Promise<{ sl
             <div className="prose prose-lg max-w-none text-muted leading-relaxed space-y-4">
               <p className="text-xl text-foreground/80 font-medium">{description}</p>
               {longDescription && <p>{longDescription}</p>}
-              <p>Zahidem Organizasyon olarak, {title.toLowerCase()} hizmetimizde kaliteyi, müşteri memnuniyetini ve hayal ettiğiniz organizasyonu gerçeğe dönüştürmeyi ön planda tutuyoruz.</p>
+              <p>Zahidem Organizasyon olarak, {title.toLocaleLowerCase("tr")} hizmetimizde kaliteyi, müşteri memnuniyetini ve hayal ettiğiniz organizasyonu gerçeğe dönüştürmeyi ön planda tutuyoruz.</p>
             </div>
           </div>
 
@@ -99,8 +101,8 @@ export default async function HizmetDetayPage({ params }: { params: Promise<{ sl
             <h2 className="text-2xl font-headline font-bold text-foreground mb-8">{title} Galerisi</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {gallery.map((url, i) => (
-                <a key={i} href={url} target="_blank" rel="noopener noreferrer" className="group aspect-[4/3] rounded-xl overflow-hidden glass-card !p-0">
-                  <img src={url} alt={`${title} ${i + 1}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                <a key={i} href={url} target="_blank" rel="noopener noreferrer" className="group relative aspect-[4/3] rounded-xl overflow-hidden glass-card !p-0">
+                  <Image src={url} alt={`${title} ${i + 1}`} fill sizes="(max-width: 768px) 50vw, 25vw" className="object-cover group-hover:scale-110 transition-transform duration-500" />
                 </a>
               ))}
             </div>
@@ -110,7 +112,11 @@ export default async function HizmetDetayPage({ params }: { params: Promise<{ sl
         <div className="mb-16">
           <h2 className="text-2xl font-headline font-bold text-foreground mb-8">Hizmet Bölgelerimiz</h2>
           <div className="flex flex-wrap gap-2">
-            {districts.map((d) => <span key={d} className="glass-card !px-3 !py-1.5 text-xs text-muted">{d}</span>)}
+            {districts.map((d) => (
+              <Link key={d} href={`/hizmetler/${slug}/${slugifyTr(d)}`} className="glass-card !px-3 !py-1.5 text-xs text-muted hover:text-primary transition-colors">
+                {d}
+              </Link>
+            ))}
           </div>
         </div>
 

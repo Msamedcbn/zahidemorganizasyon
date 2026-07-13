@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 
@@ -27,6 +28,7 @@ export async function POST(req: NextRequest) {
       isActive: data.isActive !== false,
     },
   });
+  revalidatePath("/", "layout");
   return NextResponse.json(service);
 }
 
@@ -48,6 +50,7 @@ export async function PUT(req: NextRequest) {
       isActive: data.isActive,
     },
   });
+  revalidatePath("/", "layout");
   return NextResponse.json(service);
 }
 
@@ -57,5 +60,6 @@ export async function DELETE(req: NextRequest) {
 
   const { id } = await req.json();
   await prisma.service.delete({ where: { id } });
+  revalidatePath("/", "layout");
   return NextResponse.json({ success: true });
 }

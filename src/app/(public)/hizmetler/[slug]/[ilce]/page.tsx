@@ -9,7 +9,7 @@ import { FluidShapes } from "@/components/ui/FluidShapes";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { ServiceSchema } from "@/components/seo/SchemaJsonLd";
 
-export const revalidate = 3600;
+export const revalidate = 604800;
 
 const districtBySlug = new Map(districts.map((d) => [slugifyTr(d), d]));
 

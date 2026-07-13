@@ -2,7 +2,7 @@ import { GlassNavbar } from "@/components/ui/GlassNavbar";
 import { Footer } from "@/components/ui/Footer";
 import { prisma } from "@/lib/prisma";
 
-export const revalidate = 300;
+export const revalidate = 86400;
 
 async function getSettings() {
   try {

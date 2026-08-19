@@ -1,8 +1,8 @@
 import { Metadata } from "next";
-import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { FluidShapes } from "@/components/ui/FluidShapes";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { GaleriGrid } from "@/components/ui/GaleriGrid";
 
 export const metadata: Metadata = {
   title: "Galeri",
@@ -48,28 +48,7 @@ export default async function GaleriPage() {
             </a>
           </GlassCard>
         ) : (
-          <div className="columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4">
-            {items.map((item) => (
-              <div key={item.id} className="break-inside-avoid">
-                <GlassCard className="overflow-hidden p-0">
-                  <div className="relative aspect-[4/3] bg-primary/5">
-                    <Image
-                      src={item.image}
-                      alt={item.caption || "Zahidem Organizasyon etkinlik fotoğrafı"}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="object-cover"
-                    />
-                  </div>
-                  {item.caption && (
-                    <div className="p-3">
-                      <p className="text-xs text-muted">{item.caption}</p>
-                    </div>
-                  )}
-                </GlassCard>
-              </div>
-            ))}
-          </div>
+          <GaleriGrid items={items} />
         )}
       </div>
     </div>

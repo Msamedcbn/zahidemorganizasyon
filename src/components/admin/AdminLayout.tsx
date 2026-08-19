@@ -21,7 +21,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
   }, [pathname]);
 
   return (
-    <div className="min-h-screen flex bg-background">
+    <div className="admin-shell min-h-screen flex bg-background">
       <AdminSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} unreadCount={unreadCount} />
       <div className="flex-1 lg:ml-64 p-4 sm:p-8 pt-20 lg:pt-8">
         <button

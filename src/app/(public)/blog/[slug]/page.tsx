@@ -21,9 +21,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   try {
     const post = await prisma.blogPost.findUnique({ where: { slug } });
     if (!post) return { title: "Sayfa Bulunamadı" };
+    const keywords = [post.focusKeyword, ...(post.tags ? post.tags.split(",").map((t) => t.trim()) : [])].filter(Boolean) as string[];
     return {
       title: post.seoTitle || post.title,
       description: post.seoDescription || post.excerpt || post.title,
+      ...(keywords.length > 0 && { keywords }),
       alternates: { canonical: `https://zahidemorganizasyon.com/blog/${slug}` },
       openGraph: {
         title: post.seoTitle || post.title,
@@ -56,6 +58,8 @@ export default async function BlogDetayPage({ params }: { params: Promise<{ slug
 
   if (!post || !post.published) notFound();
 
+  const tagList = post.tags ? post.tags.split(",").map((t) => t.trim()).filter(Boolean) : [];
+
   let recentPosts: Awaited<ReturnType<typeof prisma.blogPost.findMany>> = [];
   try {
     recentPosts = await prisma.blogPost.findMany({
@@ -78,6 +82,7 @@ export default async function BlogDetayPage({ params }: { params: Promise<{ slug
         author={post.author}
         publishedTime={post.createdAt.toISOString()}
         modifiedTime={post.updatedAt.toISOString()}
+        keywords={[post.focusKeyword, ...tagList].filter((k): k is string => Boolean(k))}
       />
       <article className="relative max-w-4xl mx-auto px-6">
         <Breadcrumbs items={[
@@ -114,6 +119,16 @@ export default async function BlogDetayPage({ params }: { params: Promise<{ slug
           className="prose prose-lg max-w-none text-muted leading-relaxed mb-16 [&_h2]:text-foreground [&_h2]:font-headline [&_h2]:font-bold [&_h3]:text-foreground [&_h3]:font-headline [&_h3]:font-bold [&_a]:text-primary [&_img]:rounded-xl"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
+
+        {tagList.length > 0 && (
+          <div className="flex flex-wrap gap-2 mb-16">
+            {tagList.map((tag) => (
+              <span key={tag} className="glass-card !px-3 !py-1 text-xs text-muted">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        )}
 
         {recentPosts.length > 0 && (
           <div>

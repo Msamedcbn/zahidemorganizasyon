@@ -23,7 +23,7 @@ export function Modal({ open, onClose, title, children, size = "lg" }: ModalProp
   return (
     <div className="fixed inset-0 z-[90] flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
-      <div className={`relative w-full ${sizes[size]} max-h-[90vh] overflow-y-auto glass-card !p-0`}>
+      <div className={`relative w-full ${sizes[size]} max-h-[90vh] overflow-y-auto glass-card modal-panel !p-0`}>
         <div className="sticky top-0 z-10 flex items-center justify-between p-5 border-b border-white/10 bg-background/95 backdrop-blur-sm">
           <h2 className="text-lg font-headline font-bold text-foreground">{title}</h2>
           <button onClick={onClose} className="w-8 h-8 rounded-full hover:bg-white/10 flex items-center justify-center text-muted hover:text-foreground transition-colors">
@@ -52,7 +52,7 @@ export function ConfirmDialog({ open, onConfirm, onCancel, title, message, confi
   return (
     <div className="fixed inset-0 z-[95] flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onCancel} />
-      <div className="relative w-full max-w-sm glass-card !p-6">
+      <div className="relative w-full max-w-sm glass-card modal-panel !p-6">
         <h3 className="text-lg font-headline font-bold text-foreground mb-2">{title}</h3>
         <p className="text-sm text-muted mb-6">{message}</p>
         <div className="flex gap-3 justify-end">

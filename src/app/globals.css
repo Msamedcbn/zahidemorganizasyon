@@ -136,3 +136,17 @@ html {
 .animate-float-delayed {
   animation: float 15s ease-in-out infinite 5s;
 }
+
+/* Admin panel: glassmorphism okunabilirliği düşürdüğü için form alanları ve modallar opak. */
+.admin-shell input,
+.admin-shell select,
+.admin-shell textarea {
+  background-color: #FFFFFF;
+  border-color: rgba(26, 26, 26, 0.12);
+}
+
+.admin-shell .modal-panel {
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}

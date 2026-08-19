@@ -44,6 +44,8 @@ model BlogPost {
   published Boolean  @default(false)
   seoTitle  String?
   seoDescription String?
+  focusKeyword String?
+  tags      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   categoryRef Category? @relation(fields: [categoryId], references: [id])

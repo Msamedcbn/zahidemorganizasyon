@@ -6,6 +6,7 @@ import { Modal, ConfirmDialog } from "@/components/admin/Modal";
 import { ImageUpload } from "@/components/admin/ImageUpload";
 import { AdminEditor } from "@/components/admin/AdminEditor";
 import { useToast } from "@/components/admin/Toast";
+import { SeoAnalyzer } from "@/components/admin/SeoAnalyzer";
 
 interface Post {
   id: string;
@@ -19,6 +20,8 @@ interface Post {
   published: boolean;
   seoTitle: string | null;
   seoDescription: string | null;
+  focusKeyword: string | null;
+  tags: string | null;
   createdAt: string;
 }
 
@@ -39,6 +42,8 @@ const emptyPost: Omit<Post, "id" | "createdAt"> = {
   published: false,
   seoTitle: "",
   seoDescription: "",
+  focusKeyword: "",
+  tags: "",
 };
 
 function wordCount(html: string): number {
@@ -83,7 +88,7 @@ export default function AdminBlogPage() {
   const openNew = () => { setEditing(null); setForm(emptyPost); setModalOpen(true); };
   const openEdit = (p: Post) => {
     setEditing(p);
-    setForm({ title: p.title, slug: p.slug, content: p.content, excerpt: p.excerpt || "", category: p.category, image: p.image, author: p.author, published: p.published, seoTitle: p.seoTitle || "", seoDescription: p.seoDescription || "" });
+    setForm({ title: p.title, slug: p.slug, content: p.content, excerpt: p.excerpt || "", category: p.category, image: p.image, author: p.author, published: p.published, seoTitle: p.seoTitle || "", seoDescription: p.seoDescription || "", focusKeyword: p.focusKeyword || "", tags: p.tags || "" });
     setModalOpen(true);
   };
 
@@ -113,7 +118,7 @@ export default function AdminBlogPage() {
 
   const togglePublish = async (p: Post) => {
     try {
-      await fetch("/api/admin/blog", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: p.id, title: p.title, slug: p.slug, content: p.content, excerpt: p.excerpt, category: p.category, image: p.image, author: p.author, published: !p.published, seoTitle: p.seoTitle, seoDescription: p.seoDescription }) });
+      await fetch("/api/admin/blog", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: p.id, title: p.title, slug: p.slug, content: p.content, excerpt: p.excerpt, category: p.category, image: p.image, author: p.author, published: !p.published, seoTitle: p.seoTitle, seoDescription: p.seoDescription, focusKeyword: p.focusKeyword, tags: p.tags }) });
       fetchData(); toast(p.published ? "Taslağa alındı" : "Yayınlandı", "success");
     } catch {}
   };
@@ -169,6 +174,9 @@ export default function AdminBlogPage() {
                     <td className="p-4">
                       <div className="font-medium">{p.title}</div>
                       <div className="text-xs text-muted">{p.slug}</div>
+                      {p.focusKeyword && (
+                        <div className="text-xs text-primary mt-1">{p.focusKeyword}</div>
+                      )}
                     </td>
                     <td className="p-4 hidden md:table-cell text-muted text-xs">{p.category || "—"}</td>
                     <td className="p-4 hidden sm:table-cell text-muted text-xs">{new Date(p.createdAt).toLocaleDateString("tr-TR")}</td>
@@ -241,20 +249,39 @@ export default function AdminBlogPage() {
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <label className="block text-xs text-muted">SEO Başlık</label>
+                  <label className="block text-xs text-muted">SEO Başlık (Meta Title)</label>
                   <span className={`text-xs ${counterColor((form.seoTitle || "").length, 30, 60)}`}>{(form.seoTitle || "").length}/60</span>
                 </div>
                 <input type="text" value={form.seoTitle || ""} onChange={(e) => setForm({ ...form, seoTitle: e.target.value })} className="w-full px-4 py-2 rounded-xl bg-white/50 border border-white/30 focus:border-primary focus:outline-none text-sm" placeholder="Arama motoru başlığı" />
               </div>
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <label className="block text-xs text-muted">SEO Açıklama</label>
+                  <label className="block text-xs text-muted">SEO Açıklama (Meta Description)</label>
                   <span className={`text-xs ${counterColor((form.seoDescription || "").length, 70, 155)}`}>{(form.seoDescription || "").length}/155</span>
                 </div>
                 <input type="text" value={form.seoDescription || ""} onChange={(e) => setForm({ ...form, seoDescription: e.target.value })} className="w-full px-4 py-2 rounded-xl bg-white/50 border border-white/30 focus:border-primary focus:outline-none text-sm" placeholder="Meta açıklama" />
               </div>
+              <div>
+                <label className="block text-xs text-muted mb-1">Focus Keyword (Odak Anahtar Kelime)</label>
+                <input type="text" value={form.focusKeyword || ""} onChange={(e) => setForm({ ...form, focusKeyword: e.target.value })} className="w-full px-4 py-2 rounded-xl bg-white/50 border border-white/30 focus:border-primary focus:outline-none text-sm" placeholder="örn. sultanbeyli düğün organizasyonu" />
+              </div>
+              <div>
+                <label className="block text-xs text-muted mb-1">Etiketler (virgülle ayırın)</label>
+                <input type="text" value={form.tags || ""} onChange={(e) => setForm({ ...form, tags: e.target.value })} className="w-full px-4 py-2 rounded-xl bg-white/50 border border-white/30 focus:border-primary focus:outline-none text-sm" placeholder="sultanbeyli, düğün, organizasyon" />
+              </div>
             </div>
           </div>
+
+          <SeoAnalyzer
+            title={form.title}
+            slug={form.slug}
+            content={form.content}
+            excerpt={form.excerpt || ""}
+            seoTitle={form.seoTitle || ""}
+            seoDescription={form.seoDescription || ""}
+            focusKeyword={form.focusKeyword || ""}
+            hasImage={!!form.image}
+          />
 
           <div className="flex items-center gap-4">
             <label className="flex items-center gap-2 cursor-pointer">

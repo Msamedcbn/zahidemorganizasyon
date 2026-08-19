@@ -27,6 +27,8 @@ export async function POST(req: NextRequest) {
       published: data.published || false,
       seoTitle: data.seoTitle || null,
       seoDescription: data.seoDescription || null,
+      focusKeyword: data.focusKeyword || null,
+      tags: data.tags || null,
     },
   });
   revalidatePath("/", "layout");
@@ -51,6 +53,8 @@ export async function PUT(req: NextRequest) {
       published: data.published,
       seoTitle: data.seoTitle,
       seoDescription: data.seoDescription,
+      focusKeyword: data.focusKeyword,
+      tags: data.tags,
     },
   });
   revalidatePath("/", "layout");

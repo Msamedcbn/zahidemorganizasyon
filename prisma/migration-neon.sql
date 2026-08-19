@@ -7,6 +7,8 @@ ALTER TABLE "Service" ADD COLUMN IF NOT EXISTS "longDescription" TEXT;
 ALTER TABLE "BlogPost" ADD COLUMN IF NOT EXISTS "categoryId" TEXT;
 ALTER TABLE "BlogPost" ADD COLUMN IF NOT EXISTS "seoTitle" TEXT;
 ALTER TABLE "BlogPost" ADD COLUMN IF NOT EXISTS "seoDescription" TEXT;
+ALTER TABLE "BlogPost" ADD COLUMN IF NOT EXISTS "focusKeyword" TEXT;
+ALTER TABLE "BlogPost" ADD COLUMN IF NOT EXISTS "tags" TEXT;
 
 -- GalleryItem'a kategori alanı ekle
 ALTER TABLE "GalleryItem" ADD COLUMN IF NOT EXISTS "category" TEXT;

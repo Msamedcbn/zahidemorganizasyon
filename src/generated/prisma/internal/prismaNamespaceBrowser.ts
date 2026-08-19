@@ -120,6 +120,8 @@ export const BlogPostScalarFieldEnum = {
   published: 'published',
   seoTitle: 'seoTitle',
   seoDescription: 'seoDescription',
+  focusKeyword: 'focusKeyword',
+  tags: 'tags',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

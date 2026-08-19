@@ -37,6 +37,8 @@ export type BlogPostMinAggregateOutputType = {
   published: boolean | null
   seoTitle: string | null
   seoDescription: string | null
+  focusKeyword: string | null
+  tags: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -54,6 +56,8 @@ export type BlogPostMaxAggregateOutputType = {
   published: boolean | null
   seoTitle: string | null
   seoDescription: string | null
+  focusKeyword: string | null
+  tags: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -71,6 +75,8 @@ export type BlogPostCountAggregateOutputType = {
   published: number
   seoTitle: number
   seoDescription: number
+  focusKeyword: number
+  tags: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -90,6 +96,8 @@ export type BlogPostMinAggregateInputType = {
   published?: true
   seoTitle?: true
   seoDescription?: true
+  focusKeyword?: true
+  tags?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -107,6 +115,8 @@ export type BlogPostMaxAggregateInputType = {
   published?: true
   seoTitle?: true
   seoDescription?: true
+  focusKeyword?: true
+  tags?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -124,6 +134,8 @@ export type BlogPostCountAggregateInputType = {
   published?: true
   seoTitle?: true
   seoDescription?: true
+  focusKeyword?: true
+  tags?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -214,6 +226,8 @@ export type BlogPostGroupByOutputType = {
   published: boolean
   seoTitle: string | null
   seoDescription: string | null
+  focusKeyword: string | null
+  tags: string | null
   createdAt: Date
   updatedAt: Date
   _count: BlogPostCountAggregateOutputType | null
@@ -252,6 +266,8 @@ export type BlogPostWhereInput = {
   published?: Prisma.BoolFilter<"BlogPost"> | boolean
   seoTitle?: Prisma.StringNullableFilter<"BlogPost"> | string | null
   seoDescription?: Prisma.StringNullableFilter<"BlogPost"> | string | null
+  focusKeyword?: Prisma.StringNullableFilter<"BlogPost"> | string | null
+  tags?: Prisma.StringNullableFilter<"BlogPost"> | string | null
   createdAt?: Prisma.DateTimeFilter<"BlogPost"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"BlogPost"> | Date | string
   categoryRef?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
@@ -270,6 +286,8 @@ export type BlogPostOrderByWithRelationInput = {
   published?: Prisma.SortOrder
   seoTitle?: Prisma.SortOrderInput | Prisma.SortOrder
   seoDescription?: Prisma.SortOrderInput | Prisma.SortOrder
+  focusKeyword?: Prisma.SortOrderInput | Prisma.SortOrder
+  tags?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   categoryRef?: Prisma.CategoryOrderByWithRelationInput
@@ -291,6 +309,8 @@ export type BlogPostWhereUniqueInput = Prisma.AtLeast<{
   published?: Prisma.BoolFilter<"BlogPost"> | boolean
   seoTitle?: Prisma.StringNullableFilter<"BlogPost"> | string | null
   seoDescription?: Prisma.StringNullableFilter<"BlogPost"> | string | null
+  focusKeyword?: Prisma.StringNullableFilter<"BlogPost"> | string | null
+  tags?: Prisma.StringNullableFilter<"BlogPost"> | string | null
   createdAt?: Prisma.DateTimeFilter<"BlogPost"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"BlogPost"> | Date | string
   categoryRef?: Prisma.XOR<Prisma.CategoryNullableScalarRelationFilter, Prisma.CategoryWhereInput> | null
@@ -309,6 +329,8 @@ export type BlogPostOrderByWithAggregationInput = {
   published?: Prisma.SortOrder
   seoTitle?: Prisma.SortOrderInput | Prisma.SortOrder
   seoDescription?: Prisma.SortOrderInput | Prisma.SortOrder
+  focusKeyword?: Prisma.SortOrderInput | Prisma.SortOrder
+  tags?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.BlogPostCountOrderByAggregateInput
@@ -332,6 +354,8 @@ export type BlogPostScalarWhereWithAggregatesInput = {
   published?: Prisma.BoolWithAggregatesFilter<"BlogPost"> | boolean
   seoTitle?: Prisma.StringNullableWithAggregatesFilter<"BlogPost"> | string | null
   seoDescription?: Prisma.StringNullableWithAggregatesFilter<"BlogPost"> | string | null
+  focusKeyword?: Prisma.StringNullableWithAggregatesFilter<"BlogPost"> | string | null
+  tags?: Prisma.StringNullableWithAggregatesFilter<"BlogPost"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"BlogPost"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"BlogPost"> | Date | string
 }
@@ -348,6 +372,8 @@ export type BlogPostCreateInput = {
   published?: boolean
   seoTitle?: string | null
   seoDescription?: string | null
+  focusKeyword?: string | null
+  tags?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   categoryRef?: Prisma.CategoryCreateNestedOneWithoutPostsInput
@@ -366,6 +392,8 @@ export type BlogPostUncheckedCreateInput = {
   published?: boolean
   seoTitle?: string | null
   seoDescription?: string | null
+  focusKeyword?: string | null
+  tags?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -382,6 +410,8 @@ export type BlogPostUpdateInput = {
   published?: Prisma.BoolFieldUpdateOperationsInput | boolean
   seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   categoryRef?: Prisma.CategoryUpdateOneWithoutPostsNestedInput
@@ -400,6 +430,8 @@ export type BlogPostUncheckedUpdateInput = {
   published?: Prisma.BoolFieldUpdateOperationsInput | boolean
   seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -417,6 +449,8 @@ export type BlogPostCreateManyInput = {
   published?: boolean
   seoTitle?: string | null
   seoDescription?: string | null
+  focusKeyword?: string | null
+  tags?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -433,6 +467,8 @@ export type BlogPostUpdateManyMutationInput = {
   published?: Prisma.BoolFieldUpdateOperationsInput | boolean
   seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -450,6 +486,8 @@ export type BlogPostUncheckedUpdateManyInput = {
   published?: Prisma.BoolFieldUpdateOperationsInput | boolean
   seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -467,6 +505,8 @@ export type BlogPostCountOrderByAggregateInput = {
   published?: Prisma.SortOrder
   seoTitle?: Prisma.SortOrder
   seoDescription?: Prisma.SortOrder
+  focusKeyword?: Prisma.SortOrder
+  tags?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -484,6 +524,8 @@ export type BlogPostMaxOrderByAggregateInput = {
   published?: Prisma.SortOrder
   seoTitle?: Prisma.SortOrder
   seoDescription?: Prisma.SortOrder
+  focusKeyword?: Prisma.SortOrder
+  tags?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -501,6 +543,8 @@ export type BlogPostMinOrderByAggregateInput = {
   published?: Prisma.SortOrder
   seoTitle?: Prisma.SortOrder
   seoDescription?: Prisma.SortOrder
+  focusKeyword?: Prisma.SortOrder
+  tags?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -569,6 +613,8 @@ export type BlogPostCreateWithoutCategoryRefInput = {
   published?: boolean
   seoTitle?: string | null
   seoDescription?: string | null
+  focusKeyword?: string | null
+  tags?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -585,6 +631,8 @@ export type BlogPostUncheckedCreateWithoutCategoryRefInput = {
   published?: boolean
   seoTitle?: string | null
   seoDescription?: string | null
+  focusKeyword?: string | null
+  tags?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -631,6 +679,8 @@ export type BlogPostScalarWhereInput = {
   published?: Prisma.BoolFilter<"BlogPost"> | boolean
   seoTitle?: Prisma.StringNullableFilter<"BlogPost"> | string | null
   seoDescription?: Prisma.StringNullableFilter<"BlogPost"> | string | null
+  focusKeyword?: Prisma.StringNullableFilter<"BlogPost"> | string | null
+  tags?: Prisma.StringNullableFilter<"BlogPost"> | string | null
   createdAt?: Prisma.DateTimeFilter<"BlogPost"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"BlogPost"> | Date | string
 }
@@ -647,6 +697,8 @@ export type BlogPostCreateManyCategoryRefInput = {
   published?: boolean
   seoTitle?: string | null
   seoDescription?: string | null
+  focusKeyword?: string | null
+  tags?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -663,6 +715,8 @@ export type BlogPostUpdateWithoutCategoryRefInput = {
   published?: Prisma.BoolFieldUpdateOperationsInput | boolean
   seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -679,6 +733,8 @@ export type BlogPostUncheckedUpdateWithoutCategoryRefInput = {
   published?: Prisma.BoolFieldUpdateOperationsInput | boolean
   seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -695,6 +751,8 @@ export type BlogPostUncheckedUpdateManyWithoutCategoryRefInput = {
   published?: Prisma.BoolFieldUpdateOperationsInput | boolean
   seoTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  focusKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -714,6 +772,8 @@ export type BlogPostSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   published?: boolean
   seoTitle?: boolean
   seoDescription?: boolean
+  focusKeyword?: boolean
+  tags?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   categoryRef?: boolean | Prisma.BlogPost$categoryRefArgs<ExtArgs>
@@ -732,6 +792,8 @@ export type BlogPostSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   published?: boolean
   seoTitle?: boolean
   seoDescription?: boolean
+  focusKeyword?: boolean
+  tags?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   categoryRef?: boolean | Prisma.BlogPost$categoryRefArgs<ExtArgs>
@@ -750,6 +812,8 @@ export type BlogPostSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   published?: boolean
   seoTitle?: boolean
   seoDescription?: boolean
+  focusKeyword?: boolean
+  tags?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   categoryRef?: boolean | Prisma.BlogPost$categoryRefArgs<ExtArgs>
@@ -768,11 +832,13 @@ export type BlogPostSelectScalar = {
   published?: boolean
   seoTitle?: boolean
   seoDescription?: boolean
+  focusKeyword?: boolean
+  tags?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type BlogPostOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "content" | "excerpt" | "category" | "categoryId" | "image" | "author" | "published" | "seoTitle" | "seoDescription" | "createdAt" | "updatedAt", ExtArgs["result"]["blogPost"]>
+export type BlogPostOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "content" | "excerpt" | "category" | "categoryId" | "image" | "author" | "published" | "seoTitle" | "seoDescription" | "focusKeyword" | "tags" | "createdAt" | "updatedAt", ExtArgs["result"]["blogPost"]>
 export type BlogPostInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   categoryRef?: boolean | Prisma.BlogPost$categoryRefArgs<ExtArgs>
 }
@@ -801,6 +867,8 @@ export type $BlogPostPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     published: boolean
     seoTitle: string | null
     seoDescription: string | null
+    focusKeyword: string | null
+    tags: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["blogPost"]>
@@ -1239,6 +1307,8 @@ export interface BlogPostFieldRefs {
   readonly published: Prisma.FieldRef<"BlogPost", 'Boolean'>
   readonly seoTitle: Prisma.FieldRef<"BlogPost", 'String'>
   readonly seoDescription: Prisma.FieldRef<"BlogPost", 'String'>
+  readonly focusKeyword: Prisma.FieldRef<"BlogPost", 'String'>
+  readonly tags: Prisma.FieldRef<"BlogPost", 'String'>
   readonly createdAt: Prisma.FieldRef<"BlogPost", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"BlogPost", 'DateTime'>
 }

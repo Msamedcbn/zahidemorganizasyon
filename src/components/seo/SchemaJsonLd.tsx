@@ -91,6 +91,7 @@ export function ArticleSchema({
   author,
   publishedTime,
   modifiedTime,
+  keywords,
 }: {
   title: string;
   description: string;
@@ -99,12 +100,14 @@ export function ArticleSchema({
   author: string;
   publishedTime: string;
   modifiedTime: string;
+  keywords?: string[];
 }) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: title,
     description,
+    ...(keywords && keywords.length > 0 && { keywords: keywords.join(", ") }),
     ...(image && { image: [image] }),
     author: { "@type": "Organization", name: author },
     publisher: {

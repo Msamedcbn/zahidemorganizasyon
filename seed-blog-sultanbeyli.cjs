@@ -17,7 +17,7 @@ const posts = [
   {
     slug: 'sultanbeyli-dugun-organizasyonu',
     title: 'Sultanbeyli Düğün Organizasyonu: Baştan Sona Rehber',
-    seoTitle: 'Sultanbeyli Düğün Organizasyonu | Zahidem Organizasyon',
+    seoTitle: 'Sultanbeyli Düğün Organizasyonu',
     seoDescription: "Sultanbeyli'de düğün organizasyonu mu arıyorsunuz? Mekan, dekorasyon, müzik ve ikramda uçtan uca profesyonel hizmet. Hemen teklif alın.",
     focusKeyword: 'sultanbeyli düğün organizasyonu',
     tags: 'sultanbeyli düğün organizasyonu, düğün organizasyonu istanbul, düğün mekanı sultanbeyli, düğün dekorasyonu',
@@ -64,7 +64,7 @@ const posts = [
   {
     slug: 'sultanbeyli-nisan-organizasyonu',
     title: 'Sultanbeyli Nişan Organizasyonu Nasıl Planlanır?',
-    seoTitle: 'Sultanbeyli Nişan Organizasyonu | Zahidem Organizasyon',
+    seoTitle: 'Sultanbeyli Nişan Organizasyonu',
     seoDescription: "Sultanbeyli'de nişan organizasyonu için mekan, dekorasyon ve söz töreni önerileri. Zahidem Organizasyon ile unutulmaz bir nişan gecesi planlayın.",
     focusKeyword: 'sultanbeyli nişan organizasyonu',
     tags: 'sultanbeyli nişan organizasyonu, söz nişan organizasyonu, nişan dekorasyonu, nişan mekanı sultanbeyli',
@@ -103,7 +103,7 @@ const posts = [
   {
     slug: 'sultanbeyli-kina-organizasyonu',
     title: 'Sultanbeyli Kına Organizasyonu ve Kına Gecesi Fikirleri',
-    seoTitle: 'Sultanbeyli Kına Organizasyonu | Zahidem Organizasyon',
+    seoTitle: 'Sultanbeyli Kına Organizasyonu',
     seoDescription: "Sultanbeyli'de kına gecesi organizasyonu için mekan, dekorasyon, kına tepsisi ve müzik önerileri. Geleneği modernle buluşturan bir gece planlayın.",
     focusKeyword: 'sultanbeyli kına organizasyonu',
     tags: 'sultanbeyli kına organizasyonu, kına gecesi, kına tepsisi süsleme, kına dekorasyonu',
@@ -145,7 +145,7 @@ const posts = [
   {
     slug: 'sultanbeyli-muzik-seti-kiralama',
     title: 'Sultanbeyli Müzik Seti Kiralama Rehberi',
-    seoTitle: 'Sultanbeyli Müzik Seti Kiralama | Zahidem Organizasyon',
+    seoTitle: 'Sultanbeyli Müzik Seti Kiralama',
     seoDescription: "Sultanbeyli'de düğün, nişan, kına ve sünnet için profesyonel müzik seti kiralama. Ses sistemi, hoparlör ve DJ ekipmanı kurulum dahil.",
     focusKeyword: 'sultanbeyli müzik seti kiralama',
     tags: 'sultanbeyli müzik seti kiralama, ses sistemi kiralama, hoparlör kiralama, dj ekipmanı kiralama',
@@ -190,7 +190,7 @@ const posts = [
   {
     slug: 'sultanbeyli-sandalye-kiralama',
     title: 'Sultanbeyli Sandalye ve Masa Kiralama Fiyatları',
-    seoTitle: 'Sultanbeyli Sandalye Kiralama Fiyatları | Zahidem',
+    seoTitle: 'Sultanbeyli Sandalye Kiralama Fiyatları',
     seoDescription: "Sultanbeyli'de düğün, nişan ve kına için masa sandalye kiralama. Model seçenekleri, kurulum ve fiyatlandırma hakkında bilgi alın.",
     focusKeyword: 'sultanbeyli sandalye kiralama',
     tags: 'sultanbeyli sandalye kiralama, masa sandalye kiralama, tiffany sandalye kiralama, düğün sandalyesi',
@@ -234,7 +234,7 @@ const posts = [
   {
     slug: 'sultanbeyli-sunnet-organizasyonu',
     title: 'Sultanbeyli Sünnet Organizasyonu Nasıl Planlanır?',
-    seoTitle: 'Sultanbeyli Sünnet Organizasyonu | Zahidem Organizasyon',
+    seoTitle: 'Sultanbeyli Sünnet Organizasyonu',
     seoDescription: "Sultanbeyli'de sünnet töreni organizasyonu için mekan, dekorasyon, kıyafet ve eğlence önerileri. Unutulmaz bir tören için rehberimizi okuyun.",
     focusKeyword: 'sultanbeyli sünnet organizasyonu',
     tags: 'sultanbeyli sünnet organizasyonu, sünnet düğünü, sünnet dekorasyonu, sünnet organizasyon fiyatları',

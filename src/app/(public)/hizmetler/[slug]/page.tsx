@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   try { const s = await prisma.service.findUnique({ where: { slug } }); if (s) { title = s.title; description = s.description; } } catch {}
   if (!title) { const s = fallbackServices.find((x) => x.slug === slug); if (s) { title = s.title; description = s.description; } }
   if (!title) return { title: "Sayfa Bulunamadı" };
-  return { title: `${title} | Zahidem Organizasyon`, description, alternates: { canonical: `/hizmetler/${slug}` } };
+  return { title, description, alternates: { canonical: `/hizmetler/${slug}` } };
 }
 
 export default async function HizmetDetayPage({ params }: { params: Promise<{ slug: string }> }) {

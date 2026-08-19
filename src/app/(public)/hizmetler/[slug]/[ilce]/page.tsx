@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
   if (!title) return { title: "Sayfa Bulunamadı" };
 
-  const pageTitle = `${district} ${title} | Zahidem Organizasyon`;
+  const pageTitle = `${district} ${title}`;
   const pageDescription = `${district} bölgesinde profesyonel ${title.toLocaleLowerCase("tr")} hizmeti. ${description}`;
 
   return {

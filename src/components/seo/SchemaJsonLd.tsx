@@ -3,9 +3,9 @@ export function LocalBusinessSchema() {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     name: "Zahidem Organizasyon",
-    image: "https://zahidemorganizasyon.com/images/service-soz.jpg",
-    "@id": "https://zahidemorganizasyon.com",
-    url: "https://zahidemorganizasyon.com",
+    image: "https://www.zahidemorganizasyon.com/images/service-soz.jpg",
+    "@id": "https://www.zahidemorganizasyon.com",
+    url: "https://www.zahidemorganizasyon.com",
     telephone: "+90 531 663 29 30",
     email: "info@zahidemorganizasyon.com",
     description: "İstanbul'un her noktasında profesyonel organizasyon hizmeti. Söz, nişan, düğün, doğum günü, sünnet, açılış, kokteyl, balon süsleme, sandalye kiralama, asker uğurlama ve mezuniyet organizasyonu.",
@@ -113,13 +113,13 @@ export function ArticleSchema({
     publisher: {
       "@type": "Organization",
       name: "Zahidem Organizasyon",
-      logo: { "@type": "ImageObject", url: "https://zahidemorganizasyon.com/favicon.ico" },
+      logo: { "@type": "ImageObject", url: "https://www.zahidemorganizasyon.com/favicon.ico" },
     },
     datePublished: publishedTime,
     dateModified: modifiedTime,
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://zahidemorganizasyon.com/blog/${slug}`,
+      "@id": `https://www.zahidemorganizasyon.com/blog/${slug}`,
     },
   };
 
@@ -140,9 +140,9 @@ export function ServiceSchema({ title, description, slug, district }: { title: s
     provider: {
       "@type": "LocalBusiness",
       name: "Zahidem Organizasyon",
-      url: "https://zahidemorganizasyon.com",
+      url: "https://www.zahidemorganizasyon.com",
     },
-    url: `https://zahidemorganizasyon.com/hizmetler/${slug}`,
+    url: `https://www.zahidemorganizasyon.com/hizmetler/${slug}`,
     areaServed: district
       ? { "@type": "Place", name: `${district}, İstanbul` }
       : { "@type": "City", name: "İstanbul" },

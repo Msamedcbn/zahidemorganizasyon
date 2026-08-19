@@ -27,7 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: { default: defaultTitle, template: `%s | ${siteName}` },
     description,
-    metadataBase: new URL("https://zahidemorganizasyon.com"),
+    metadataBase: new URL("https://www.zahidemorganizasyon.com"),
     alternates: { canonical: "/" },
     robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
     openGraph: {
@@ -36,7 +36,7 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName,
       title: defaultTitle,
       description,
-      url: "https://zahidemorganizasyon.com",
+      url: "https://www.zahidemorganizasyon.com",
       ...(logo && { images: [{ url: logo, width: 512, height: 512, alt: siteName }] }),
     },
     twitter: {

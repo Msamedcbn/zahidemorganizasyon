@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title: post.seoTitle || post.title,
       description: post.seoDescription || post.excerpt || post.title,
       ...(keywords.length > 0 && { keywords }),
-      alternates: { canonical: `https://zahidemorganizasyon.com/blog/${slug}` },
+      alternates: { canonical: `https://www.zahidemorganizasyon.com/blog/${slug}` },
       openGraph: {
         title: post.seoTitle || post.title,
         description: post.excerpt || post.title,

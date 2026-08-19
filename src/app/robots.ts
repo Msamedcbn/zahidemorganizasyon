@@ -31,6 +31,6 @@ export default function robots(): MetadataRoute.Robots {
       },
       ...blockedBots.map((userAgent) => ({ userAgent, disallow: "/" })),
     ],
-    sitemap: "https://zahidemorganizasyon.com/sitemap.xml",
+    sitemap: "https://www.zahidemorganizasyon.com/sitemap.xml",
   };
 }

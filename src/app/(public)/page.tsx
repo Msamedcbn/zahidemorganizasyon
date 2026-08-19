@@ -10,7 +10,7 @@ import { LocalBusinessSchema, FaqSchema } from "@/components/seo/SchemaJsonLd";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    alternates: { canonical: "https://zahidemorganizasyon.com" },
+    alternates: { canonical: "https://www.zahidemorganizasyon.com" },
   };
 }
 

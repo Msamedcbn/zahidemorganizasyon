@@ -4,7 +4,7 @@ import { districts } from "@/lib/data";
 import { slugifyTr } from "@/lib/slugify";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = "https://zahidemorganizasyon.com";
+  const baseUrl = "https://www.zahidemorganizasyon.com";
   const now = new Date();
 
   const staticPages = [

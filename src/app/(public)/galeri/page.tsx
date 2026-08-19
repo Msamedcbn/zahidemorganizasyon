@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { FluidShapes } from "@/components/ui/FluidShapes";
 import { GlassCard } from "@/components/ui/GlassCard";
@@ -51,8 +52,14 @@ export default async function GaleriPage() {
             {items.map((item) => (
               <div key={item.id} className="break-inside-avoid">
                 <GlassCard className="overflow-hidden p-0">
-                  <div className="aspect-[4/3] bg-primary/5 flex items-center justify-center text-primary/30">
-                    Görsel
+                  <div className="relative aspect-[4/3] bg-primary/5">
+                    <Image
+                      src={item.image}
+                      alt={item.caption || "Zahidem Organizasyon etkinlik fotoğrafı"}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover"
+                    />
                   </div>
                   {item.caption && (
                     <div className="p-3">

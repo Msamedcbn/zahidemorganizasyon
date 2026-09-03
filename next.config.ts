@@ -1,6 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // sharp'ın linux-x64 native binary'si (libvips) output file tracing tarafından
+  // otomatik tespit edilemiyor; deploy edilen fonksiyona elle dahil ediyoruz.
+  outputFileTracingIncludes: {
+    "/api/admin/upload": ["./node_modules/@img/sharp-linux-x64/**", "./node_modules/@img/sharp-libvips-linux-x64/**"],
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [

@@ -13,6 +13,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "pub-*.r2.dev",
       },
+      {
+        protocol: "https",
+        hostname: "cdn.zahidemorganizasyon.com",
+      },
     ],
   },
   async redirects() {

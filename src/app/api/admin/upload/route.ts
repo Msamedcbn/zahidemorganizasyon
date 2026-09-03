@@ -4,8 +4,6 @@ import sharp from "sharp";
 import { r2, R2_BUCKET, R2_PUBLIC_URL } from "@/lib/r2";
 import { auth } from "@/lib/auth";
 
-const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-
 export async function POST(req: NextRequest) {
   const session = await auth();
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -40,20 +38,11 @@ export async function POST(req: NextRequest) {
 
     const url = `${R2_PUBLIC_URL}/${filename}`;
 
-    // The custom domain fronting R2 can take a few seconds to propagate a brand
-    // new object across Cloudflare's edge right after DNS/SSL activation. Retry
-    // with backoff before giving up, so a transient edge miss doesn't surface as
-    // a broken image URL.
-    let verifyRes = await fetch(url, { method: "GET", cache: "no-store" });
-    for (const delayMs of [500, 1500, 3000]) {
-      if (verifyRes.ok) break;
-      await sleep(delayMs);
-      verifyRes = await fetch(url, { method: "GET", cache: "no-store" });
-    }
-    if (!verifyRes.ok) {
-      throw new Error(`Görsel yüklendi ama şu anda erişilemiyor (HTTP ${verifyRes.status}). Lütfen tekrar deneyin.`);
-    }
-
+    // A brand new object can take a little while to become servable through the
+    // R2 custom domain's edge/cache layer, even though it's already durably
+    // written (confirmed via the S3 API). Don't block the response waiting for
+    // that — report success now and let the client-side preview retry loading
+    // the image with backoff instead.
     return NextResponse.json({ url, filename });
   } catch (err) {
     console.error("upload error:", err);

@@ -1,6 +1,11 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
+// A brand new R2 object can take a little while to become servable through the
+// custom domain's edge layer even though the write already succeeded. Retry
+// loading it with backoff instead of showing a broken-image icon.
+const IMG_RETRY_DELAYS_MS = [2000, 4000, 8000, 15000];
 
 interface ImageUploadProps {
   value?: string;
@@ -41,7 +46,22 @@ export function ImageUpload({ value, onChange, folder = "uploads", label = "Gör
   const [error, setError] = useState("");
   const [dragActive, setDragActive] = useState(false);
   const [preview, setPreview] = useState(value || "");
+  const [imgRetry, setImgRetry] = useState(0);
+  const [imgPending, setImgPending] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setImgRetry(0);
+    setImgPending(false);
+  }, [preview]);
+
+  const handleImgError = () => {
+    if (imgRetry >= IMG_RETRY_DELAYS_MS.length) return;
+    setImgPending(true);
+    setTimeout(() => setImgRetry((n) => n + 1), IMG_RETRY_DELAYS_MS[imgRetry]);
+  };
+
+  const previewSrc = imgRetry > 0 ? `${preview}${preview.includes("?") ? "&" : "?"}retry=${imgRetry}` : preview;
 
   const upload = async (file: File) => {
     if (!file.type.startsWith("image/")) {
@@ -115,11 +135,23 @@ export function ImageUpload({ value, onChange, folder = "uploads", label = "Gör
         {preview ? (
           <div className="relative group w-full h-48 rounded-xl overflow-hidden bg-black/5 border border-foreground/10">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={preview} alt="" className="w-full h-full object-contain" />
+            <img
+              src={previewSrc}
+              alt=""
+              className="w-full h-full object-contain"
+              onError={handleImgError}
+              onLoad={() => setImgPending(false)}
+            />
 
             {uploading && (
               <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
                 <span className="text-white text-sm">Yükleniyor...</span>
+              </div>
+            )}
+
+            {!uploading && imgPending && (
+              <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                <span className="text-white text-sm">Görsel işleniyor, birazdan görünecek...</span>
               </div>
             )}
 

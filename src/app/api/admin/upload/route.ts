@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PutObjectCommand, HeadObjectCommand } from "@aws-sdk/client-s3";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
 import sharp from "sharp";
 import { r2, R2_BUCKET, R2_PUBLIC_URL, R2_ENDPOINT_HOST } from "@/lib/r2";
 import { auth } from "@/lib/auth";
@@ -36,18 +36,24 @@ export async function POST(req: NextRequest) {
       })
     );
 
-    // R2 PUT can report success without the object actually being retrievable
-    // (wrong bucket/credentials pointing elsewhere). Confirm it landed before
-    // telling the client the upload worked, so failures surface immediately
-    // instead of as a silently-broken image URL later.
-    try {
-      await r2.send(new HeadObjectCommand({ Bucket: R2_BUCKET, Key: filename }));
-    } catch (verifyErr) {
-      const detail = verifyErr instanceof Error ? verifyErr.message : "Bilinmeyen hata";
-      throw new Error(`Görsel R2'ye yazıldı ama doğrulanamadı (bucket/URL uyuşmazlığı olabilir): ${detail}`);
-    }
-
     const url = `${R2_PUBLIC_URL}/${filename}`;
+
+    // A HeadObject check against R2_BUCKET isn't enough: if R2_BUCKET points to a
+    // different bucket than the one R2_PUBLIC_URL's custom domain is actually bound
+    // to, the S3-API check succeeds while the public URL 404s. Verify the exact
+    // public URL the browser will use is really reachable before reporting success.
+    // One retry allows for brief edge-propagation delay before treating it as a
+    // genuine misconfiguration.
+    let verifyRes = await fetch(url, { method: "GET", cache: "no-store" });
+    if (!verifyRes.ok) {
+      await new Promise((r) => setTimeout(r, 800));
+      verifyRes = await fetch(url, { method: "GET", cache: "no-store" });
+    }
+    if (!verifyRes.ok) {
+      throw new Error(
+        `Görsel R2'ye yazıldı ama genel URL'den okunamıyor (HTTP ${verifyRes.status}): ${url} — R2_BUCKET, R2_PUBLIC_URL'nin bağlı olduğu bucket olmayabilir.`
+      );
+    }
 
     return NextResponse.json({ url, filename });
   } catch (err) {

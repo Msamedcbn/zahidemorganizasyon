@@ -141,21 +141,36 @@ export function ServiceCard({
         )}
 
         {isSmall && (
-          <div className="relative p-5 md:p-6 w-full flex flex-col justify-between min-h-[180px]">
-            <div className="fluid-shape w-32 h-32 bg-primary/10 -top-10 -right-10 group-hover:scale-150 transition-transform duration-700 pointer-events-none" />
-            <div className="relative">
-              <div className="text-primary mb-3">{iconMap[icon] || iconMap.Ring}</div>
-              <h3 className="font-headline font-bold text-foreground mb-2 text-base">{title}</h3>
-              <p className="text-muted text-xs leading-relaxed line-clamp-3">{description}</p>
-            </div>
+          <>
+            {image && (
+              <div className="absolute inset-0 overflow-hidden">
+                <Image
+                  src={image}
+                  alt={title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 25vw"
+                  className="object-cover group-hover:scale-110 transition-transform duration-500 opacity-30"
+                  unoptimized={isRemoteImage}
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-background/90 via-background/70 to-primary/20" />
+              </div>
+            )}
+            <div className="relative p-5 md:p-6 w-full flex flex-col justify-between min-h-[180px]">
+              <div className="fluid-shape w-32 h-32 bg-primary/10 -top-10 -right-10 group-hover:scale-150 transition-transform duration-700 pointer-events-none" />
+              <div className="relative">
+                <div className="text-primary mb-3">{iconMap[icon] || iconMap.Ring}</div>
+                <h3 className="font-headline font-bold text-foreground mb-2 text-base">{title}</h3>
+                <p className="text-muted text-xs leading-relaxed line-clamp-3">{description}</p>
+              </div>
 
-            <div className="relative mt-4 flex items-center gap-1 text-primary text-xs font-medium group-hover:gap-2 transition-all">
-              Detaylı Bilgi
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M5 12h14" /><path d="M12 5l7 7-7 7" />
-              </svg>
+              <div className="relative mt-4 flex items-center gap-1 text-primary text-xs font-medium group-hover:gap-2 transition-all">
+                Detaylı Bilgi
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M5 12h14" /><path d="M12 5l7 7-7 7" />
+                </svg>
+              </div>
             </div>
-          </div>
+          </>
         )}
 
         {isWide && image && (

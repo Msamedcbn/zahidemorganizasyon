@@ -92,6 +92,12 @@ export function ServiceCard({
   index: number;
 }) {
   const layout = bentoLayout[index];
+  // Uploaded service images are already resized/compressed server-side on
+  // upload, so skip Next's own optimization pass for them — it re-fetches the
+  // image from our storage CDN, and that server-to-server hop has proven
+  // unreliable for a freshly-provisioned custom domain in a way that direct
+  // browser access to the same URL is not.
+  const isRemoteImage = !!image && /^https?:\/\//.test(image);
   const isLarge = layout.span === "large";
   const isWide = layout.span === "wide";
   const isSmall = layout.span === "small";
@@ -117,6 +123,7 @@ export function ServiceCard({
               sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover group-hover:scale-110 transition-transform duration-500"
               priority={index === 0}
+              unoptimized={isRemoteImage}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
@@ -160,6 +167,7 @@ export function ServiceCard({
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover group-hover:scale-110 transition-transform duration-500 opacity-30"
+                unoptimized={isRemoteImage}
               />
               <div className="absolute inset-0 bg-gradient-to-br from-background/90 via-background/70 to-primary/20" />
             </div>

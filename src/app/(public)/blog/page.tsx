@@ -50,7 +50,7 @@ export default async function BlogPage() {
                 <GlassCard className={`h-full ${i === 0 ? "p-8" : "p-6"}`}>
                   {post.image && (
                     <div className="relative w-full h-48 rounded-lg overflow-hidden mb-4 bg-primary/5">
-                      <Image src={post.image} alt={post.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
+                      <Image src={post.image} alt={post.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" unoptimized />
                     </div>
                   )}
                   {post.category && (

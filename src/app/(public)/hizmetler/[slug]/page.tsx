@@ -102,7 +102,7 @@ export default async function HizmetDetayPage({ params }: { params: Promise<{ sl
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {gallery.map((url, i) => (
                 <a key={i} href={url} target="_blank" rel="noopener noreferrer" className="group relative aspect-[4/3] rounded-xl overflow-hidden glass-card !p-0">
-                  <Image src={url} alt={`${title} ${i + 1}`} fill sizes="(max-width: 768px) 50vw, 25vw" className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <Image src={url} alt={`${title} ${i + 1}`} fill sizes="(max-width: 768px) 50vw, 25vw" className="object-cover group-hover:scale-110 transition-transform duration-500" unoptimized />
                 </a>
               ))}
             </div>

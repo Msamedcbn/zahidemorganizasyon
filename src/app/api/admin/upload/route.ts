@@ -16,8 +16,9 @@ export async function POST(req: NextRequest) {
 
   const buffer = Buffer.from(await file.arrayBuffer());
 
-  // Convert to webp with sharp
+  // Convert to webp with sharp (auto-rotate based on EXIF orientation first)
   const webpBuffer = await sharp(buffer)
+    .rotate()
     .resize(1920, 1920, { fit: "inside", withoutEnlargement: true })
     .webp({ quality: 80 })
     .toBuffer();

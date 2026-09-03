@@ -25,7 +25,7 @@ export default async function HomePage() {
         slug: s.slug,
         description: s.description,
         icon: s.icon,
-        image: fallback?.image || s.image || undefined,
+        image: s.image || fallback?.image || undefined,
       };
     });
   } catch {}

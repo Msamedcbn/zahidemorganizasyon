@@ -143,7 +143,13 @@ export function ImageUpload({ value, onChange, folder = "uploads", label = "Gör
             )}
           </div>
         ) : (
-          <label
+          <div
+            role="button"
+            tabIndex={0}
+            onClick={() => inputRef.current?.click()}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") inputRef.current?.click();
+            }}
             className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-xl cursor-pointer transition-colors bg-primary/5 ${
               dragActive ? "border-primary bg-primary/10" : "border-primary/30 hover:border-primary/60"
             }`}
@@ -155,7 +161,7 @@ export function ImageUpload({ value, onChange, folder = "uploads", label = "Gör
             </svg>
             <span className="text-sm text-muted">{uploading ? "Yükleniyor..." : "Tıklayın veya sürükleyin"}</span>
             <span className="text-xs text-muted/70 mt-1">PNG, JPG, WEBP — en fazla 25MB</span>
-          </label>
+          </div>
         )}
 
         <input

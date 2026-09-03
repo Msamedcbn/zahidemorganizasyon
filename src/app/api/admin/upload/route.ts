@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { PutObjectCommand, HeadObjectCommand } from "@aws-sdk/client-s3";
 import sharp from "sharp";
-import { r2, R2_BUCKET, R2_PUBLIC_URL } from "@/lib/r2";
+import { r2, R2_BUCKET, R2_PUBLIC_URL, R2_ENDPOINT_HOST } from "@/lib/r2";
 import { auth } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
@@ -36,12 +36,26 @@ export async function POST(req: NextRequest) {
       })
     );
 
+    // R2 PUT can report success without the object actually being retrievable
+    // (wrong bucket/credentials pointing elsewhere). Confirm it landed before
+    // telling the client the upload worked, so failures surface immediately
+    // instead of as a silently-broken image URL later.
+    try {
+      await r2.send(new HeadObjectCommand({ Bucket: R2_BUCKET, Key: filename }));
+    } catch (verifyErr) {
+      const detail = verifyErr instanceof Error ? verifyErr.message : "Bilinmeyen hata";
+      throw new Error(`Görsel R2'ye yazıldı ama doğrulanamadı (bucket/URL uyuşmazlığı olabilir): ${detail}`);
+    }
+
     const url = `${R2_PUBLIC_URL}/${filename}`;
 
     return NextResponse.json({ url, filename });
   } catch (err) {
-    console.error("upload error:", err);
+    console.error("upload error:", err, { R2_BUCKET, R2_PUBLIC_URL, R2_ENDPOINT_HOST });
     const message = err instanceof Error ? err.message : "Bilinmeyen hata";
-    return NextResponse.json({ error: `Yükleme hatası: ${message}` }, { status: 500 });
+    return NextResponse.json(
+      { error: `Yükleme hatası: ${message} [bucket=${R2_BUCKET}, publicUrl=${R2_PUBLIC_URL}, endpoint=${R2_ENDPOINT_HOST}]` },
+      { status: 500 }
+    );
   }
 }

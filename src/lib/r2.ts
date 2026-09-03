@@ -11,3 +11,10 @@ export const r2 = new S3Client({
 
 export const R2_BUCKET = process.env.R2_BUCKET!;
 export const R2_PUBLIC_URL = process.env.R2_PUBLIC_URL!;
+export const R2_ENDPOINT_HOST = (() => {
+  try {
+    return new URL(process.env.R2_ENDPOINT || "").host;
+  } catch {
+    return "(geçersiz R2_ENDPOINT)";
+  }
+})();

@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     const ext = "webp";
     const filename = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
 
-    await r2.send(
+    const putResult = await r2.send(
       new PutObjectCommand({
         Bucket: R2_BUCKET,
         Key: filename,
@@ -37,6 +37,7 @@ export async function POST(req: NextRequest) {
     );
 
     const url = `${R2_PUBLIC_URL}/${filename}`;
+    const putInfo = `httpStatus=${putResult.$metadata.httpStatusCode}, requestId=${putResult.$metadata.requestId}, etag=${putResult.ETag}, bodyBytes=${webpBuffer.length}`;
 
     // A HeadObject check against R2_BUCKET isn't enough: if R2_BUCKET points to a
     // different bucket than the one R2_PUBLIC_URL's custom domain is actually bound
@@ -51,11 +52,11 @@ export async function POST(req: NextRequest) {
     }
     if (!verifyRes.ok) {
       throw new Error(
-        `Görsel R2'ye yazıldı ama genel URL'den okunamıyor (HTTP ${verifyRes.status}): ${url} — R2_BUCKET, R2_PUBLIC_URL'nin bağlı olduğu bucket olmayabilir.`
+        `Görsel R2'ye yazıldı ama genel URL'den okunamıyor (HTTP ${verifyRes.status}): ${url}. PUT yanıtı: [${putInfo}]`
       );
     }
 
-    return NextResponse.json({ url, filename });
+    return NextResponse.json({ url, filename, debug: putInfo });
   } catch (err) {
     console.error("upload error:", err, { R2_BUCKET, R2_PUBLIC_URL, R2_ENDPOINT_HOST });
     const message = err instanceof Error ? err.message : "Bilinmeyen hata";

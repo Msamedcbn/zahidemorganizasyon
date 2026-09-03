@@ -67,13 +67,13 @@ export function ImageUpload({ value, onChange, folder = "uploads", label = "Gör
         body: formData,
       });
 
-      if (!res.ok) throw new Error("Upload başarısız");
+      const data = await res.json().catch(() => null);
+      if (!res.ok) throw new Error(data?.error || `Yükleme hatası (${res.status})`);
 
-      const data = await res.json();
       onChange(data.url);
       setPreview(data.url);
-    } catch {
-      setError("Görsel yüklenirken hata oluştu. Tekrar deneyin.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Görsel yüklenirken hata oluştu. Tekrar deneyin.");
     } finally {
       setUploading(false);
     }

@@ -14,22 +14,38 @@ interface GalleryItem {
   order: number;
 }
 
-const emptyItem: Omit<GalleryItem, "id"> = { image: "", caption: "", category: null, order: 0 };
+const GENEL_KATEGORI = "Genel";
+const emptyItem: Omit<GalleryItem, "id"> = { image: "", caption: "", category: GENEL_KATEGORI, order: 0 };
 
 export default function AdminGaleriPage() {
   const [items, setItems] = useState<GalleryItem[]>([]);
+  const [serviceTitles, setServiceTitles] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState<GalleryItem | null>(null);
   const [form, setForm] = useState(emptyItem);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string>("Tümü");
   const toast = useToast();
 
   const fetchItems = async () => {
     try { const res = await fetch("/api/admin/galeri"); if (res.ok) setItems(await res.json()); } catch {} finally { setLoading(false); }
   };
 
-  useEffect(() => { fetchItems(); }, []);
+  const fetchServiceTitles = async () => {
+    try {
+      const res = await fetch("/api/admin/hizmetler");
+      if (res.ok) {
+        const services: Array<{ title: string }> = await res.json();
+        setServiceTitles(services.map((s) => s.title));
+      }
+    } catch {}
+  };
+
+  useEffect(() => { fetchItems(); fetchServiceTitles(); }, []);
+
+  const categoryOptions = Array.from(new Set([...serviceTitles, GENEL_KATEGORI, ...items.map((i) => i.category).filter((c): c is string => !!c)]));
+  const filteredItems = activeCategory === "Tümü" ? items : items.filter((i) => (i.category || GENEL_KATEGORI) === activeCategory);
 
   const openNew = () => { setEditing(null); setForm(emptyItem); setModalOpen(true); };
   const openEdit = (item: GalleryItem) => { setEditing(item); setForm({ image: item.image, caption: item.caption || "", category: item.category, order: item.order }); setModalOpen(true); };
@@ -50,6 +66,20 @@ export default function AdminGaleriPage() {
     try { const res = await fetch("/api/admin/galeri", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: deleteId }) }); if (res.ok) { toast("Silindi", "success"); fetchItems(); } else toast("Silinemedi", "error"); } catch {} finally { setDeleteId(null); }
   };
 
+  const moveToCategory = async (item: GalleryItem, category: string) => {
+    if (category === (item.category || GENEL_KATEGORI)) return;
+    setItems((prev) => prev.map((i) => (i.id === item.id ? { ...i, category } : i)));
+    try {
+      const res = await fetch("/api/admin/galeri", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: item.id, image: item.image, caption: item.caption, category, order: item.order }),
+      });
+      if (res.ok) toast(`"${category}" kategorisine taşındı`, "success");
+      else { toast("Taşınamadı", "error"); fetchItems(); }
+    } catch { toast("Bağlantı hatası", "error"); fetchItems(); }
+  };
+
   return (
     <AdminLayout>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
@@ -60,15 +90,52 @@ export default function AdminGaleriPage() {
         </button>
       </div>
 
+      {items.length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-6">
+          {["Tümü", ...categoryOptions].map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`px-4 py-2 rounded-full text-xs font-medium transition-colors ${
+                activeCategory === cat ? "bg-primary text-white" : "glass-card text-muted hover:text-foreground"
+              }`}
+            >
+              {cat}
+              {cat !== "Tümü" && (
+                <span className="ml-1.5 opacity-70">({items.filter((i) => (i.category || GENEL_KATEGORI) === cat).length})</span>
+              )}
+            </button>
+          ))}
+        </div>
+      )}
+
       {loading ? <div className="text-center text-muted py-12">Yükleniyor...</div> : items.length === 0 ? (
         <div className="glass-card p-12 text-center"><p className="text-muted">Henüz galeri öğesi yok.</p></div>
+      ) : filteredItems.length === 0 ? (
+        <div className="glass-card p-12 text-center"><p className="text-muted">Bu kategoride görsel yok.</p></div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-          {items.map((item) => (
+          {filteredItems.map((item) => (
             <div key={item.id} className="relative group aspect-square rounded-xl overflow-hidden glass-card !p-0">
               <img src={item.image} alt={item.caption || ""} className="w-full h-full object-cover" />
-              {item.caption && <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-xs p-2 truncate">{item.caption}</div>}
-              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+              <div className="absolute top-2 left-2 bg-black/60 text-white text-[10px] px-2 py-0.5 rounded-full truncate max-w-[85%]">
+                {item.category || GENEL_KATEGORI}
+              </div>
+              {item.caption && <div className="absolute bottom-8 left-0 right-0 bg-black/60 text-white text-xs p-2 truncate">{item.caption}</div>}
+              <div className="absolute inset-x-0 bottom-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                <select
+                  value={item.category || GENEL_KATEGORI}
+                  onChange={(e) => moveToCategory(item, e.target.value)}
+                  onClick={(e) => e.stopPropagation()}
+                  className="w-full text-[11px] px-1.5 py-1 bg-black/70 text-white border-t border-white/20 focus:outline-none"
+                  title="Kategori değiştir"
+                >
+                  {categoryOptions.map((cat) => (
+                    <option key={cat} value={cat} className="text-foreground">{cat}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 pb-6">
                 <button onClick={() => openEdit(item)} className="bg-primary text-white px-3 py-1.5 rounded-full text-xs">Düzenle</button>
                 <button onClick={() => setDeleteId(item.id)} className="bg-red-500 text-white px-3 py-1.5 rounded-full text-xs">Sil</button>
               </div>
@@ -86,7 +153,15 @@ export default function AdminGaleriPage() {
           </div>
           <div>
             <label className="block text-sm font-medium text-foreground/80 mb-1">Kategori</label>
-            <input type="text" value={form.category || ""} onChange={(e) => setForm({ ...form, category: e.target.value })} className="w-full px-4 py-2.5 rounded-xl bg-white/50 border border-white/30 focus:border-primary focus:outline-none text-sm" placeholder="örn: Düğün, Doğum Günü" />
+            <select
+              value={form.category || GENEL_KATEGORI}
+              onChange={(e) => setForm({ ...form, category: e.target.value })}
+              className="w-full px-4 py-2.5 rounded-xl bg-white/50 border border-white/30 focus:border-primary focus:outline-none text-sm"
+            >
+              {Array.from(new Set([...serviceTitles, GENEL_KATEGORI])).map((cat) => (
+                <option key={cat} value={cat}>{cat}</option>
+              ))}
+            </select>
           </div>
           <div>
             <label className="block text-sm font-medium text-foreground/80 mb-1">Sıra</label>

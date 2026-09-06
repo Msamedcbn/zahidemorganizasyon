@@ -40,7 +40,15 @@ export default async function HizmetDetayPage({ params }: { params: Promise<{ sl
   const title = service.title;
   const description = service.description;
   const longDescription = "longDescription" in service ? (service as any).longDescription : undefined;
-  const gallery: string[] = (dbService && (dbService as any).gallery) ? JSON.parse((dbService as any).gallery) : [];
+
+  // Gallery photos are managed in the admin panel (/admin/galeri) and tagged by
+  // category there, rather than the frozen Service.gallery snapshot — this way
+  // reassigning a photo's category in the admin actually changes what shows here.
+  let gallery: string[] = [];
+  try {
+    const galleryItems = await prisma.galleryItem.findMany({ where: { category: title }, orderBy: { order: "asc" } });
+    gallery = galleryItems.map((g) => g.image);
+  } catch {}
 
   let otherServices: Array<{ id?: string; slug: string; title: string; description: string }> = [];
   if (dbService) {

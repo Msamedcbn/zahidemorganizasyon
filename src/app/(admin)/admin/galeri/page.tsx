@@ -45,9 +45,16 @@ export default function AdminGaleriPage() {
   useEffect(() => { fetchItems(); fetchServiceTitles(); }, []);
 
   const categoryOptions = Array.from(new Set([...serviceTitles, GENEL_KATEGORI, ...items.map((i) => i.category).filter((c): c is string => !!c)]));
-  const filteredItems = activeCategory === "Tümü" ? items : items.filter((i) => (i.category || GENEL_KATEGORI) === activeCategory);
+  const filteredItems = (activeCategory === "Tümü" ? items : items.filter((i) => (i.category || GENEL_KATEGORI) === activeCategory))
+    .slice()
+    .sort((a, b) => a.order - b.order);
 
-  const openNew = () => { setEditing(null); setForm(emptyItem); setModalOpen(true); };
+  const nextOrderInCategory = (category: string) => {
+    const inCat = items.filter((i) => (i.category || GENEL_KATEGORI) === category);
+    return inCat.length > 0 ? Math.max(...inCat.map((i) => i.order)) + 1 : 0;
+  };
+
+  const openNew = () => { setEditing(null); setForm({ ...emptyItem, order: nextOrderInCategory(GENEL_KATEGORI) }); setModalOpen(true); };
   const openEdit = (item: GalleryItem) => { setEditing(item); setForm({ image: item.image, caption: item.caption || "", category: item.category, order: item.order }); setModalOpen(true); };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -68,15 +75,45 @@ export default function AdminGaleriPage() {
 
   const moveToCategory = async (item: GalleryItem, category: string) => {
     if (category === (item.category || GENEL_KATEGORI)) return;
-    setItems((prev) => prev.map((i) => (i.id === item.id ? { ...i, category } : i)));
+    // Appends to the end of the target category's own sequence, rather than
+    // carrying over an order value from the old category (which could clash
+    // or place it in a confusing spot).
+    const newOrder = nextOrderInCategory(category);
+    setItems((prev) => prev.map((i) => (i.id === item.id ? { ...i, category, order: newOrder } : i)));
     try {
       const res = await fetch("/api/admin/galeri", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: item.id, image: item.image, caption: item.caption, category, order: item.order }),
+        body: JSON.stringify({ id: item.id, image: item.image, caption: item.caption, category, order: newOrder }),
       });
       if (res.ok) toast(`"${category}" kategorisine taşındı`, "success");
       else { toast("Taşınamadı", "error"); fetchItems(); }
+    } catch { toast("Bağlantı hatası", "error"); fetchItems(); }
+  };
+
+  const moveWithinCategory = async (item: GalleryItem, direction: "up" | "down") => {
+    const category = item.category || GENEL_KATEGORI;
+    const inCategory = items.filter((i) => (i.category || GENEL_KATEGORI) === category).sort((a, b) => a.order - b.order);
+    const idx = inCategory.findIndex((i) => i.id === item.id);
+    const swapIdx = direction === "up" ? idx - 1 : idx + 1;
+    if (swapIdx < 0 || swapIdx >= inCategory.length) return;
+
+    const reordered = [...inCategory];
+    [reordered[idx], reordered[swapIdx]] = [reordered[swapIdx], reordered[idx]];
+    const updates = reordered.map((it, i) => ({ ...it, order: i }));
+
+    setItems((prev) => prev.map((i) => updates.find((u) => u.id === i.id) || i));
+    try {
+      const results = await Promise.all(
+        updates.map((it) =>
+          fetch("/api/admin/galeri", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: it.id, image: it.image, caption: it.caption, category: it.category, order: it.order }),
+          })
+        )
+      );
+      if (results.some((r) => !r.ok)) { toast("Sıralama kaydedilemedi", "error"); fetchItems(); }
     } catch { toast("Bağlantı hatası", "error"); fetchItems(); }
   };
 
@@ -115,12 +152,34 @@ export default function AdminGaleriPage() {
         <div className="glass-card p-12 text-center"><p className="text-muted">Bu kategoride görsel yok.</p></div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-          {filteredItems.map((item) => (
+          {filteredItems.map((item, idx) => (
             <div key={item.id} className="relative group aspect-square rounded-xl overflow-hidden glass-card !p-0">
               <img src={item.image} alt={item.caption || ""} className="w-full h-full object-cover" />
               <div className="absolute top-2 left-2 bg-black/60 text-white text-[10px] px-2 py-0.5 rounded-full truncate max-w-[85%]">
                 {item.category || GENEL_KATEGORI}
               </div>
+              {activeCategory !== "Tümü" && (
+                <div className="absolute top-2 right-2 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button
+                    type="button"
+                    onClick={() => moveWithinCategory(item, "up")}
+                    disabled={idx === 0}
+                    title="Yukarı taşı"
+                    className="bg-white/90 disabled:opacity-30 disabled:cursor-not-allowed text-foreground w-6 h-6 rounded-full flex items-center justify-center hover:bg-white transition-colors"
+                  >
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 19V5" /><path d="m5 12 7-7 7 7" /></svg>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => moveWithinCategory(item, "down")}
+                    disabled={idx === filteredItems.length - 1}
+                    title="Aşağı taşı"
+                    className="bg-white/90 disabled:opacity-30 disabled:cursor-not-allowed text-foreground w-6 h-6 rounded-full flex items-center justify-center hover:bg-white transition-colors"
+                  >
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 5v14" /><path d="m19 12-7 7-7-7" /></svg>
+                  </button>
+                </div>
+              )}
               {item.caption && <div className="absolute bottom-8 left-0 right-0 bg-black/60 text-white text-xs p-2 truncate">{item.caption}</div>}
               <div className="absolute inset-x-0 bottom-0 opacity-0 group-hover:opacity-100 transition-opacity">
                 <select
@@ -144,7 +203,7 @@ export default function AdminGaleriPage() {
         </div>
       )}
 
-      <Modal open={modalOpen} onClose={() => setModalOpen(false)} title={editing ? "Görsel Düzenle" : "Yeni Görsel"} size="md">
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)} title={editing ? "Görsel Düzenle" : "Yeni Görsel"} size="lg">
         <form onSubmit={handleSubmit} className="space-y-5">
           <ImageUpload value={form.image} onChange={(url) => setForm({ ...form, image: url })} folder="galeri" label="Görsel" />
           <div>
@@ -155,7 +214,14 @@ export default function AdminGaleriPage() {
             <label className="block text-sm font-medium text-foreground/80 mb-1">Kategori</label>
             <select
               value={form.category || GENEL_KATEGORI}
-              onChange={(e) => setForm({ ...form, category: e.target.value })}
+              onChange={(e) => {
+                const category = e.target.value;
+                if (category === (editing?.category || GENEL_KATEGORI)) {
+                  setForm({ ...form, category });
+                } else {
+                  setForm({ ...form, category, order: nextOrderInCategory(category) });
+                }
+              }}
               className="w-full px-4 py-2.5 rounded-xl bg-white/50 border border-white/30 focus:border-primary focus:outline-none text-sm"
             >
               {Array.from(new Set([...serviceTitles, GENEL_KATEGORI])).map((cat) => (
@@ -164,8 +230,9 @@ export default function AdminGaleriPage() {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-foreground/80 mb-1">Sıra</label>
+            <label className="block text-sm font-medium text-foreground/80 mb-1">Sıra (kategori içinde)</label>
             <input type="number" value={form.order} onChange={(e) => setForm({ ...form, order: Number(e.target.value) })} className="w-full px-4 py-2.5 rounded-xl bg-white/50 border border-white/30 focus:border-primary focus:outline-none text-sm" />
+            <p className="text-xs text-muted mt-1">Kategori değiştirilince otomatik olarak sona eklenir; galeri listesinde ▲▼ ile de sıralayabilirsiniz.</p>
           </div>
           <div className="flex gap-3 justify-end pt-4 border-t border-white/10">
             <button type="button" onClick={() => setModalOpen(false)} className="px-5 py-2.5 rounded-full text-sm text-muted hover:text-foreground hover:bg-white/10 transition-colors">İptal</button>

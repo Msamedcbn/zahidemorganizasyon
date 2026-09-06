@@ -43,6 +43,7 @@ async function compressImage(file: File): Promise<Blob> {
 
 export function ImageUpload({ value, onChange, folder = "uploads", label = "Görsel Yükle" }: ImageUploadProps) {
   const [uploading, setUploading] = useState(false);
+  const [rotating, setRotating] = useState(false);
   const [error, setError] = useState("");
   const [dragActive, setDragActive] = useState(false);
   const [preview, setPreview] = useState(value || "");
@@ -112,6 +113,27 @@ export function ImageUpload({ value, onChange, folder = "uploads", label = "Gör
     if (file) upload(file);
   };
 
+  const rotate = async (degrees: 90 | -90) => {
+    if (!preview || rotating || uploading) return;
+    setRotating(true);
+    setError("");
+    try {
+      const res = await fetch("/api/admin/rotate-image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: preview, degrees }),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok) throw new Error(data?.error || `Döndürme hatası (${res.status})`);
+      onChange(data.url);
+      setPreview(data.url);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Görsel döndürülürken hata oluştu.");
+    } finally {
+      setRotating(false);
+    }
+  };
+
   const clear = () => {
     onChange("");
     setPreview("");
@@ -133,14 +155,16 @@ export function ImageUpload({ value, onChange, folder = "uploads", label = "Gör
         className={`relative rounded-xl transition-colors ${dragActive ? "ring-2 ring-primary ring-offset-2" : ""}`}
       >
         {preview ? (
-          <div className="relative group w-full h-48 rounded-xl overflow-hidden bg-black/5 border border-foreground/10">
+          <div className="relative group w-full h-72 sm:h-96 rounded-xl overflow-hidden bg-black/5 border border-foreground/10">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={previewSrc}
               alt=""
-              className="w-full h-full object-contain"
+              className="w-full h-full object-contain cursor-zoom-in"
               onError={handleImgError}
               onLoad={() => setImgPending(false)}
+              onClick={() => window.open(preview, "_blank", "noopener,noreferrer")}
+              title="Tam boyutta görmek için tıklayın"
             />
 
             {uploading && (
@@ -149,13 +173,40 @@ export function ImageUpload({ value, onChange, folder = "uploads", label = "Gör
               </div>
             )}
 
-            {!uploading && imgPending && (
+            {rotating && (
+              <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                <span className="text-white text-sm">Döndürülüyor...</span>
+              </div>
+            )}
+
+            {!uploading && !rotating && imgPending && (
               <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
                 <span className="text-white text-sm">Görsel işleniyor, birazdan görünecek...</span>
               </div>
             )}
 
-            {!uploading && (
+            {!uploading && !rotating && (
+              <div className="absolute top-2 right-2 flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button
+                  type="button"
+                  onClick={() => rotate(-90)}
+                  title="Sola döndür"
+                  className="bg-white/90 text-foreground w-7 h-7 rounded-full flex items-center justify-center hover:bg-white transition-colors"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 14 4 9l5-5" /><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11" /></svg>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => rotate(90)}
+                  title="Sağa döndür"
+                  className="bg-white/90 text-foreground w-7 h-7 rounded-full flex items-center justify-center hover:bg-white transition-colors"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m15 14 5-5-5-5" /><path d="M20 9H9.5A5.5 5.5 0 0 0 4 14.5v0A5.5 5.5 0 0 0 9.5 20H13" /></svg>
+                </button>
+              </div>
+            )}
+
+            {!uploading && !rotating && (
               <div className="absolute inset-x-0 bottom-0 flex items-center justify-end gap-2 p-2 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
                 <button
                   type="button"

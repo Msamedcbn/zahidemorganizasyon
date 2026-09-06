@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   // otomatik tespit edilemiyor; deploy edilen fonksiyona elle dahil ediyoruz.
   outputFileTracingIncludes: {
     "/api/admin/upload": ["./node_modules/@img/sharp-linux-x64/**", "./node_modules/@img/sharp-libvips-linux-x64/**"],
+    "/api/admin/rotate-image": ["./node_modules/@img/sharp-linux-x64/**", "./node_modules/@img/sharp-libvips-linux-x64/**"],
   },
   images: {
     formats: ["image/avif", "image/webp"],

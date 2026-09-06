@@ -14,7 +14,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Geçersiz istek" }, { status: 400 });
     }
 
-    const sourceRes = await fetch(url, { cache: "no-store" });
+    // A just-rotated (or just-uploaded) object can take a few seconds to become
+    // servable through the R2 custom domain's edge layer, even though it's
+    // already durably written. Retry with backoff before failing.
+    let sourceRes = await fetch(url, { cache: "no-store" });
+    for (const delayMs of [1000, 2000, 4000, 8000]) {
+      if (sourceRes.ok) break;
+      await new Promise((r) => setTimeout(r, delayMs));
+      sourceRes = await fetch(url, { cache: "no-store" });
+    }
     if (!sourceRes.ok) throw new Error(`Kaynak görsel okunamadı (HTTP ${sourceRes.status})`);
     const buffer = Buffer.from(await sourceRes.arrayBuffer());
 

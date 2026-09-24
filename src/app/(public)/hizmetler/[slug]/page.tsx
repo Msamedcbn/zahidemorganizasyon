@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { siteConfig, priorityDistricts, services as fallbackServices } from "@/lib/data";
+import { getServiceSeo } from "@/lib/seo";
 import { slugifyTr } from "@/lib/slugify";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { FluidShapes } from "@/components/ui/FluidShapes";
@@ -24,7 +25,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   try { const s = await prisma.service.findUnique({ where: { slug } }); if (s) { title = s.title; description = s.description; } } catch {}
   if (!title) { const s = fallbackServices.find((x) => x.slug === slug); if (s) { title = s.title; description = s.description; } }
   if (!title) return { title: "Sayfa Bulunamadı" };
-  return { title, description, alternates: { canonical: `/hizmetler/${slug}` } };
+  const seo = getServiceSeo(slug, title, description);
+  return {
+    title: seo.seoTitle,
+    description: seo.seoDescription,
+    keywords: seo.keywords,
+    alternates: { canonical: `/hizmetler/${slug}` },
+    openGraph: { title: seo.seoTitle, description: seo.seoDescription, type: "website" },
+  };
 }
 
 export default async function HizmetDetayPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -39,6 +47,8 @@ export default async function HizmetDetayPage({ params }: { params: Promise<{ sl
 
   const title = service.title;
   const description = service.description;
+  const seo = getServiceSeo(slug, title, description);
+  const h1 = seo.h1;
   const longDescription = "longDescription" in service ? (service as any).longDescription : undefined;
 
   // Gallery photos are managed in the admin panel (/admin/galeri) and tagged by
@@ -78,11 +88,13 @@ export default async function HizmetDetayPage({ params }: { params: Promise<{ sl
 
         <div className="grid md:grid-cols-3 gap-10 mb-20">
           <div className="md:col-span-2">
-            <h1 className="text-4xl md:text-5xl font-headline font-bold text-foreground mb-6">{title}</h1>
+            <h1 className="text-4xl md:text-5xl font-headline font-bold text-foreground mb-6">{h1}</h1>
             <div className="prose prose-lg max-w-none text-muted leading-relaxed space-y-4">
-              <p className="text-xl text-foreground/80 font-medium">{description}</p>
+              <p className="text-xl text-foreground/80 font-medium">{seo.seoDescription}</p>
               {longDescription && <p>{longDescription}</p>}
-              <p>Zahidem Organizasyon olarak, {title.toLocaleLowerCase("tr")} hizmetimizde kaliteyi, müşteri memnuniyetini ve hayal ettiğiniz organizasyonu gerçeğe dönüştürmeyi ön planda tutuyoruz.</p>
+              <p>Zahidem Organizasyon olarak, {title.toLocaleLowerCase("tr")} hizmetimizde kaliteyi, müşteri memnuniyetini ve hayal ettiğiniz organizasyonu gerçeğe dönüştürmeyi ön planda tutuyoruz. Sultanbeyli merkezli ekibimiz İstanbul&apos;un 38 ilçesinde kurulum yapar; telefonda ön fiyat, ücretsiz keşifte net fiyat veriyoruz.</p>
+              <h2 className="text-2xl font-headline font-bold text-foreground pt-4">Fiyat ve Rezervasyon</h2>
+              <p>Fiyat; konsept büyüklüğü, mekan tipi (ev, salon, açık hava) ve ilçeye göre değişir. Net fiyat için tek yapmanız gereken aramak veya WhatsApp&apos;tan yazmak — aynı gün dönüş yapıyoruz. Yoğun dönemlerde (Mayıs–Eylül) en az 2–3 hafta önceden rezervasyon öneririz.</p>
             </div>
           </div>
 

@@ -10,7 +10,17 @@ import { LocalBusinessSchema, FaqSchema } from "@/components/seo/SchemaJsonLd";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
+    title: "İstanbul Organizasyon Firması | Söz, Nişan, Düğün & Doğum Günü",
+    description:
+      "İstanbul'da organizasyon firması: söz & nişan, doğum günü, sünnet, açılış, balon süsleme ve masa sandalye kiralama. 38 ilçede ücretsiz keşif için hemen arayın.",
     alternates: { canonical: "https://www.zahidemorganizasyon.com" },
+    openGraph: {
+      title: "İstanbul Organizasyon Firması | Söz, Nişan, Düğün & Doğum Günü",
+      description:
+        "Söz & nişan, doğum günü, sünnet, açılış ve balon süsleme — İstanbul 38 ilçede ücretsiz keşif.",
+      type: "website",
+      url: "https://www.zahidemorganizasyon.com",
+    },
   };
 }
 
@@ -37,14 +47,16 @@ export default async function HomePage() {
     <>
       <LocalBusinessSchema />
       <FaqSchema questions={[
-        { question: "Hangi bölgelere hizmet veriyorsunuz?", answer: "İstanbul'un Anadolu ve Avrupa yakası olmak üzere 38 ilçede hizmet vermekteyiz." },
-        { question: "Organizasyon için ne kadar önceden rezervasyon yapmalıyım?", answer: "Yoğun dönemlere göre değişmekle birlikte, en az 2-3 hafta öncesinden iletişime geçmenizi öneririz." },
-        { question: "Fiyatlandırmanız nasıl?", answer: "Her organizasyon özel olduğu için fiyatlarımız konsept, mekan ve hizmet kapsamına göre değişmektedir. Ücretsiz keşif ve teklif için bizi arayabilirsiniz." },
-        { question: "Hangi hizmetleri sunuyorsunuz?", answer: "Doğum günü, mezuniyet, söz & nişan, sevgililer günü, açılış, masa sandalye kiralama, kokteyl, yapay ağaç dekoru, yapay çiçek dekoru, piknik, sünnet ve balon aranjmanı hizmetlerimiz bulunmaktadır." },
+        { question: "İstanbul'da söz organizasyonu fiyatları ne kadar?", answer: "Fiyat konsept büyüklüğü, mekan ve ilçeye göre değişir. Telefonda ön fiyat veriyor, ücretsiz keşif sonrası net fiyat çıkarıyoruz: +90 531 663 29 30." },
+        { question: "Evde söz ve nişan konsepti kuruyor musunuz?", answer: "Evet. Arka fon, gelin masası, çiçek, balon, masa sandalye ve ikram düzenini aynı gün kurup topluyoruz. 38 ilçeye hizmet veriyoruz." },
+        { question: "Hangi bölgelere hizmet veriyorsunuz?", answer: "İstanbul'un Anadolu ve Avrupa yakası olmak üzere 38 ilçede hizmet vermekteyiz. Yoğun bölgeler: Sultanbeyli, Pendik, Kartal, Maltepe, Kadıköy, Üsküdar, Ataşehir." },
+        { question: "Organizasyon için ne kadar önceden rezervasyon yapmalıyım?", answer: "En az 2-3 hafta öncesinden iletişime geçmenizi öneririz. Müsaitliğe göre aynı hafta kurulum da yapabiliyoruz." },
+        { question: "Doğum günü ve sünnet organizasyonu da yapıyor musunuz?", answer: "Evet. Doğum günü, sünnet, açılış, kokteyl, piknik ve masa sandalye kiralama hizmetlerimiz de bulunmaktadır." },
       ]} />
       <HeroSection />
       <StatsSection />
       <ServiceGrid services={services} />
+      <SeoContent services={services} />
       <AboutPreview />
       <FaqSection />
       <ContactBanner />
@@ -86,14 +98,13 @@ function HeroSection() {
         </div>
 
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-headline font-bold text-foreground leading-tight mb-6 max-w-5xl mx-auto">
-          En Özel Anlarınızı{" "}
-          <span className="text-gradient">En Özel Anılara</span>{" "}
-          Dönüştürüyoruz
+          İstanbul Organizasyon Firması:{" "}
+          <span className="text-gradient">Söz, Nişan, Düğün & Doğum Günü</span>
         </h1>
 
         <p className="text-lg md:text-xl text-muted max-w-2xl mx-auto mb-10">
-          İstanbul&apos;un her noktasında, sözden düğüne, doğum gününden kurumsal etkinliklere kadar
-          profesyonel organizasyon hizmeti.
+          Sultanbeyli merkezli ekibimizle İstanbul&apos;un 38 ilçesinde evde söz konsepti,
+          doğum günü, sünnet, açılış ve balon süsleme — ücretsiz keşif, kurulum dahil.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -148,6 +159,56 @@ function StatsSection() {
               <div className="text-xs text-muted">{stat.desc}</div>
             </GlassCard>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function SeoContent({ services }: { services: Array<{ title: string; slug: string; description: string }> }) {
+  const popularDistricts = ["Sultanbeyli", "Pendik", "Kartal", "Maltepe", "Üsküdar", "Kadıköy", "Ataşehir", "Çekmeköy", "Sancaktepe", "Tuzla", "Ümraniye", "Şile"];
+  return (
+    <section className="relative py-20">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid md:grid-cols-2 gap-10">
+          <div>
+            <h2 className="text-2xl md:text-3xl font-headline font-bold text-foreground mb-4">
+              İstanbul&apos;da Hangi Organizasyon Hizmetlerini Veriyoruz?
+            </h2>
+            <p className="text-muted leading-relaxed mb-6">
+              Sultanbeyli merkezli ekibimiz evde söz & nişan konseptinden doğum günü partisine,
+              sünnet düğününden mağaza açılışına kadar uçtan uca kurulum yapar: konsept tasarım,
+              balon ve çiçek süsleme, masa sandalye kurulumu, ikram düzeni ve gün akış yönetimi.
+              Tüm fiyatlar konsept ve ilçe mesafesine göre netleşir — telefonda ön fiyat, keşifte net fiyat veriyoruz.
+            </p>
+            <ul className="grid sm:grid-cols-2 gap-2">
+              {services.map((s) => (
+                <li key={s.slug}>
+                  <Link href={`/hizmetler/${s.slug}`} className="text-sm text-foreground/80 hover:text-primary transition-colors">
+                    → {s.title} İstanbul
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h2 className="text-2xl md:text-3xl font-headline font-bold text-foreground mb-4">
+              Hangi İlçelere Hizmet Veriyoruz?
+            </h2>
+            <p className="text-muted leading-relaxed mb-6">
+              Anadolu ve Avrupa yakasında 38 ilçede kurulum yapıyoruz. En yoğun çalıştığımız
+              bölgeler aşağıda — ilçe sayfasında o bölgeye özel konsept ve fiyat bilgisini bulursunuz.
+            </p>
+            <ul className="grid sm:grid-cols-2 gap-2">
+              {popularDistricts.map((d) => (
+                <li key={d}>
+                  <Link href="/hizmetler/soz-nisan-konsepti" className="text-sm text-foreground/80 hover:text-primary transition-colors">
+                    → {d} organizasyon
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -210,10 +271,12 @@ function AboutPreview() {
 
 function FaqSection() {
   const faqs = [
-    { q: "Hangi bölgelere hizmet veriyorsunuz?", a: "İstanbul'un Anadolu ve Avrupa yakası olmak üzere 38 ilçede hizmet vermekteyiz." },
-    { q: "Organizasyon için ne kadar önceden rezervasyon yapmalıyım?", a: "Yoğun dönemlere göre değişmekle birlikte, en az 2-3 hafta öncesinden iletişime geçmenizi öneririz." },
-    { q: "Fiyatlandırmanız nasıl?", a: "Her organizasyon özel olduğu için fiyatlarımız konsept, mekan ve hizmet kapsamına göre değişmektedir. Ücretsiz keşif ve teklif için bizi arayabilirsiniz." },
-    { q: "Hangi hizmetleri sunuyorsunuz?", a: "Söz, nişan, düğün, doğum günü, sünnet, açılış, kokteyl, balon süsleme, sandalye kiralama, asker uğurlama ve mezuniyet organizasyonu hizmetlerimiz bulunmaktadır." },
+    { q: "İstanbul'da söz organizasyonu fiyatları ne kadar?", a: "Fiyat konsept büyüklüğü, mekan (ev/salon) ve ilçeye göre değişir. Telefonda ön fiyat veriyor, ücretsiz keşif sonrası net fiyat çıkarıyoruz. Ortalama evde söz konseptleri için bizi arayıp aynı gün fiyat alabilirsiniz: +90 531 663 29 30." },
+    { q: "Evde söz ve nişan konsepti kuruyor musunuz?", a: "Evet, en çok yaptığımız iş evde söz & nişan kurulumu. Arka fon, gelin masası, çiçek, balon, masa sandalye ve ikram düzenini aynı gün kurup topluyoruz. Sultanbeyli merkezliyiz, 38 ilçeye gidiyoruz." },
+    { q: "Hangi bölgelere hizmet veriyorsunuz?", a: "İstanbul'un Anadolu ve Avrupa yakası olmak üzere 38 ilçede hizmet vermekteyiz. Yoğun bölgelerimiz: Sultanbeyli, Pendik, Kartal, Maltepe, Kadıköy, Üsküdar, Ataşehir, Çekmeköy ve Tuzla." },
+    { q: "Organizasyon için ne kadar önceden rezervasyon yapmalıyım?", a: "Yoğun dönemlere (Mayıs-Eylül, Sevgililer Günü) göre değişmekle birlikte en az 2-3 hafta öncesinden iletişime geçmenizi öneririz. Son dakika işler için de müsaitliğe göre aynı hafta kurulum yapabiliyoruz." },
+    { q: "Fiyatlandırmanız nasıl?", a: "Her organizasyon özel olduğu için fiyatlarımız konsept, mekan ve hizmet kapsamına göre değişmektedir. Ücretsiz keşif ve net teklif için bizi arayabilirsiniz." },
+    { q: "Doğum günü ve sünnet organizasyonu da yapıyor musunuz?", a: "Evet. Doğum günü (temalı konsept + balon süsleme), sünnet (taht, mevlüt düzeni, eğlence), açılış, kokteyl, piknik ve masa sandalye kiralama hizmetlerimiz de var. Tüm liste için Hizmetler sayfasına bakın." },
   ];
 
   return (

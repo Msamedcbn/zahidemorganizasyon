@@ -20,8 +20,8 @@ async function getSettings() {
 export async function generateMetadata(): Promise<Metadata> {
   const s = await getSettings();
   const siteName = s.siteName || "Zahidem Organizasyon";
-  const description = s.seoDescription || "İstanbul'un her noktasında profesyonel organizasyon hizmeti. Doğum günü, mezuniyet, söz & nişan, sevgililer günü, açılış, masa sandalye kiralama, kokteyl, yapay ağaç çiçek dekoru, piknik, sünnet, balon aranjmanı.";
-  const defaultTitle = s.seoTitle || `${siteName} | Söz, Nişan, Düğün, Doğum Günü Organizasyonu`;
+  const description = s.seoDescription || "İstanbul'da söz & nişan, doğum günü, sünnet, açılış ve balon süsleme. Sultanbeyli merkezli ekiple 38 ilçede ücretsiz keşif ve kurulum.";
+  const defaultTitle = s.seoTitle || `${siteName} | İstanbul Organizasyon Firması`;
   const logo = s.logo || "";
 
   return {

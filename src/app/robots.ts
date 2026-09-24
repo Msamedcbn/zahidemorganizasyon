@@ -17,8 +17,6 @@ const blockedBots = [
   "DataForSeoBot",
   "Amazonbot",
   "meta-externalagent",
-  "facebookexternalhit",
-  "Facebot",
 ];
 
 export default function robots(): MetadataRoute.Robots {

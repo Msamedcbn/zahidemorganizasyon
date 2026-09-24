@@ -1,14 +1,14 @@
 export function LocalBusinessSchema() {
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
+    "@type": "EventPlanningService",
     name: "Zahidem Organizasyon",
     image: "https://www.zahidemorganizasyon.com/images/service-soz.jpg",
     "@id": "https://www.zahidemorganizasyon.com",
     url: "https://www.zahidemorganizasyon.com",
     telephone: "+90 531 663 29 30",
     email: "info@zahidemorganizasyon.com",
-    description: "İstanbul'un her noktasında profesyonel organizasyon hizmeti. Söz, nişan, düğün, doğum günü, sünnet, açılış, kokteyl, balon süsleme, sandalye kiralama, asker uğurlama ve mezuniyet organizasyonu.",
+    description: "İstanbul'da söz & nişan, doğum günü, sünnet, açılış, kokteyl, balon süsleme ve masa sandalye kiralama. Sultanbeyli merkezli, 38 ilçede ücretsiz keşif.",
     address: {
       "@type": "PostalAddress",
       streetAddress: "Abdurrahmangazi, Aktutan Cd. No:1",
@@ -22,6 +22,10 @@ export function LocalBusinessSchema() {
       latitude: 40.9611,
       longitude: 29.2592,
     },
+    areaServed: [
+      "Sultanbeyli", "Pendik", "Kartal", "Maltepe", "Kadıköy", "Üsküdar",
+      "Ataşehir", "Çekmeköy", "Sancaktepe", "Tuzla", "Ümraniye", "Şile",
+    ].map((d) => ({ "@type": "City", name: `${d}, İstanbul` })),
     openingHoursSpecification: {
       "@type": "OpeningHoursSpecification",
       dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
@@ -33,7 +37,22 @@ export function LocalBusinessSchema() {
       "https://www.facebook.com/zahidemorganizasyonn",
       "https://www.youtube.com/channel/UCfSemzsL-ElAbQT3j_2xTaQ",
     ],
-    priceRange: "₺",
+    priceRange: "₺₺",
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Organizasyon Hizmetleri",
+      itemListElement: [
+        "Söz & Nişan Organizasyonu",
+        "Doğum Günü Organizasyonu",
+        "Sünnet Organizasyonu",
+        "Açılış Organizasyonu",
+        "Balon Süsleme",
+        "Masa Sandalye Kiralama",
+      ].map((name) => ({
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name },
+      })),
+    },
   };
 
   return (

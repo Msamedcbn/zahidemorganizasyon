@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
-import { districts } from "@/lib/data";
+import { priorityDistricts } from "@/lib/data";
 import { slugifyTr } from "@/lib/slugify";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -40,8 +40,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
+  // Sadece arama hacmi olan ilçeler sitemap'e girer (~12 hizmet × 12 ilçe).
+  // Noindex ilçeler crawl bütçesini tüketmesin diye dışarıda bırakıldı.
   const districtServicePages = serviceSlugs.flatMap((slug) =>
-    districts.map((district) => ({
+    priorityDistricts.map((district) => ({
       url: `${baseUrl}/hizmetler/${slug}/${slugifyTr(district)}`,
       lastModified: now,
       changeFrequency: "monthly" as const,

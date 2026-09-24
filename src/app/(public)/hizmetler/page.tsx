@@ -5,8 +5,8 @@ import { FluidShapes } from "@/components/ui/FluidShapes";
 import { services as fallbackServices } from "@/lib/data";
 
 export const metadata: Metadata = {
-  title: "Hizmetlerimiz",
-  description: "Doğum günü, mezuniyet, söz & nişan, sevgililer günü, açılış, masa sandalye kiralama, kokteyl, yapay ağaç dekoru, yapay çiçek dekoru, piknik, sünnet, balon aranjmanı. İstanbul'un her noktasında profesyonel organizasyon hizmeti.",
+  title: "İstanbul Organizasyon Hizmetleri | 12 Konsept",
+  description: "İstanbul'da söz & nişan, doğum günü, sünnet, açılış, kokteyl, balon süsleme ve masa sandalye kiralama. 38 ilçede ücretsiz keşif için hizmet seçin.",
 };
 
 export default async function HizmetlerPage() {

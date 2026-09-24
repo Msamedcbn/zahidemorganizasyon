@@ -3,6 +3,9 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { siteConfig, districts, services as fallbackServices } from "@/lib/data";
+import { isIndexableDistrict, ilceSeoTitle, ilceSeoDescription } from "@/lib/seo";
+import { getDistrictInfo, ilceFaqs } from "@/lib/districts";
+import { FaqSchema } from "@/components/seo/SchemaJsonLd";
 import { slugifyTr } from "@/lib/slugify";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { FluidShapes } from "@/components/ui/FluidShapes";
@@ -52,14 +55,18 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
   if (!title) return { title: "Sayfa Bulunamadı" };
 
-  const pageTitle = `${district} ${title}`;
-  const pageDescription = `${district} bölgesinde profesyonel ${title.toLocaleLowerCase("tr")} hizmeti. ${description}`;
+  const pageTitle = ilceSeoTitle(district, title);
+  const pageDescription = ilceSeoDescription(district, title, description);
+  const indexable = isIndexableDistrict(district);
 
   return {
     title: pageTitle,
     description: pageDescription,
     alternates: { canonical: `/hizmetler/${slug}/${ilce}` },
     openGraph: { title: pageTitle, description: pageDescription, type: "website" },
+    // İnce içerik riski olan düşük hacimli ilçeler indekse girmez;
+    // link değeri akar ama SERP'i kirletmez.
+    ...(indexable ? {} : { robots: { index: false, follow: true } }),
   };
 }
 
@@ -80,6 +87,8 @@ export default async function HizmetIlcePage({ params }: { params: Promise<{ slu
 
   const variantIndex = (district.length + slug.length) % 3;
   const intro = introTemplates(district, title, description)[variantIndex];
+  const info = getDistrictInfo(district);
+  const faqs = ilceFaqs(district, title);
 
   const nearbyDistricts = districts.filter((d) => d !== district).slice(0, 8);
 
@@ -87,6 +96,7 @@ export default async function HizmetIlcePage({ params }: { params: Promise<{ slu
     <div className="relative pt-32 pb-16 min-h-screen">
       <FluidShapes />
       <ServiceSchema title={`${district} ${title}`} description={description} slug={`${slug}/${ilce}`} district={district} />
+      <FaqSchema questions={faqs} />
       <div className="relative max-w-7xl mx-auto px-6">
         <Breadcrumbs items={[
           { name: "Ana Sayfa", url: "/" },
@@ -108,6 +118,21 @@ export default async function HizmetIlcePage({ params }: { params: Promise<{ slu
                 ikramdan organizasyon gününün akışına kadar tüm süreci sizin adınıza yönetiyoruz. {district}&apos;deki
                 mekanları ve tedarikçileri yakından tanıyan ekibimiz, bütçenize en uygun çözümü sunar.
               </p>
+              {info && (
+                <>
+                  <h2 className="text-2xl font-headline font-bold text-foreground pt-4">
+                    {district}&apos;de Nerelerde Kurulum Yapıyoruz?
+                  </h2>
+                  <p>{info.blurb}</p>
+                  <p>
+                    <strong className="text-foreground">Yoğun mahalleler:</strong> {info.neighborhoods.join(", ")}.{" "}
+                    {info.venueNote}
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Ulaşım & keşif:</strong> {info.accessNote}
+                  </p>
+                </>
+              )}
             </div>
           </div>
 
@@ -126,6 +151,25 @@ export default async function HizmetIlcePage({ params }: { params: Promise<{ slu
                 <a href="https://wa.me/905316632930" className="w-full bg-primary text-white px-4 py-3 rounded-full text-sm font-semibold hover:bg-primary-dark transition-colors text-center block">WhatsApp&apos;tan Yaz</a>
               </div>
             </GlassCard>
+          </div>
+        </div>
+
+        <div className="mb-16">
+          <h2 className="text-2xl font-headline font-bold text-foreground mb-8">
+            {district} {title} Hakkında Merak Edilenler
+          </h2>
+          <div className="space-y-3 max-w-3xl">
+            {faqs.map((faq, i) => (
+              <details key={i} className="glass-card !p-0 group">
+                <summary className="px-6 py-4 font-medium cursor-pointer list-none flex items-center justify-between [&::-webkit-details-marker]:hidden">
+                  <span>{faq.question}</span>
+                  <svg className="w-5 h-5 text-primary transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </summary>
+                <div className="px-6 pb-4 text-sm text-muted leading-relaxed">{faq.answer}</div>
+              </details>
+            ))}
           </div>
         </div>
 

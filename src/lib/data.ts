@@ -88,12 +88,20 @@ export const services = [
     longDescription: "Sünnet töreninizi hem geleneksel hem de modern çizgide, ailenizin ve davetlilerinizin keyif alacağı şekilde organize ediyoruz.",
   },
   {
-    title: "Balon Aranjmanı",
-    slug: "balon-aranjmani",
-    description: "Yaratıcı ve göz alıcı balon aranjman tasarımları.",
-    icon: "Bubble",
-    image: "/images/balon.jpg",
-    longDescription: "Doğum günlerinden düğünlere, açılışlardan kurumsal etkinliklere kadar her tür organizasyon için yaratıcı balon aranjman hizmeti sunuyoruz.",
+    title: "Kına Organizasyonu",
+    slug: "kina-organizasyonu",
+    description: "Kına tahtı, bindallı, davul şov ve unutulmaz kına gecesi konseptleri.",
+    icon: "Celebration",
+    image: "/images/service-kina.jpg",
+    longDescription: "Geleneksel ve modern kına gecesi konseptleri: kına tahtı, nedime ekibi, bindallı, davul şov ve ikram düzeni. Sultanbeyli merkezli ekibimizle tüm İstanbul'da anahtar teslim kına organizasyonu.",
+  },
+  {
+    title: "Düğün Organizasyonu",
+    slug: "dugun-organizasyonu",
+    description: "Kır düğünü, salon düğünü ve açık hava konseptlerinde profesyonel planlama.",
+    icon: "Heart",
+    image: "/images/service-dugun.jpg",
+    longDescription: "Hayatınızın en mutlu gününü kusursuz kılmak için gelin yolu, masa sandalye giydirme, ses-ışık sahne kurulumu ve mekan dekorasyonuyla yanınızdayız.",
   },
 ];
 

@@ -9,7 +9,7 @@ import { slugifyTr } from "@/lib/slugify";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { FluidShapes } from "@/components/ui/FluidShapes";
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
-import { ServiceSchema } from "@/components/seo/SchemaJsonLd";
+import { ServiceSchema, FaqSchema } from "@/components/seo/SchemaJsonLd";
 
 export async function generateStaticParams() {
   try {
@@ -69,10 +69,30 @@ export default async function HizmetDetayPage({ params }: { params: Promise<{ sl
     otherServices = fallbackServices.filter((s) => s.slug !== slug).slice(0, 5);
   }
 
+  const faqs = [
+    {
+      question: `İstanbul'da ${title.toLocaleLowerCase("tr")} fiyatları ne kadar?`,
+      answer: `Fiyatlar tercih edilen konsept büyüklüğüne, malzeme detaylarına (canlı/yapay çiçek, arka fon, masa sandalye adeti vb.) ve mekan türüne göre belirlenir. Sultanbeyli ve tüm ilçelerde ücretsiz keşif yaparak net fiyat teklifi sunuyoruz. Telefonda ön fiyat için: +90 531 663 29 30.`,
+    },
+    {
+      question: `${title} kurulum ve nakliyesi fiyata dahil mi?`,
+      answer: `Evet. Ekibimiz etkinlikten en az 3 saat önce adrese gelerek anahtar teslim kurulumu tamamlar, etkinlik bitiminde tüm dekoru eksiksiz toplar. İstanbul Anadolu Yakası'nda ek nakliye ücreti talep edilmez.`,
+    },
+    {
+      question: `Rezervasyon için ne kadar önceden iletişime geçmeliyim?`,
+      answer: `Hafta sonları ve yaz aylarındaki yoğunluk nedeniyle en az 2-3 hafta öncesinden iletişime geçmenizi öneririz. Müsaitlik durumuna göre aynı hafta veya aynı gün kurulum desteği de sağlıyoruz.`,
+    },
+    {
+      question: `Evde veya açık alanda kurulum yapıyor musunuz?`,
+      answer: `Evet. Daire salonları, site bahçeleri, teraslar, kır bahçeleri ve davet salonları dahil her mekana uygun ölçülerde konsept kurulumu yapıyoruz.`,
+    },
+  ];
+
   return (
     <div className="relative pt-32 pb-16 min-h-screen">
       <FluidShapes />
       <ServiceSchema title={title} description={description} slug={slug} />
+      <FaqSchema questions={faqs} />
       <div className="relative max-w-7xl mx-auto px-6">
         <Breadcrumbs items={[
           { name: "Ana Sayfa", url: "/" },
@@ -128,6 +148,23 @@ export default async function HizmetDetayPage({ params }: { params: Promise<{ sl
             </div>
           </div>
         )}
+
+        <div className="mb-16">
+          <h2 className="text-2xl font-headline font-bold text-foreground mb-6">Sıkça Sorulan Sorular</h2>
+          <div className="space-y-3">
+            {faqs.map((f, i) => (
+              <details key={i} className="glass-card !p-0 group">
+                <summary className="px-6 py-4 font-medium cursor-pointer list-none flex items-center justify-between">
+                  <span>{f.question}</span>
+                  <svg className="w-5 h-5 text-primary transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6" /></svg>
+                </summary>
+                <div className="px-6 pb-4 text-sm text-muted leading-relaxed">
+                  {f.answer}
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
 
         <div className="mb-16">
           <h2 className="text-2xl font-headline font-bold text-foreground mb-8">Hizmet Bölgelerimiz</h2>

@@ -88,6 +88,20 @@ export const serviceSeo: Record<string, { seoTitle: string; seoDescription: stri
     h1: "İstanbul Balon Süsleme & Aranjman",
     keywords: ["balon süsleme istanbul", "balon aranjmanı", "açılış balon süsleme"],
   },
+  "kina-organizasyonu": {
+    seoTitle: "İstanbul Kına Organizasyonu | Kına Tahtı & Paketleri 2026",
+    seoDescription:
+      "İstanbul'da kına organizasyonu: kına tahtı, nedime ekibi, bindallı, davul şov ve ikram düzeni. Sultanbeyli merkezli 38 ilçede ücretsiz keşif ve uygun fiyatlar.",
+    h1: "İstanbul Kına Organizasyonu & Kına Tahtı Kiralama",
+    keywords: ["kına organizasyonu istanbul", "kına tahtı kiralama", "kına gecesi paketleri", "sultanbeyli kına organizasyon"],
+  },
+  "dugun-organizasyonu": {
+    seoTitle: "İstanbul Düğün Organizasyonu | Kır & Salon Konseptleri",
+    seoDescription:
+      "İstanbul'da düğün organizasyonu: kır düğünü, salon süsleme, gelin yolu, masa sandalye giydirme ve sahne kurulumu. Ücretsiz keşif ve paket fiyatları.",
+    h1: "İstanbul Düğün Organizasyonu & Masa Düzeni",
+    keywords: ["düğün organizasyonu istanbul", "kır düğünü organizasyonu", "düğün masa sandalye kiralama"],
+  },
 };
 
 export function getServiceSeo(slug: string, fallbackTitle: string, fallbackDesc: string) {

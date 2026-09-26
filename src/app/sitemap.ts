@@ -1,7 +1,9 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
-import { priorityDistricts } from "@/lib/data";
+import { priorityDistricts, services as fallbackServices } from "@/lib/data";
 import { slugifyTr } from "@/lib/slugify";
+
+export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://www.zahidemorganizasyon.com";
@@ -16,14 +18,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/iletisim`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.8 },
   ];
 
-  let serviceSlugs: string[] = [];
+  let serviceSlugs: string[] = fallbackServices.map((s) => s.slug);
   let blogSlugs: string[] = [];
 
   try {
     const services = await prisma.service.findMany({ where: { isActive: true }, select: { slug: true } });
-    serviceSlugs = services.map((s) => s.slug);
+    if (services.length > 0) serviceSlugs = services.map((s) => s.slug);
     const posts = await prisma.blogPost.findMany({ where: { published: true }, select: { slug: true } });
-    blogSlugs = posts.map((p) => p.slug);
+    if (posts.length > 0) blogSlugs = posts.map((p) => p.slug);
   } catch {}
 
   const servicePages = serviceSlugs.map((slug) => ({

@@ -39,8 +39,45 @@ export default async function HomePage() {
       };
     });
   } catch {}
-  if (services.length === 0) {
-    services = fallbackServices;
+
+  let recentPosts: Array<{ title: string; slug: string; excerpt: string | null; category: string | null }> = [];
+  try {
+    const dbPosts = await prisma.blogPost.findMany({
+      where: { published: true },
+      orderBy: { createdAt: "desc" },
+      take: 4,
+      select: { title: true, slug: true, excerpt: true, category: true },
+    });
+    if (dbPosts.length > 0) recentPosts = dbPosts;
+  } catch {}
+
+  if (recentPosts.length === 0) {
+    recentPosts = [
+      {
+        title: "Söz Organizasyonu Fiyatları 2026: Neye Göre Değişir?",
+        slug: "soz-organizasyonu-fiyatlari-2026",
+        excerpt: "2026 söz organizasyonu fiyatlarını belirleyen faktörler: konsept, mekan, misafir sayısı ve masa sandalye.",
+        category: "Fiyat Rehberi",
+      },
+      {
+        title: "Evde Söz Organizasyonu Nasıl Yapılır? Adım Adım Rehber",
+        slug: "evde-soz-organizasyonu-nasil-yapilir",
+        excerpt: "Evde söz organizasyonu için eksiksiz rehber: masa düzeni, arka fon, ikram listesi ve gün akışı.",
+        category: "Rehber",
+      },
+      {
+        title: "Nişan Masası Süsleme Fikirleri: 2026'nın Favori Konseptleri",
+        slug: "nisan-masasi-susleme-fikirleri",
+        excerpt: "Nişan masası süsleme fikirleri: beyaz-gold klasik, bohem ve doğal çiçek konseptleri.",
+        category: "Fikirler",
+      },
+      {
+        title: "Masa Sandalye Kiralama Fiyatları İstanbul 2026",
+        slug: "masa-sandalye-kiralama-fiyatlari",
+        excerpt: "Masa sandalye kiralama fiyatları: modeller, adet hesabı, kurulum ve nakliye dahil güncel rehber.",
+        category: "Fiyat Rehberi",
+      },
+    ];
   }
 
   return (
@@ -58,6 +95,7 @@ export default async function HomePage() {
       <ServiceGrid services={services} />
       <SeoContent services={services} />
       <AboutPreview />
+      <BlogPreview posts={recentPosts} />
       <FaqSection />
       <ContactBanner />
     </>
@@ -263,6 +301,64 @@ function AboutPreview() {
               </GlassCard>
             ))}
           </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function BlogPreview({ posts }: { posts: Array<{ title: string; slug: string; excerpt: string | null; category: string | null }> }) {
+  return (
+    <section className="relative py-24 bg-gradient-to-b from-transparent via-primary/5 to-transparent">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 glass-card !px-4 !py-2 !rounded-full text-sm text-muted mb-4">
+            <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+            Organizasyon Rehberleri &amp; Fiyat İpuçları
+          </div>
+          <h2 className="text-3xl md:text-5xl font-headline font-bold text-foreground mb-4">
+            En Çok Merak Edilenler &amp; Rehberler
+          </h2>
+          <p className="text-muted text-base md:text-lg max-w-2xl mx-auto">
+            Söz, nişan, kına ve doğum günü organizasyonu planlarken bütçenizi yönetin, güncel trendleri keşfedin.
+          </p>
+          <div className="w-20 h-0.5 bg-primary mx-auto mt-6" />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {posts.map((post) => (
+            <Link key={post.slug} href={`/blog/${post.slug}`} className="group">
+              <GlassCard className="h-full flex flex-col justify-between !p-6 group-hover:scale-[1.02] transition-all duration-300 group-hover:border-primary/40">
+                <div>
+                  {post.category && (
+                    <span className="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-primary/10 text-primary mb-3">
+                      {post.category}
+                    </span>
+                  )}
+                  <h3 className="font-headline font-bold text-foreground text-lg mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                    {post.title}
+                  </h3>
+                  {post.excerpt && (
+                    <p className="text-sm text-muted line-clamp-3 mb-4 leading-relaxed">
+                      {post.excerpt}
+                    </p>
+                  )}
+                </div>
+                <div className="text-xs font-semibold text-primary inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform mt-4">
+                  Rehberi Oku &rarr;
+                </div>
+              </GlassCard>
+            </Link>
+          ))}
+        </div>
+
+        <div className="text-center mt-12">
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-2 glass-card !px-8 !py-3.5 !rounded-full text-sm font-semibold hover:!bg-primary hover:text-white transition-all duration-300"
+          >
+            Tüm Rehber ve Fiyat Yazılarını İncele &rarr;
+          </Link>
         </div>
       </div>
     </section>

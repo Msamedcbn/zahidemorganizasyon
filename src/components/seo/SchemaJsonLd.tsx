@@ -1,17 +1,18 @@
 export function LocalBusinessSchema() {
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "EventPlanningService",
+    "@type": ["EventPlanningService", "ProfessionalService", "LocalBusiness"],
     name: "Zahidem Organizasyon",
+    alternateName: "Zahidem Organizasyon & Davet Hizmetleri",
     image: "https://www.zahidemorganizasyon.com/images/service-soz.jpg",
-    "@id": "https://www.zahidemorganizasyon.com",
+    "@id": "https://www.zahidemorganizasyon.com/#organization",
     url: "https://www.zahidemorganizasyon.com",
     telephone: "+90 531 663 29 30",
     email: "info@zahidemorganizasyon.com",
-    description: "İstanbul'da söz & nişan, doğum günü, sünnet, açılış, kokteyl, balon süsleme ve masa sandalye kiralama. Sultanbeyli merkezli, 38 ilçede ücretsiz keşif.",
+    description: "İstanbul'da söz & nişan, doğum günü, sünnet, kına, açılış, kokteyl, balon süsleme ve masa sandalye kiralama hizmetleri. Sultanbeyli merkezli, 38 ilçede ücretsiz keşif ve aynı gün anahtar teslim kurulum.",
     address: {
       "@type": "PostalAddress",
-      streetAddress: "Abdurrahmangazi, Aktutan Cd. No:1",
+      streetAddress: "Abdurrahmangazi Mah. Aktutan Cd. No:1",
       addressLocality: "Sultanbeyli",
       addressRegion: "İstanbul",
       postalCode: "34920",
@@ -22,10 +23,12 @@ export function LocalBusinessSchema() {
       latitude: 40.9611,
       longitude: 29.2592,
     },
+    hasMap: "https://www.google.com/maps/search/?api=1&query=Zahidem+Organizasyon+Sultanbeyli",
     areaServed: [
-      "Sultanbeyli", "Pendik", "Kartal", "Maltepe", "Kadıköy", "Üsküdar",
-      "Ataşehir", "Çekmeköy", "Sancaktepe", "Tuzla", "Ümraniye", "Şile",
-    ].map((d) => ({ "@type": "City", name: `${d}, İstanbul` })),
+      "Sultanbeyli", "Sancaktepe", "Pendik", "Kartal", "Maltepe", "Ataşehir",
+      "Ümraniye", "Çekmeköy", "Kadıköy", "Üsküdar", "Tuzla", "Şile",
+      "Bahçelievler", "Bağcılar", "Esenyurt", "Beylikdüzü", "Küçükçekmece", "Başakşehir",
+    ].map((d) => ({ "@type": "AdministrativeArea", name: `${d}, İstanbul` })),
     openingHoursSpecification: {
       "@type": "OpeningHoursSpecification",
       dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
@@ -38,6 +41,25 @@ export function LocalBusinessSchema() {
       "https://www.youtube.com/channel/UCfSemzsL-ElAbQT3j_2xTaQ",
     ],
     priceRange: "₺₺",
+    currenciesAccepted: "TRY",
+    paymentAccepted: "Nakit, Kredi Kartı, Banka Havalesi / EFT",
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      reviewCount: "87",
+      bestRating: "5",
+      worstRating: "1",
+    },
+    knowsAbout: [
+      "Söz Organizasyonu",
+      "Nişan Masası Kurulumu",
+      "Kına Gecesi Tahtı",
+      "Sünnet Düğünü Organizasyonu",
+      "Masa Sandalye Kiralama",
+      "Balon Süsleme & Aranjman",
+      "Mağaza Açılış Kokteyli",
+      "Evde Söz Hazırlığı",
+    ],
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: "Organizasyon Hizmetleri",
@@ -48,6 +70,8 @@ export function LocalBusinessSchema() {
         "Açılış Organizasyonu",
         "Balon Süsleme",
         "Masa Sandalye Kiralama",
+        "Kokteyl Organizasyonu",
+        "Kına Gecesi Organizasyonu",
       ].map((name) => ({
         "@type": "Offer",
         itemOffered: { "@type": "Service", name },
@@ -140,6 +164,10 @@ export function ArticleSchema({
       "@type": "WebPage",
       "@id": `https://www.zahidemorganizasyon.com/blog/${slug}`,
     },
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: ["h1", "article p:first-of-type", "h2", "h3"],
+    },
   };
 
   return (
@@ -158,13 +186,48 @@ export function ServiceSchema({ title, description, slug, district }: { title: s
     description,
     provider: {
       "@type": "LocalBusiness",
+      "@id": "https://www.zahidemorganizasyon.com/#organization",
       name: "Zahidem Organizasyon",
       url: "https://www.zahidemorganizasyon.com",
+      telephone: "+90 531 663 29 30",
+      priceRange: "₺₺",
     },
     url: `https://www.zahidemorganizasyon.com/hizmetler/${slug}`,
     areaServed: district
-      ? { "@type": "Place", name: `${district}, İstanbul` }
+      ? { "@type": "AdministrativeArea", name: `${district}, İstanbul` }
       : { "@type": "City", name: "İstanbul" },
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "TRY",
+      availability: "https://schema.org/InStock",
+      url: `https://www.zahidemorganizasyon.com/hizmetler/${slug}`,
+    },
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: ["h1", "p:first-of-type"],
+    },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
+
+export function WebSiteSchema() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Zahidem Organizasyon",
+    url: "https://www.zahidemorganizasyon.com",
+    inLanguage: "tr-TR",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: "https://www.zahidemorganizasyon.com/blog?q={search_term_string}",
+      "query-input": "required name=search_term_string",
+    },
   };
 
   return (

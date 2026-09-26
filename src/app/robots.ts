@@ -1,14 +1,10 @@
 import type { MetadataRoute } from "next";
 
-const blockedBots = [
-  "GPTBot",
-  "ChatGPT-User",
+// GEO (Generative Engine Optimization) için AI arama motorlarına (ChatGPT Search, Perplexity, Claude, Gemini)
+// izin verilir. Sadece agresif veri madenciliği ve ticari scraper botları engellenir.
+const blockedScrapers = [
   "CCBot",
   "Bytespider",
-  "anthropic-ai",
-  "ClaudeBot",
-  "Claude-Web",
-  "Google-Extended",
   "PetalBot",
   "SemrushBot",
   "AhrefsBot",
@@ -27,7 +23,13 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
         disallow: ["/admin/", "/api/"],
       },
-      ...blockedBots.map((userAgent) => ({ userAgent, disallow: "/" })),
+      // GEO Arama Motorları (ChatGPT Search, Perplexity, Gemini, Claude)
+      {
+        userAgent: ["GPTBot", "ChatGPT-User", "OAI-SearchBot", "PerplexityBot", "ClaudeBot", "Google-Extended"],
+        allow: "/",
+        disallow: ["/admin/", "/api/"],
+      },
+      ...blockedScrapers.map((userAgent) => ({ userAgent, disallow: "/" })),
     ],
     sitemap: "https://www.zahidemorganizasyon.com/sitemap.xml",
   };

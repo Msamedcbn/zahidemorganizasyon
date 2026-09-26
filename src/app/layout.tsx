@@ -3,6 +3,8 @@ import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import { prisma } from "@/lib/prisma";
 
+import { WebSiteSchema } from "@/components/seo/SchemaJsonLd";
+
 const playfair = Playfair_Display({ variable: "--font-playfair", subsets: ["latin"] });
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
 
@@ -46,6 +48,12 @@ export async function generateMetadata(): Promise<Metadata> {
       ...(logo && { images: [logo] }),
     },
     verification: { google: "google25ee5ff439ffbaa2" },
+    other: {
+      "geo.region": "TR-34",
+      "geo.placename": "Sultanbeyli, İstanbul",
+      "geo.position": "40.9611;29.2592",
+      "ICBM": "40.9611, 29.2592",
+    },
   };
 }
 
@@ -55,6 +63,11 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   return (
     <html lang="tr" className={`${playfair.variable} ${inter.variable} h-full antialiased`}>
       <head>
+        <WebSiteSchema />
+        <meta name="geo.region" content="TR-34" />
+        <meta name="geo.placename" content="Sultanbeyli, İstanbul" />
+        <meta name="geo.position" content="40.9611;29.2592" />
+        <meta name="ICBM" content="40.9611, 29.2592" />
         {s.favicon && (
           <>
             <link rel="icon" href={s.favicon} />

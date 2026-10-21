@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { revalidatePath } from "next/cache";
+import { revalidateSiteData } from "@/lib/site-data";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 
@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
       tags: data.tags || null,
     },
   });
-  revalidatePath("/", "layout");
+  revalidateSiteData();
   return NextResponse.json(post);
 }
 
@@ -57,7 +57,7 @@ export async function PUT(req: NextRequest) {
       tags: data.tags,
     },
   });
-  revalidatePath("/", "layout");
+  revalidateSiteData();
   return NextResponse.json(post);
 }
 
@@ -66,6 +66,6 @@ export async function DELETE(req: NextRequest) {
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const { id } = await req.json();
   await prisma.blogPost.delete({ where: { id } });
-  revalidatePath("/", "layout");
+  revalidateSiteData();
   return NextResponse.json({ success: true });
 }

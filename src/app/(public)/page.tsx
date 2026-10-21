@@ -5,7 +5,7 @@ import { FluidShapes } from "@/components/ui/FluidShapes";
 import { ServiceGrid } from "@/components/ui/ServiceGrid";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { siteConfig, districts, services as fallbackServices } from "@/lib/data";
-import { prisma } from "@/lib/prisma";
+import { getActiveServices, getPublishedPosts } from "@/lib/site-data";
 import { LocalBusinessSchema, FaqSchema } from "@/components/seo/SchemaJsonLd";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -25,10 +25,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  let services: Array<{ title: string; slug: string; description: string; icon: string; image?: string | null }> = [];
-  try {
-    const dbServices = await prisma.service.findMany({ where: { isActive: true }, orderBy: { order: "asc" } });
-    services = dbServices.map((s) => {
+  const services: Array<{ title: string; slug: string; description: string; icon: string; image?: string | null }> =
+    (await getActiveServices()).map((s) => {
       const fallback = fallbackServices.find((f) => f.slug === s.slug);
       return {
         title: s.title,
@@ -38,18 +36,11 @@ export default async function HomePage() {
         image: s.image || fallback?.image || undefined,
       };
     });
-  } catch {}
 
-  let recentPosts: Array<{ title: string; slug: string; excerpt: string | null; category: string | null }> = [];
-  try {
-    const dbPosts = await prisma.blogPost.findMany({
-      where: { published: true },
-      orderBy: { createdAt: "desc" },
-      take: 4,
-      select: { title: true, slug: true, excerpt: true, category: true },
-    });
-    if (dbPosts.length > 0) recentPosts = dbPosts;
-  } catch {}
+  let recentPosts: Array<{ title: string; slug: string; excerpt: string | null; category: string | null }> =
+    (await getPublishedPosts())
+      .slice(0, 4)
+      .map(({ title, slug, excerpt, category }) => ({ title, slug, excerpt, category }));
 
   if (recentPosts.length === 0) {
     recentPosts = [

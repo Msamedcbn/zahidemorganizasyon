@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { prisma } from "@/lib/prisma";
+import { getPublishedPosts } from "@/lib/site-data";
 import { FluidShapes } from "@/components/ui/FluidShapes";
 import { GlassCard } from "@/components/ui/GlassCard";
 
@@ -11,15 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogPage() {
-  let posts: Awaited<ReturnType<typeof prisma.blogPost.findMany>> = [];
-  try {
-    posts = await prisma.blogPost.findMany({
-      where: { published: true },
-      orderBy: { createdAt: "desc" },
-    });
-  } catch {
-    // Database not available during build
-  }
+  const posts = await getPublishedPosts();
 
   return (
     <div className="relative pt-32 pb-16 min-h-screen">

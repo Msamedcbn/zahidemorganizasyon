@@ -1,20 +1,9 @@
 import { GlassNavbar } from "@/components/ui/GlassNavbar";
 import { Footer } from "@/components/ui/Footer";
 import { WhatsAppFloatButton } from "@/components/ui/WhatsAppFloatButton";
-import { prisma } from "@/lib/prisma";
+import { getSettings } from "@/lib/site-data";
 
 export const revalidate = 86400;
-
-async function getSettings() {
-  try {
-    const settings = await prisma.siteSetting.findMany();
-    const map: Record<string, string> = {};
-    settings.forEach((s) => { map[s.key] = s.value; });
-    return map;
-  } catch {
-    return {};
-  }
-}
 
 export default async function PublicLayout({ children }: { children: React.ReactNode }) {
   const s = await getSettings();

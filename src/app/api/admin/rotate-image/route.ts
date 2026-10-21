@@ -3,6 +3,7 @@ import { PutObjectCommand } from "@aws-sdk/client-s3";
 import sharp from "sharp";
 import { r2, R2_BUCKET, R2_PUBLIC_URL } from "@/lib/r2";
 import { auth } from "@/lib/auth";
+import { toCdnUrl } from "@/lib/site-data";
 
 export async function POST(req: NextRequest) {
   const session = await auth();
@@ -17,11 +18,13 @@ export async function POST(req: NextRequest) {
     // A just-rotated (or just-uploaded) object can take a few seconds to become
     // servable through the R2 custom domain's edge layer, even though it's
     // already durably written. Retry with backoff before failing.
-    let sourceRes = await fetch(url, { cache: "no-store" });
+    // Eski rate-limitli pub-*.r2.dev adreslerini custom domain uzerinden oku.
+    const sourceUrl = toCdnUrl(url);
+    let sourceRes = await fetch(sourceUrl, { cache: "no-store" });
     for (const delayMs of [1000, 2000, 4000, 8000]) {
       if (sourceRes.ok) break;
       await new Promise((r) => setTimeout(r, delayMs));
-      sourceRes = await fetch(url, { cache: "no-store" });
+      sourceRes = await fetch(sourceUrl, { cache: "no-store" });
     }
     if (!sourceRes.ok) throw new Error(`Kaynak görsel okunamadı (HTTP ${sourceRes.status})`);
     const buffer = Buffer.from(await sourceRes.arrayBuffer());
@@ -48,6 +51,9 @@ export async function POST(req: NextRequest) {
         Key: filename,
         Body: rotatedBuffer,
         ContentType: "image/webp",
+        // Dosya adlari benzersiz oldugu icin icerik hic degismez; CDN ve tarayici
+        // uzun sure cache'lesin, her goruntulemede R2'ye gidilmesin.
+        CacheControl: "public, max-age=31536000, immutable",
       })
     );
 

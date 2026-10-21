@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { prisma } from "@/lib/prisma";
+import { getActiveServices } from "@/lib/site-data";
 import { ServiceGrid } from "@/components/ui/ServiceGrid";
 import { FluidShapes } from "@/components/ui/FluidShapes";
 import { services as fallbackServices } from "@/lib/data";
@@ -10,10 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function HizmetlerPage() {
-  let services: Awaited<ReturnType<typeof prisma.service.findMany>> = [];
-  try {
-    services = await prisma.service.findMany({ where: { isActive: true }, orderBy: { order: "asc" } });
-  } catch {}
+  const services = await getActiveServices();
 
   const displayServices = services.length > 0
     ? services.map((s) => ({ title: s.title, slug: s.slug, description: s.description, icon: s.icon, image: s.image || undefined }))

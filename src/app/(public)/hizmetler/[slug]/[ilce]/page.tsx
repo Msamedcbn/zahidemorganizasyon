@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
+import { getActiveServices, getServiceBySlug } from "@/lib/site-data";
 import { siteConfig, districts, services as fallbackServices } from "@/lib/data";
 import { isIndexableDistrict, ilceSeoTitle, ilceSeoDescription } from "@/lib/seo";
 import { getDistrictInfo, ilceFaqs } from "@/lib/districts";
@@ -26,10 +26,8 @@ const introTemplates = (district: string, title: string, description: string) =>
 export async function generateStaticParams() {
   const params: { slug: string; ilce: string }[] = [];
   let serviceSlugs: string[] = fallbackServices.map((s) => s.slug);
-  try {
-    const db = await prisma.service.findMany({ where: { isActive: true }, select: { slug: true } });
-    if (db.length > 0) serviceSlugs = db.map((s) => s.slug);
-  } catch {}
+  const db = await getActiveServices();
+  if (db.length > 0) serviceSlugs = db.map((s) => s.slug);
 
   for (const slug of serviceSlugs) {
     for (const district of districts) {
@@ -45,10 +43,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!district) return { title: "Sayfa Bulunamadı" };
 
   let title = "", description = "";
-  try {
-    const s = await prisma.service.findUnique({ where: { slug } });
-    if (s) { title = s.title; description = s.description; }
-  } catch {}
+  const s = await getServiceBySlug(slug);
+  if (s) { title = s.title; description = s.description; }
   if (!title) {
     const s = fallbackServices.find((x) => x.slug === slug);
     if (s) { title = s.title; description = s.description; }
@@ -75,8 +71,7 @@ export default async function HizmetIlcePage({ params }: { params: Promise<{ slu
   const district = districtBySlug.get(ilce);
   if (!district) notFound();
 
-  let dbService: Awaited<ReturnType<typeof prisma.service.findUnique>> | null = null;
-  try { dbService = await prisma.service.findUnique({ where: { slug } }); } catch {}
+  const dbService = await getServiceBySlug(slug);
   const fallback = fallbackServices.find((s) => s.slug === slug);
   const service = dbService || fallback;
   if (!service) notFound();

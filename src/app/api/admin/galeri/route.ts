@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { revalidatePath } from "next/cache";
+import { revalidateSiteData } from "@/lib/site-data";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 
@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
   const item = await prisma.galleryItem.create({
     data: { image: data.image, caption: data.caption || null, category: data.category || null, order: data.order || 0 },
   });
-  revalidatePath("/", "layout");
+  revalidateSiteData();
   return NextResponse.json(item);
 }
 
@@ -26,7 +26,7 @@ export async function PUT(req: NextRequest) {
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const { id, ...data } = await req.json();
   const item = await prisma.galleryItem.update({ where: { id }, data });
-  revalidatePath("/", "layout");
+  revalidateSiteData();
   return NextResponse.json(item);
 }
 
@@ -35,6 +35,6 @@ export async function DELETE(req: NextRequest) {
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const { id } = await req.json();
   await prisma.galleryItem.delete({ where: { id } });
-  revalidatePath("/", "layout");
+  revalidateSiteData();
   return NextResponse.json({ success: true });
 }

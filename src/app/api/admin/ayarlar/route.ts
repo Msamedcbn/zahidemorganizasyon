@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { revalidatePath } from "next/cache";
+import { revalidateSiteData } from "@/lib/site-data";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 
@@ -29,6 +29,6 @@ export async function PUT(req: NextRequest) {
     results[setting.key] = setting.value;
   }
 
-  revalidatePath("/", "layout");
+  revalidateSiteData();
   return NextResponse.json(results);
 }

@@ -5,7 +5,13 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
+// Kucuk havuz + kisa idle suresi: bosta kalan baglantilar Neon compute'unu
+// uyanik tutup CU-saat yakmasin.
+const adapter = new PrismaPg({
+  connectionString: process.env.DATABASE_URL!,
+  max: 3,
+  idleTimeoutMillis: 5_000,
+});
 
 export const prisma = globalForPrisma.prisma ?? new PrismaClient({ adapter });
 

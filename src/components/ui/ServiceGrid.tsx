@@ -91,7 +91,7 @@ export function ServiceCard({
   image?: string | null;
   index: number;
 }) {
-  const layout = bentoLayout[index];
+  const layout = bentoLayout[index] ?? { span: "small" };
   // Uploaded service images are already resized/compressed server-side on
   // upload, so skip Next's own optimization pass for them — it re-fetches the
   // image from our storage CDN, and that server-to-server hop has proven

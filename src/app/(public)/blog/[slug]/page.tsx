@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
+import { getPublishedPosts, getPublishedPostBySlug } from "@/lib/site-data";
 import { siteConfig } from "@/lib/data";
 import { FluidShapes } from "@/components/ui/FluidShapes";
 import { GlassCard } from "@/components/ui/GlassCard";
@@ -17,69 +17,46 @@ function extractFaqs(html: string): { question: string; answer: string }[] {
 }
 
 export async function generateStaticParams() {
-  try {
-    const posts = await prisma.blogPost.findMany({ where: { published: true } });
-    return posts.map((p) => ({ slug: p.slug }));
-  } catch {
-    return [];
-  }
+  const posts = await getPublishedPosts();
+  return posts.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  try {
-    const post = await prisma.blogPost.findUnique({ where: { slug } });
-    if (!post) return { title: "Sayfa Bulunamadı" };
-    const keywords = [post.focusKeyword, ...(post.tags ? post.tags.split(",").map((t) => t.trim()) : [])].filter(Boolean) as string[];
-    return {
+  const post = await getPublishedPostBySlug(slug);
+  if (!post) return { title: "Sayfa Bulunamadı" };
+  const keywords = [post.focusKeyword, ...(post.tags ? post.tags.split(",").map((t) => t.trim()) : [])].filter(Boolean) as string[];
+  return {
+    title: post.seoTitle || post.title,
+    description: post.seoDescription || post.excerpt || post.title,
+    ...(keywords.length > 0 && { keywords }),
+    alternates: { canonical: `https://www.zahidemorganizasyon.com/blog/${slug}` },
+    openGraph: {
       title: post.seoTitle || post.title,
-      description: post.seoDescription || post.excerpt || post.title,
-      ...(keywords.length > 0 && { keywords }),
-      alternates: { canonical: `https://www.zahidemorganizasyon.com/blog/${slug}` },
-      openGraph: {
-        title: post.seoTitle || post.title,
-        description: post.excerpt || post.title,
-        type: "article",
-        publishedTime: post.createdAt.toISOString(),
-        ...(post.image && { images: [{ url: post.image, width: 1200, height: 630 }] }),
-      },
-      twitter: {
-        card: "summary_large_image",
-        title: post.seoTitle || post.title,
-        description: post.excerpt || post.title,
-        ...(post.image && { images: [post.image] }),
-      },
-    };
-  } catch {
-    return { title: "Blog" };
-  }
+      description: post.excerpt || post.title,
+      type: "article",
+      publishedTime: post.createdAt.toISOString(),
+      ...(post.image && { images: [{ url: post.image, width: 1200, height: 630 }] }),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.seoTitle || post.title,
+      description: post.excerpt || post.title,
+      ...(post.image && { images: [post.image] }),
+    },
+  };
 }
 
 export default async function BlogDetayPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
 
-  let post: Awaited<ReturnType<typeof prisma.blogPost.findUnique>> | null = null;
-  try {
-    post = await prisma.blogPost.findUnique({ where: { slug } });
-  } catch {
-    // Database not available
-  }
-
-  if (!post || !post.published) notFound();
+  const post = await getPublishedPostBySlug(slug);
+  if (!post) notFound();
 
   const tagList = post.tags ? post.tags.split(",").map((t) => t.trim()).filter(Boolean) : [];
   const faqs = extractFaqs(post.content);
 
-  let recentPosts: Awaited<ReturnType<typeof prisma.blogPost.findMany>> = [];
-  try {
-    recentPosts = await prisma.blogPost.findMany({
-      where: { published: true, id: { not: post.id } },
-      orderBy: { createdAt: "desc" },
-      take: 3,
-    });
-  } catch {
-    // Database not available
-  }
+  const recentPosts = (await getPublishedPosts()).filter((p) => p.id !== post.id).slice(0, 3);
 
   return (
       <div className="relative pt-32 pb-16 min-h-screen">

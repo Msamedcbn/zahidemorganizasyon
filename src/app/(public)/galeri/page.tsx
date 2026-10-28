@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { prisma } from "@/lib/prisma";
+import { getGalleryItems } from "@/lib/site-data";
 import { FluidShapes } from "@/components/ui/FluidShapes";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { GaleriGrid } from "@/components/ui/GaleriGrid";
@@ -10,14 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function GaleriPage() {
-  let items: Awaited<ReturnType<typeof prisma.galleryItem.findMany>> = [];
-  try {
-    items = await prisma.galleryItem.findMany({
-      orderBy: { order: "asc" },
-    });
-  } catch {
-    // Database not available during build
-  }
+  const items = await getGalleryItems();
 
   return (
     <div className="relative pt-32 pb-16 min-h-screen">

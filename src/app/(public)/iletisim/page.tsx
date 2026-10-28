@@ -1,16 +1,7 @@
 import { Metadata } from "next";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { FluidShapes } from "@/components/ui/FluidShapes";
-import { prisma } from "@/lib/prisma";
-
-async function getSettings() {
-  try {
-    const settings = await prisma.siteSetting.findMany();
-    const map: Record<string, string> = {};
-    settings.forEach((s) => { map[s.key] = s.value; });
-    return map;
-  } catch { return {}; }
-}
+import { getSettings } from "@/lib/site-data";
 
 export const metadata: Metadata = {
   title: "İletişim",

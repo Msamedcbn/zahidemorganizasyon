@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { prisma } from "@/lib/prisma";
+import { getActiveServices, getPublishedPosts } from "@/lib/site-data";
 import { priorityDistricts, services as fallbackServices } from "@/lib/data";
 import { slugifyTr } from "@/lib/slugify";
 
@@ -21,12 +21,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let serviceSlugs: string[] = fallbackServices.map((s) => s.slug);
   let blogSlugs: string[] = [];
 
-  try {
-    const services = await prisma.service.findMany({ where: { isActive: true }, select: { slug: true } });
-    if (services.length > 0) serviceSlugs = services.map((s) => s.slug);
-    const posts = await prisma.blogPost.findMany({ where: { published: true }, select: { slug: true } });
-    if (posts.length > 0) blogSlugs = posts.map((p) => p.slug);
-  } catch {}
+  const services = await getActiveServices();
+  if (services.length > 0) serviceSlugs = services.map((s) => s.slug);
+  const posts = await getPublishedPosts();
+  if (posts.length > 0) blogSlugs = posts.map((p) => p.slug);
 
   const servicePages = serviceSlugs.map((slug) => ({
     url: `${baseUrl}/hizmetler/${slug}`,

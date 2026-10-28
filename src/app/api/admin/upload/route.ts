@@ -33,6 +33,9 @@ export async function POST(req: NextRequest) {
         Key: filename,
         Body: webpBuffer,
         ContentType: "image/webp",
+        // Dosya adlari benzersiz oldugu icin icerik hic degismez; CDN ve tarayici
+        // uzun sure cache'lesin, her goruntulemede R2'ye gidilmesin.
+        CacheControl: "public, max-age=31536000, immutable",
       })
     );
 

@@ -1,23 +1,12 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
-import { prisma } from "@/lib/prisma";
+import { getSettings } from "@/lib/site-data";
 
 import { WebSiteSchema } from "@/components/seo/SchemaJsonLd";
 
 const playfair = Playfair_Display({ variable: "--font-playfair", subsets: ["latin"] });
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
-
-async function getSettings() {
-  try {
-    const settings = await prisma.siteSetting.findMany();
-    const map: Record<string, string> = {};
-    settings.forEach((s) => { map[s.key] = s.value; });
-    return map;
-  } catch {
-    return {};
-  }
-}
 
 export async function generateMetadata(): Promise<Metadata> {
   const s = await getSettings();

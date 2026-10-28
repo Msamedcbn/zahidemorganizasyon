@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { prisma } from "@/lib/prisma";
+import { getActiveServices, getServiceBySlug, getGalleryItems } from "@/lib/site-data";
 import { siteConfig, priorityDistricts, services as fallbackServices } from "@/lib/data";
 import { getServiceSeo } from "@/lib/seo";
 import { slugifyTr } from "@/lib/slugify";
@@ -12,17 +12,16 @@ import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 import { ServiceSchema, FaqSchema } from "@/components/seo/SchemaJsonLd";
 
 export async function generateStaticParams() {
-  try {
-    const db = await prisma.service.findMany({ where: { isActive: true } });
-    if (db.length > 0) return db.map((s) => ({ slug: s.slug }));
-  } catch {}
+  const db = await getActiveServices();
+  if (db.length > 0) return db.map((s) => ({ slug: s.slug }));
   return fallbackServices.map((s) => ({ slug: s.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   let title = "", description = "";
-  try { const s = await prisma.service.findUnique({ where: { slug } }); if (s) { title = s.title; description = s.description; } } catch {}
+  const s = await getServiceBySlug(slug);
+  if (s) { title = s.title; description = s.description; }
   if (!title) { const s = fallbackServices.find((x) => x.slug === slug); if (s) { title = s.title; description = s.description; } }
   if (!title) return { title: "Sayfa Bulunamadı" };
   const seo = getServiceSeo(slug, title, description);
@@ -38,8 +37,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function HizmetDetayPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
 
-  let dbService: Awaited<ReturnType<typeof prisma.service.findUnique>> | null = null;
-  try { dbService = await prisma.service.findUnique({ where: { slug } }); } catch {}
+  const dbService = await getServiceBySlug(slug);
 
   const fallback = fallbackServices.find((s) => s.slug === slug);
   const service = dbService || fallback;
@@ -55,16 +53,11 @@ export default async function HizmetDetayPage({ params }: { params: Promise<{ sl
   // category there, rather than the frozen Service.gallery snapshot — this way
   // reassigning a photo's category in the admin actually changes what shows here.
   let gallery: string[] = [];
-  try {
-    const galleryItems = await prisma.galleryItem.findMany({ where: { category: title }, orderBy: { order: "asc" } });
-    gallery = galleryItems.map((g) => g.image);
-  } catch {}
+  gallery = (await getGalleryItems()).filter((g) => g.category === title).map((g) => g.image);
 
   let otherServices: Array<{ id?: string; slug: string; title: string; description: string }> = [];
   if (dbService) {
-    try {
-      otherServices = (await prisma.service.findMany({ where: { isActive: true, id: { not: dbService.id } }, orderBy: { order: "asc" }, take: 5 })) as any;
-    } catch {}
+    otherServices = (await getActiveServices()).filter((s) => s.id !== dbService.id).slice(0, 5);
   } else {
     otherServices = fallbackServices.filter((s) => s.slug !== slug).slice(0, 5);
   }
